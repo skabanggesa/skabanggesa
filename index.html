@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sekolah Kita - Homepage</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+body {
+    background: linear-gradient(135deg, #8B8000, #172a45, #000000, #0a192f);
+    background-size: 400% 400%;
+    animation: gradientBG 5s ease infinite;
+    color: black; /* Changed text color to light for better contrast */
+    line-height: 1.6;
+    margin: 0;
+    min-height: 100vh;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+        
+        /* Header Styles */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-right: 1rem;
+            background-color: #2c3e50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+        
+        .school-name h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .school-name p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        /* Navigation Tabs */
+        .tabs-container {
+            background-color: #34495e;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .tabs {
+            display: inline-flex;
+            min-width: 100%;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tab:hover {
+            background-color: #2c3e50;
+        }
+        
+        .tab.active {
+            background-color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #e74c3c;
+        }
+        
+.pdf-preview-section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.pdf-container {
+    margin: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #0066cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background: #0052a3;
+}
+
+.btn-primary i {
+    margin-right: 0.5rem;
+}
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            width: 100%;
+            padding: 1rem;
+            background-color: #34495e;
+            color: white;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Hero Section */
+        .hero {
+background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('gic.png');
+background-size: cover;
+background-position: center;
+height: 150px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+text-align: center;
+margin-bottom: 2rem;
+border-radius: 5px;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Cards */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card h3 {
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        /* Circular Images */
+        .circular-image-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto;
+            border: 4px solid #e74c3c;
+            margin-top: 20px;
+            background-color: #f1f1f1;
+        }
+        
+        .circular-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+              /* Staff Cards */
+.staff-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.staff-card {
+    flex: 1;
+    min-width: 200px;
+    max-width: calc(25% - 20px); /* 4 cards per row with gap */
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+/* For rows that need 5 cards */
+.staff-row-five .staff-card {
+    max-width: calc(20% - 20px); /* 5 cards per row with gap */
+}
+
+/* For rows that need 3 cards */
+.staff-row-three .staff-card {
+    max-width: calc(33.33% - 20px); /* 3 cards per row with gap */
+}
+
+.circular-image-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 15px auto;
+    border: 3px solid #e74c3c;
+    background-color: #f1f1f1;
+}
+
+.staff-card h3 {
+    font-size: 1rem;
+    margin: 10px 0 5px;
+    color: #2c3e50;
+    padding: 0 10px;
+}
+
+.staff-card p {
+    font-size: 0.9rem;
+    margin: 5px 0;
+    padding: 0 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .staff-card {
+        max-width: calc(33.33% - 20px);
+    }
+}
+
+@media (max-width: 900px) {
+    .staff-card {
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 600px) {
+    .staff-card {
+        max-width: 100%;
+    }
+} 
+
+.sheet-container {
+    position: relative;
+    padding-bottom: 75%; /* Adjust based on your sheet's aspect ratio */
+    height: 0;
+    overflow: hidden;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.sheet-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .sheet-container {
+        padding-bottom: 120%; /* More vertical space on mobile */
+    }
+}       
+.gallery-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-caption {
+    padding: 12px;
+    background: #fff;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border: 3px solid white;
+            border-radius: 5px;
+        }
+        
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #e74c3c;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #34495e;
+        }
+        
+	@media (max-width: 768px) {
+    .documents-container {
+        flex-direction: column;
+    }
+    .pdf-preview-section, .google-sheet-section {
+        min-width: 100%;
+    }
+}
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tabs-container {
+                display: none;
+            }
+            
+            .mobile-nav {
+                display: block;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .school-name h1 {
+                font-size: 1.5rem;
+            }
+            
+            .card {
+                min-width: 100%;
+                max-width: 100%;
+            }
+            
+            .staff-row {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <img src="logo.gif" alt="School Logo" loading="lazy">
+            </div>
+            <div class="school-name">
+                <h1>SEKOLAH KEBANGSAAN ABANG GESA</h1>
+                <p>Membangun Generasi Cemerlang</p>
+            </div>
+        </div>
+    </header>
+    
+    <button class="mobile-nav" id="mobileNavButton" aria-expanded="false" aria-controls="tabsContainer">☰ Menu</button>
+    
+    <div class="tabs-container" id="tabsContainer">
+        <div class="tabs">
+            <div class="tab active" data-tab="home" role="tab" aria-selected="true">Utama</div>
+            <div class="tab" data-tab="organisasi" role="tab" aria-selected="false">Organisasi</div>
+            <div class="tab" data-tab="kurikulum" role="tab" aria-selected="false">Kurikulum</div>
+            <div class="tab" data-tab="hal-ehwal" role="tab" aria-selected="false">Hal Ehwal Murid</div>
+            <div class="tab" data-tab="kokurikulum" role="tab" aria-selected="false">Kokurikulum</div>
+            <div class="tab" data-tab="galeri" role="tab" aria-selected="false">Galeri</div>
+        </div>
+    </div>
+    
+    <main class="main-content">
+        <!-- Home Tab -->
+        <div class="tab-content active" id="home" role="tabpanel">
+            <div class="hero">
+                <div>
+                    <h2>Selamat Datang</h2>
+                    <p>Ke Laman Web Sekolah Kebangsaan Abang Gesa</p>
+                </div>
+            </div>
+            
+		<h2 style="color: white;">Berita & Pengumuman Terkini</h2>
+            <div class="card-container">
+                <div class="card">
+                    <img src="kot.png" alt="Kejohanan Olahraga Tahunan" loading="lazy">
+                    <div class="card-content">
+                        <h3>Kejohanan Olahraga Tahunan 2025</h3>
+                        <p>Kejohanan Olahraga Tahunan akan diadakan pada 30 April 2025 hingga 1 Mei 2025 yang melibatkan 3 buah rumah sukan.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="ramah.jpg" alt="Penutupan Transisi Tahun 1 dan Majlis Ramah Tamah Aidilfitri" loading="lazy">
+                    <div class="card-content">
+                        <h3>Penutupan Transisi Tahun 1 dan Majlis Ramah Tamah Aidilfitri</h3>
+                        <p>Penutupan Transisi Tahun Satu dan Majlis Ramah Tamah Aidilfitri akan berlangsung pada 9 April 2025 bertempat di Dataran Kesatria SK Abang Gesa.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="graduasi.png" alt="Majlis Apresiasi dan Graduasi" loading="lazy">
+                    <div class="card-content">
+                        <h3>Majlis Apresiasi dan Graduasi 2025</h3>
+                        <p>Majlis Apresiasi dan Graduasi 2025 akan diadakan pada 12 Disember 2025 di Dewan Sri Gesa. Semua dijemput hadir.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<!-- Organisasi Tab -->
+<div class="tab-content" id="organisasi" role="tabpanel">
+    <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 25px;">
+        <div style="display: flex; align-items: center; gap: 15px; padding-bottom: 10px;">
+            <img src="organisasi.png" alt="School Logo" style="height: 50px;">
+            <h2 style="color: white; font-size: 2.0rem; margin: 0;">Struktur Organisasi Sekolah</h2>
+        </div>
+        <div style="border-bottom: 2px solid #3498db; width: 100%;"></div>
+    </div>
+
+           <!-- First Row: Guru Besar and Penolong Kanan -->
+    <div class="staff-row">
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="allawee.jpg" alt="Guru Besar" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Besar</h3>
+            <p>Ustaz Allawee Bin Haji Sidek</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="ahmad.jpg" alt="Penolong Kanan Kurikulum" class="circular-image" loading="lazy">
+            </div>
+            <h3>Penolong Kanan Kurikulum</h3>
+            <p>Encik Ahmad Bin Jemain</p>
+            <p>DG12</p>
+        </div>
+        
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="suzie.jpg" alt="Penolong Kanan HEM" class="circular-image" loading="lazy">
+            </div>
+            <h3>Penolong Kanan HEM</h3>
+            <p>Puan Suzie Binti Abdullah</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="jalil.jpg" alt="Penolong Kanan Kokurikulum" class="circular-image" loading="lazy">
+            </div>
+            <h3>Penolong Kanan Kokurikulum</h3>
+            <p>Encik Abdul Jalil Bin Saim</p>
+            <p>DG9</p>
+        </div>
+    </div>
+    
+    <!-- 2nd Row: Ketua Panitia (5 cards) -->
+    <div class="staff-row">
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="hamsiah.jpeg" alt="Ketua Panitia Bahasa Melayu" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Bahasa Melayu</h3>
+            <p>Puan Hamsiah Binti Rapaee</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="edi.jpg" alt="Ketua Panitia Bahasa Inggeris" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Bahasa Inggeris</h3>
+            <p>Encik Edi Harianto Bin Suyadi</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="shima.jpg" alt="Ketua Panitia Matematik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Matematik</h3>
+            <p>Puan Nurhashimah Nabila</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="suhaila.jpg" alt="Ketua Panitia Sains" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Sains</h3>
+            <p>Cik Suhaila Binti Abdul Halip</p>
+            <p>DG12</p>
+        </div>
+        
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="daud.jpg" alt="Ketua Panitia Pendidikan Jasmani" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Pendidikan Jasmani</h3>
+            <p>Encik Daud Bin Ahmad</p>
+            <p>DG12</p>
+        </div>
+    </div>
+    
+    <!-- 3rd Row: Ketua Panitia (5 cards) -->
+    <div class="staff-row">
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="wati.jpg" alt="Ketua Panitia Muzik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Muzik</h3>
+            <p>Puan Wati Binti Ahmad</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="haluyah.jpg" alt="Ketua Panitia Seni" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Seni Visual</h3>
+            <p>Puan Haluyah Binti Hop</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="khusairi.jpg" alt="Ketua Panitia Pendidikan Agama" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Agama Islam</h3>
+            <p>Ustaz Muhammad Khusairi</p>
+            <p>DG10</p>
+        </div>
+        
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="norizan.jpg" alt="Ketua Panitia Sejarah" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Sejarah</h3>
+            <p>Encik Mohamad Norizan Bin Mohammad</p>
+            <p>DG12</p>
+        </div>
+        
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="zubair.jpg" alt="Ketua Panitia RBT" class="circular-image" loading="lazy">
+            </div>
+            <h3>Ketua Panitia Reka Bentuk Teknologi</h3>
+            <p>Encik Zubair Bin Kassim @ Musaddat</p>
+            <p>DG10</p>
+        </div>
+    </div>
+    
+    <!-- 4th Row: Guru Pra Sekolah, Guru Media, Guru SPBT (4 cards) -->
+    <div class="staff-row">
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="najri.jpg" alt="Guru Pra Sekolah Cemerlang" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Pra Sekolah</h3>
+            <p>Encik Mohammad Najri Bin Han</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="aishah.jpg" alt="Guru Pra Sekolah Gemilang" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Pra Sekolah</h3>
+            <p>Puan Siti Aishah Binti Muhaladdin</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="arzurra.jpg" alt="Guru SPBT" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru SPBT</h3>
+            <p>Puan Arzurra Binti Zainuddin</p>
+            <p>DG9</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="maszura.jpg" alt="Guru Media" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Media</h3>
+            <p>Puan Maszura Binti Hasim</p>
+            <p>DG9</p>
+        </div>
+    </div>
+    
+    <!-- 5th Row: Guru Akademik (4 cards) -->
+    <div class="staff-row">
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="azreen.jpg" alt="Guru Akademik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Akademik</h3>
+            <p>Puan Azreen Binti Kamarudin</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="hidayati.jpg" alt="Guru Akademik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Akademik</h3>
+            <p>Ustazah Norhidayati Binti Wahab</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="izzati.jpeg" alt="Guru Akademik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Akademik</h3>
+            <p>Ustazah Izzati Bahiyah Binti Salim</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="laila.jpg" alt="Guru Akademik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Akademik</h3>
+            <p>Puan Laila Syafinaz Binti Hassan</p>
+            <p>DG9</p>
+        </div>
+    </div>
+    
+    <!-- 6th Row: Guru Akademik (4 cards) -->
+    <div class="staff-row">
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="zulaikha.jpg" alt="Guru Akademik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Akademik</h3>
+            <p>Ustazah Siti Zulaikha Binti Hj Temrin</p>
+            <p>DG9</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="nizam.jpg" alt="Guru Akademik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Akademik</h3>
+            <p>Encik Khairul Nizam Bin Rajali</p>
+            <p>DG9</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="yasmin.jpg" alt="Guru Akademik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Akademik</h3>
+            <p>Cik Yasmin Huzaimah Binti Aladdin</p>
+            <p>DG10</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="nurul.jpg" alt="Guru Akademik" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Akademik</h3>
+            <p>Cik Nurul Syuhada Binti Abdul Mutalip</p>
+            <p>DG9</p>
+        </div>
+    </div>
+    
+    <!-- 7th Row: Guru Pemulihan (3 cards) -->
+    <div class="staff-row">
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="hafiz.jpg" alt="Guru Pemulihan Khas" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Pemulihan Khas</h3>
+            <p>Encik Mohammad Hafiz Bin Syamsuddin</p>
+            <p>DG12</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="nisa.jpg" alt="Guru Pemulihan Khas" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Pemulihan Khas</h3>
+            <p>Cik Khairul Nisa Binti Mohammad Baseri</p>
+            <p>DG9</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="mimut.jpg" alt="Guru Pemulihan" class="circular-image" loading="lazy">
+            </div>
+            <h3>Guru Pemulihan</h3>
+            <p>Puan Mimut Khairiyah Binti Kongli</p>
+            <p>DG7</p>
+        </div>
+        
+        <!-- Empty card to maintain 4-card layout -->
+        <div class="staff-card" style="visibility: hidden;"></div>
+    </div>
+    
+    <!-- 8th Row: Pembantu Tadbir & Pengurusan (4 cards) -->
+    <div class="staff-row">
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="hajibah.jpg" alt="Pembantu Tadbir" class="circular-image" loading="lazy">
+            </div>
+            <h3>Pembantu Tadbir</h3>
+            <p>Puan Hajibah Binti Salleh</p>
+            <p>DG7</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="aini.jpg" alt="Pembantu Pengurusan Murid" class="circular-image" loading="lazy">
+            </div>
+            <h3>Pembantu Pengurusan</h3>
+            <p>Puan Aini Binti Damit</p>
+            <p>DG7</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="kemuting.jpg" alt="Pembantu Pengurusan Murid" class="circular-image" loading="lazy">
+            </div>
+            <h3>Pembantu Pengurusan</h3>
+            <p>Puan Kemuting Binti Ayong</p>
+            <p>DG7</p>
+        </div>
+
+        <div class="staff-card">
+            <div class="circular-image-container">
+                <img src="noreeta.jpg" alt="Pembantu Pengurusan Murid" class="circular-image" loading="lazy">
+            </div>
+            <h3>Pembantu Pengurusan</h3>
+            <p>Puan Noreeta Anak Mandau</p>
+            <p>DG7</p>
+        </div>
+    </div>
+
+            </div>
+        </div>
+        
+
+<!-- Kurikulum Tab -->
+<div class="tab-content" id="kurikulum" role="tabpanel" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid #3498db;">
+        <img src="kurikulum.png" alt="Logo" style="height: 80px; margin-right: 15px;">
+        <h2 style="color: white; margin: 0; font-size: 1.5rem;">MAKLUMAT PENGURUSAN KURIKULUM</h2>
+    </div>
+    
+    <!-- Main content container -->
+    <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
+        <!-- PDF Preview Section -->
+        <div style="flex: 1; min-width: 300px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="padding: 15px 20px; background: #3498db; color: white;">
+                <h3 style="margin: 0; font-size: 1.1rem;text-align: center;">JADUAL WAKTU</h3>
+            </div>
+            <div style="padding: 15px;">
+                <div style="position: relative; padding-bottom: 141.42%; height: 0; overflow: hidden; background: #f5f5f5;">
+                    <iframe 
+                        src="jwkelas.pdf" 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                        allowfullscreen>
+                        Your browser does not support PDFs. 
+                        <a href="jwkelas.pdf">Download the PDF</a> instead.
+                    </iframe>
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="jwkelas.pdf" target="_blank" style="display: inline-block; padding: 8px 15px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; font-size: 0.9rem;">
+                        <i class="fas fa-download"></i> Muat Turun PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Class Teacher Table Section -->
+        <div style="flex: 1; min-width: 300px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="padding: 15px 20px; background: #3498db; color: white;">
+                <h3 style="margin: 0; font-size: 1.1rem;text-align: center;">SENARAI GURU KELAS & PEMBANTU GURU KELAS</h3>
+            </div>
+            <div style="padding: 15px; overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                    <thead>
+                        <tr style="background-color: #2980b9; color: black;">
+                            <th style="padding: 12px 15px; text-align: left; font-weight: 600;">KELAS</th>
+                            <th style="padding: 12px 15px; text-align: left; font-weight: 600;">GURU KELAS</th>
+                            <th style="padding: 12px 15px; text-align: left; font-weight: 600;">PEMBANTU GURU KELAS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows with alternating colors -->
+                        <tr style="background-color: #f8fafc; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">1 GEMILANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">NUR HASHIMAH NABILA ABDULLAH</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">WATI AHMAD</td>
+                        </tr>
+                        <tr style="background-color: #f0f7ff; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">1 CEMERLANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">HAMSIAH RAPAEE</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">KHARUL NIZAM RAJALI</td>
+                        </tr>
+                        <!-- Add all other rows following the same pattern -->
+                        <!-- Example for empty cells -->
+                        <tr style="background-color: #f8fafc; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">2 CEMERLANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">AZREEN KAMARUDIN</td>
+                            <td style="padding: 8px 15px; color: #95a5a6;font-size: 0.9rem;text-align: center;">-</td>
+                        </tr>
+                        <tr style="background-color: #f0f7ff; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">2 GEMILANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">LAILA SYAFINAZ HASSAN</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">ARZURRA ZAINUDDIN</td>
+                        </tr>
+ </tr>
+                        <!-- Add all other rows following the same pattern -->
+                        <!-- Example for empty cells -->
+                        <tr style="background-color: #f8fafc; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50; font-size: 0.9rem;text-align: center;">3 CEMERLANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">HALUYAH HOP</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">NURUL SYUHADA ABDUL MUTALIF</td>
+                        </tr>
+                        <tr style="background-color: #f0f7ff; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">3 GEMILANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">LAILA SYAFINAZ SITI ZULAIKHA HJ TEMRIN</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">MASZURA HASIM@MOHAMMAD</td>
+                        </tr>
+ </tr>
+                        <!-- Add all other rows following the same pattern -->
+                        <!-- Example for empty cells -->
+                        <tr style="background-color: #f8fafc; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">4 CEMERLANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">DAUD AHMAD</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">MIMUT KHAIRIYAH KONGLI</td>
+                        </tr>
+                        <tr style="background-color: #f0f7ff; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">4 GEMILANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">MOHAMAD NORIZAN MOHAMMAD</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">MUHAMMAD KHUSAIRI SENAN</td>
+                        </tr>
+ </tr>
+                        <!-- Add all other rows following the same pattern -->
+                        <!-- Example for empty cells -->
+                        <tr style="background-color: #f8fafc; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">5 CEMERLANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">YASMIN HUZAIMAH ALADDIN</td>
+                            <td style="padding: 8px 15px; color: #95a5a6;font-size: 0.9rem;text-align: center;">-</td>
+                        </tr>
+                        <tr style="background-color: #f0f7ff; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">5 GEMILANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">SUHAILA ABDUL HALIP</td>
+                            <td style="padding: 8px 15px;color: #95a5a6;font-size: 0.9rem;text-align: center;">-</td>
+                        </tr>
+ </tr>
+                        <!-- Add all other rows following the same pattern -->
+                        <!-- Example for empty cells -->
+                        <tr style="background-color: #f8fafc; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">6 CEMERLANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">EDI HARIANTO SUYADI</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">ZUBAIR KASSIM</td>
+                        </tr>
+                        <tr style="background-color: #f0f7ff; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">6 GEMILANG</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">IZZATI BAHIYAH SALIM</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">NORHIDAYATI WAHAB</td>
+                        </tr>
+ </tr>
+                        <!-- Add all other rows following the same pattern -->
+                        <!-- Example for empty cells -->
+                        <tr style="background-color: #f8fafc; border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 8px 15px; font-weight: 500; color: #2c3e50;font-size: 0.9rem;text-align: center;">PPKI</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">MOHAMMAD HAFIZ SYAMSUDDIN</td>
+                            <td style="padding: 8px 15px;font-size: 0.9rem;text-align: center;">KHAIRUL NISA MOHAMMAD BASERI</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+   
+<!-- Looker Studio Report Section -->
+<div style="margin-top: 30px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+        <!-- First Report (600px height) -->
+        <div style="flex: 1 1 48%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="padding: 15px 20px; background: #3498db; color: white;">
+                <h3 style="margin: 0; font-size: 1.1rem;text-align: center;">e-Rancangan Pengajaran Harian 2.1</h3>
+            </div>
+            <div style="position: relative; height: 600px; overflow: hidden;"> <!-- Changed to fixed height -->
+                <iframe 
+                    src="https://lookerstudio.google.com/embed/reporting/3541bfca-cb2f-43b7-ae63-74b44baa8366/page/p_12stfgvttc" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Second Report (650px height) -->
+        <div style="flex: 1 1 48%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="padding: 15px 20px; background: #3498db; color: white;">
+                <h3 style="margin: 0; font-size: 1.1rem;text-align: center;">ANALISIS KEHADIRAN STAF SK ABANG GESA</h3>
+            </div>
+            <div style="position: relative; height: 650px; overflow: hidden;"> <!-- Changed to fixed height -->
+                <iframe 
+                    src="https://lookerstudio.google.com/embed/reporting/3541bfca-cb2f-43b7-ae63-74b44baa8366/page/p_ole8x9wttc" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Rest of the Kurikulum content remains the same -->
+    <div class="card-container">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Subjek Teras" loading="lazy">
+            <div class="card-content">
+                <h3>Subjek Teras</h3>
+                <ul>
+                    <li>Bahasa Melayu</li>
+                    <li>Bahasa Inggeris</li>
+                    <li>Matematik</li>
+                    <li>Sains</li>
+                    <li>Sejarah</li>
+                </ul>
+		    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Subjek Elektif" loading="lazy">
+                    <div class="card-content">
+                        <h3>Subjek Elektif</h3>
+                        <ul>
+                            <li>Pendidikan Islam</li>
+                            <li>Pendidikan Moral</li>
+                            <li>Pendidikan Muzik</li>
+                            <li>Reka Bentuk dan Teknologi</li>
+                            <li>Pendidikan Seni</li>
+                            <li>Pendidikan Jasmani dan Kesihatan</li>
+                            <li>Bahasa Arab</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Program Khas" loading="lazy">
+                    <div class="card-content">
+                        <h3>Program Khas</h3>
+                        <ul>
+                            <li>Program HIPERS</li>
+                            <li>Kelas PITS</li>
+                            <li>Program NILAM</li>
+                            <li>Program Bantu Baca</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<!-- Hal Ehwal Murid Tab -->
+<div class="tab-content" id="hal-ehwal" role="tabpanel">
+    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid #3498db;">
+        <img src="hem.png" alt="Logo" style="height: 80px; margin-right: 15px;">
+        <h2 style="color: white; margin: 0; font-size: 1.5rem;">MAKLUMAT PENGURUSAN HAL EHWAL MURID</h2>
+    </div>
+
+    <!-- Two-Column Layout -->
+    <div style="display: flex; gap: 20px; margin: 20px; flex-wrap: wrap;">
+        <!-- Enrollment Data Table -->
+        <div style="flex: 1; min-width: 300px; overflow-x: auto;">
+            <h3 style="text-align: center; color: #3498db; background-color: #f8f9fa; padding: 10px; border-radius: 5px;">JUMLAH MURID LAYAK RMT</h3>
+            <table border="1" cellspacing="0" cellpadding="8" style="width: 100%; border-collapse: collapse; margin-top: 10px; background-color: white; text-align: center;>">
+                <thead style="background-color: #3498db; color: white;">
+                    <tr>
+                        <th>KELAS</th>
+                        <th>L</th>
+                        <th>P</th>
+                        <th>JUMLAH</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1 CEMERLANG</td><td>5</td><td>7</td><td>12</td></tr>
+                    <tr><td>1 GEMILANG</td><td>9</td><td>7</td><td>16</td></tr>
+                    <tr><td>2 CEMERLANG</td><td>3</td><td>8</td><td>11</td></tr>
+                    <tr><td>2 GEMILANG</td><td>12</td><td>7</td><td>15</td></tr>
+                    <tr><td>3 CEMERLANG</td><td>5</td><td>8</td><td>13</td></tr>
+                    <tr><td>3 GEMILANG</td><td>2</td><td>9</td><td>11</td></tr>
+                    <tr><td>4 CEMERLANG</td><td>3</td><td>10</td><td>13</td></tr>
+                    <tr><td>4 GEMILANG</td><td>9</td><td>2</td><td>11</td></tr>
+                    <tr><td>5 CEMERLANG</td><td>7</td><td>5</td><td>12</td></tr>
+                    <tr><td>5 GEMILANG</td><td>10</td><td>4</td><td>14</td></tr>
+                    <tr><td>6 CEMERLANG</td><td>8</td><td>9</td><td>17</td></tr>
+                    <tr><td>6 GEMILANG</td><td>12</td><td>8</td><td>20</td></tr>
+                    <tr><td>PPKI</td><td>9</td><td>4</td><td>13</td></tr>
+                    <tr style="font-weight: bold; background-color: #f2f2f2;text-align: center">
+                        <td>JUMLAH</td><td>145</td><td>148</td><td>293</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- RMT Eligible Students Table -->
+        <div style="flex: 1; min-width: 300px; overflow-x: auto;">
+            <h3 style="text-align: center; color: #e74c3c; background-color: #f8f9fa; padding: 10px; border-radius: 5px;">ENROLMENT MURID SK ABANG GESA</h3>
+<table border="1" cellspacing="0" cellpadding="8" style="width: 100%; border-collapse: collapse; margin-top: 10px; background-color: white;">
+    <thead style="background-color: #3498db; color: white;">
+        <tr>
+            <th style="text-align: center;">KELAS</th>
+            <th style="text-align: center;">L</th>
+            <th style="text-align: center;">P</th>
+            <th style="text-align: center;">JUMLAH</th> <!-- Only this header right-aligned -->
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="text-align: center;">1 CEMERLANG</td>
+            <td style="text-align: center;">13</td>
+            <td style="text-align: center;">13</td>
+            <td style="text-align: center;">12</td> <!-- Data remains centered -->
+        </tr>
+        <tr>
+            <td style="text-align: center;">1 GEMILANG</td>
+            <td style="text-align: center;">12</td>
+            <td style="text-align: center;">8</td>
+            <td style="text-align: center;">16</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">2 CEMERLANG</td>
+            <td style="text-align: center;">7</td>
+            <td style="text-align: center;">12</td>
+            <td style="text-align: center;">11</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">2 GEMILANG</td>
+            <td style="text-align: center;">12</td>
+            <td style="text-align: center;">7</td>
+            <td style="text-align: center;">15</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">3 CEMERLANG</td>
+            <td style="text-align: center;">8</td>
+            <td style="text-align: center;">9</td>
+            <td style="text-align: center;">13</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">3 GEMILANG</td>
+            <td style="text-align: center;">5</td>
+            <td style="text-align: center;">11</td>
+            <td style="text-align: center;">11</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">4 CEMERLANG</td>
+            <td style="text-align: center;">7</td>
+            <td style="text-align: center;">10</td>
+            <td style="text-align: center;">13</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">4 GEMILANG</td>
+            <td style="text-align: center;">6</td>
+            <td style="text-align: center;">9</td>
+            <td style="text-align: center;">11</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">5 CEMERLANG</td>
+            <td style="text-align: center;">10</td>
+            <td style="text-align: center;">10</td>
+            <td style="text-align: center;">12</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">5 GEMILANG</td>
+            <td style="text-align: center;">13</td>
+            <td style="text-align: center;">9</td>
+            <td style="text-align: center;">14</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">6 CEMERLANG</td>
+            <td style="text-align: center;">13</td>
+            <td style="text-align: center;">11</td>
+            <td style="text-align: center;">17</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">6 GEMILANG</td>
+            <td style="text-align: center;">14</td>
+            <td style="text-align: center;">9</td>
+            <td style="text-align: center;">20</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">PPKI</td>
+            <td style="text-align: center;">10</td>
+            <td style="text-align: center;">6</td>
+            <td style="text-align: center;">13</td>
+        </tr>
+        <tr style="font-weight: bold; text-align: right; background-color: #f2f2f2;">
+            <td>JUMLAH</td>
+            <td style="text-align: center;">145</td>
+            <td style="text-align: center;">148</td>
+            <td style="text-align: center;">293</td> <!-- Total remains centered -->
+        </tr>
+    </tbody>
+</table>
+        </div>
+    </div>
+</div>
+           
+       
+<!-- kokurikulum Tab -->
+<div class="tab-content" id="kokurikulum" role="tabpanel">
+    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid #3498db;">
+        <img src="kk.png" alt="Logo" style="height: 80px; margin-right: 15px;">
+        <h2 style="color: white; margin: 0; font-size: 1.5rem;">MAKLUMAT PENGURUSAN KOKURIKULUM</h2>
+    </div>
+
+            
+            <div class="card-container">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kelab Sukan" loading="lazy">
+                    <div class="card-content">
+                        <h3>Kelab Sukan</h3>
+                        <ul>
+                            <li>Bola Sepak</li>
+                            <li>Badminton</li>
+                            <li>Bola Jaring</li>
+                            <li>Olahraga</li>
+                            <li>Renang</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kelab & Persatuan" loading="lazy">
+                    <div class="card-content">
+                        <h3>Kelab & Persatuan</h3>
+                        <ul>
+                            <li>Kelab Bahasa</li>
+                            <li>Persatuan Sains</li>
+                            <li>Kelab Komputer</li>
+                            <li>Persatuan Sejarah</li>
+                            <li>Kelab Kesenian</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Unit Beruniform" loading="lazy">
+                    <div class="card-content">
+                        <h3>Unit Beruniform</h3>
+                        <ul>
+                            <li>Pengakap</li>
+                            <li>Puteri Islam</li>
+                            <li>Kadet Remaja Sekolah</li>
+                            <li>Bulan Sabit Merah</li>
+                            <li>Taekwondo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<!-- Galeri Tab -->
+<div class="tab-content" id="galeri" role="tabpanel">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid #3498db;">
+        <div style="display: flex; align-items: center;">
+            <img src="galeri.png" alt="Logo" style="height: 80px; margin-right: 15px;">
+            <h2 style="color: white; margin: 0; font-size: 1.5rem;">GALERI GESA</h2>
+        </div>
+        <a href="https://drive.google.com/drive/folders/1N5VXKFEzA5SlLaX_OqvJOZkYPw_72KSH" target="_blank" style="background-color: #3498db; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: background-color 0.3s;">
+            Buka Folder Galeri
+        </a>
+    </div>
+            
+<div class="gallery-container">
+    <div class="gallery-grid">
+        <!-- First Image -->
+        <div class="gallery-item">
+            <img src="homepage/galeri/Kejohanan Bolasepak Piala Perak Yayasan Sarawak 2021/bola1.jpg" 
+                 alt="Bola Sepak Piala Yayasan Sarawak" 
+                 loading="lazy">
+            <div class="gallery-caption">Kejohanan Bolasepak Piala Perak Yayasan Sarawak</div>
+        </div>
+        
+        <!-- Second Image -->
+        <div class="gallery-item">
+            <img src="homepage/galeri/Kolam PSS 2021/kolam.jpg" 
+                 alt="Projek Kolam Pusat Sumber Sekolah" 
+                 loading="lazy">
+            <div class="gallery-caption">Projek Menghasilkan Kolam Pusat Sumber Sekolah</div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="homepage/galeri/baucar pakaian seragam 2021/baucar.jpg" 
+                 alt="baucar" 
+                 loading="lazy">
+            <div class="gallery-caption">Program Pemberian Baucar Pakaian Seragam Sekolah</div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="homepage/galeri/kolokium 2021/kolokium.jpg" 
+                 alt="kolokium" 
+                 loading="lazy">
+            <div class="gallery-caption">Program Kolokium TS25 peringkat Antarabangsa</div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="homepage/galeri/lawatan bimbingan spbt 2021/spbt.jpg" 
+                 alt="spbt" 
+                 loading="lazy">
+            <div class="gallery-caption">Lawatan Bimbingan Bilik Skim Pinjaman Buku Teks</div>
+        </div>
+ 
+        <div class="gallery-item">
+            <img src="homepage/galeri/Lawatan dan Pemantauan Pegawai Perhubungan Sekolah PDRM 2021/pdrm.jpg" 
+                 alt="pdrm" 
+                 loading="lazy">
+            <div class="gallery-caption">Lawatan dan Pemantauan Pegawai Perhubungan Sekolah PDRM</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/Lawatan Mantan Pengarah JPNS 2021/jpns.jpg" 
+                 alt="jpns" 
+                 loading="lazy">
+            <div class="gallery-caption">Lawatan Mantan Pengarah Jabatan Pendidikan Negeri Sarawak </div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/lawatan pemantauan operasi pra dan ppki 2021/prappki.jpg" 
+                 alt="prappki" 
+                 loading="lazy">
+            <div class="gallery-caption">Lawatan Pemantauan Pengoperasi Pra Sekolah dan PPKI</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/lawatan pemantauan operasi sekolah 2021/covid.jpg" 
+                 alt="covid" 
+                 loading="lazy">
+            <div class="gallery-caption">Lawatan Pemantauan Pengoperasi Sekolah Pasca Covid</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/lawatan pemantauan operasi sekolah fasa 4 2021/fasa4.jpg" 
+                 alt="fasa4" 
+                 loading="lazy">
+            <div class="gallery-caption">Lawatan Pemantauan Pengoperasi Sekolah Fasa 4</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/lawatan penilaian bilik boss 2021/boss.jpg" 
+                 alt="boss" 
+                 loading="lazy">
+            <div class="gallery-caption">Lawatan Penilaian Bilik Skim Pinjaman Buku Teks</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/lawatan sekolah ts25 2021/ts25.jpg" 
+                 alt="ts25" 
+                 loading="lazy">
+            <div class="gallery-caption">Lawatan Penanda Aras Sekolah Transformasi 2025</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/lawatan sektor penilaian ppd 2021/ppd.jpg" 
+                 alt="ppd" 
+                 loading="lazy">
+            <div class="gallery-caption">Lawatan Sektor Penilaian Pejabat Pendidikan Daerah Daro</div>
+        </div>
+      
+          <div class="gallery-item">
+            <img src="homepage/galeri/onestop center 2021/onestop.jpg" 
+                 alt="onestop" 
+                 loading="lazy">
+            <div class="gallery-caption">Projek Penghasilan OneStop Center Pasca Covid</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/pemerkasaan dan kreatif murid ppki 2021/ppki.jpg" 
+                 alt="ppki" 
+                 loading="lazy">
+            <div class="gallery-caption">Program Pemerkasaan Kreativiti Murid Pendidikan Khas</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/penyertaan pameran stem 2019/stem.jpg" 
+                 alt="stem" 
+                 loading="lazy">
+            <div class="gallery-caption">Penyertaan Pameran Sains, Teknologi dan Matematik STEM</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/perkhemahan pals negeri sarawak 2018/pals.jpg" 
+                 alt="pals" 
+                 loading="lazy">
+            <div class="gallery-caption">Perkhemahan Pendidikan Alam Sekitar Negeri Sarawak</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/perkhemahan perpaduan 2018/padu.jpg" 
+                 alt="padu" 
+                 loading="lazy">
+            <div class="gallery-caption">Perkhemahan Perpaduan Peringkat Negeri Sarawak</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/perkhemahan uniform 2018/uniform.jpg" 
+                 alt="uniform" 
+                 loading="lazy">
+            <div class="gallery-caption">Perkhemahan Unit Beruniform Peringkat Sekolah</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/program bantuan kwapm 2022/kwapm.jpg" 
+                 alt="kwapm" 
+                 loading="lazy">
+            <div class="gallery-caption">Program Pemberian Bantuan Kewangan Pelajar Miskin</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/program kesedaran paya bakau wmf 2022/bakau.jpg" 
+                 alt="bakau" 
+                 loading="lazy">
+            <div class="gallery-caption">Program Kesedaran Paya Bakau Anjuran World Malaysian Forest</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/projek sudut ppda 2021/ppda.jpg" 
+                 alt="ppda" 
+                 loading="lazy">
+            <div class="gallery-caption">Projek Menghasilkan Sudut Pendidikan Pencegahan Dadah</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/projek taman spbt 2021/taman.jpg" 
+                 alt="taman" 
+                 loading="lazy">
+            <div class="gallery-caption">Projek Menghasilkan Taman Skim Pinjaman Buku Teks</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/projek tempat basuhan rmt 2021/rmt.jpg" 
+                 alt="rmt" 
+                 loading="lazy">
+            <div class="gallery-caption">Projek Tempat Basuhan Rancangan Makanan Tambahan</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/ramah tamah aidilfitri 2018/ramah.jpg" 
+                 alt="ramah" 
+                 loading="lazy">
+            <div class="gallery-caption">Majlis Ramah Tamah Hari Raya Aidilfitri 2018</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/sambutan hari guru 2022/guru.jpg" 
+                 alt="guru" 
+                 loading="lazy">
+            <div class="gallery-caption">Majlis Sambutan Hari Guru 2022 Peringkat Sekolah</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/sambutan maulud nabi 2018/maulud.jpg" 
+                 alt="maulud" 
+                 loading="lazy">
+            <div class="gallery-caption">Majlis Sambutan Maulidur Rasul Peringkat Zon Tanjung Manis</div>
+        </div>
+
+          <div class="gallery-item">
+            <img src="homepage/galeri/sukan tahunan 2018/sukan.jpg" 
+                 alt="sukan" 
+                 loading="lazy">
+            <div class="gallery-caption">Kejohanan Olahraga Tahunan Peringkat Sekolah</div>
+        </div>
+
+        <!-- Add more images here as needed -->
+    </div>
+</div>
+            
+            <!-- Lightbox -->
+            <div class="lightbox" id="lightbox">
+                <span class="close-lightbox" id="closeLightbox">&times;</span>
+                <div class="lightbox-content">
+                    <img id="lightboxImage" src="" alt="Lightbox Image">
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Hubungi Kami</h3>
+                <p>SK Abang Gesa<br>
+                96150, Belawai, Tanjung Manis<br>
+                Tel: 084-814215<br>
+                Email: gesaboleh@gmail.com</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Waktu Operasi</h3>
+                <p>Isnin - Jumaat: 7:30 pagi - 5:00 petang<br>
+                Sabtu - Ahad: Tutup</p>
+            </div>
+            
+            <div class="footer-section">
+<h3>Pautan Pantas</h3>
+<div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+    <!-- Row 1 -->
+    <div style="width: 30%;">
+        <ul>
+            <li><a href="https://mylink.la/skagb" target="_blank">Gesa Link</a></li>
+            <li><a href="https://eoperasi.moe.gov.my" target="_blank">e-Operasi</a></li>
+            <li><a href="https://hrmis2.eghrmis.gov.my/" target="_blank">HRMIS</a></li>
+            <li><a href="https://splkpm.moe.gov.my/" target="_blank">SPLKPM</a></li>
+        </ul>
+    </div>
+    
+    <!-- Row 2 -->
+    <div style="width: 30%;">
+        <ul>
+            <li><a href="https://epgo.moe.gov.my/" target="_blank">eg-TUKAR</a></li>
+            <li><a href="https://moe.gov.my/" target="_blank">KPM Official</a></li>
+            <li><a href="https://myschoolchildren.com/" target="_blank">MySchoolChildren</a></li>
+            <li><a href="https://eduwebtv.moe.edu.my/" target="_blank">EduWebTV</a></li>
+        </ul>
+    </div>
+    
+    <!-- Row 3 -->
+    <div style="width: 30%;">
+        <ul>
+            <li><a href="https://moe.edu.my/" target="_blank">MOE Portal</a></li>
+            <li><a href="https://lp.moe.gov.my/" target="_blank">Lembaga Peperiksaan</a></li>
+            <li><a href="https://bpsh.moe.gov.my/" target="_blank">BPSH</a></li>
+            <li><a href="https://epra.moe.gov.my/" target="_blank">e-Pra Sekolah</a></li>
+        </ul>
+    </div>
+</div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Sekolah GesaKita. Hak Cipta Terpelihara.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            function activateTab(tab) {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                
+                // Show corresponding content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            }
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    activateTab(tab);
+                    
+                    // Close mobile nav if open
+                    if (window.innerWidth <= 768) {
+                        tabsContainer.style.display = 'none';
+                        mobileNavButton.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                
+                // Keyboard navigation
+                tab.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        activateTab(tab);
+                    }
+                });
+            });
+            
+            // Mobile navigation toggle
+            const mobileNavButton = document.getElementById('mobileNavButton');
+            const tabsContainer = document.getElementById('tabsContainer');
+            
+            mobileNavButton.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                tabsContainer.style.display = isExpanded ? 'none' : 'block';
+            });
+            
+            // Lightbox functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightboxImage');
+            const closeLightbox = document.getElementById('closeLightbox');
+            const galleryItems = document.querySelectorAll('.gallery-item img');
+            
+            galleryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    lightbox.style.display = 'flex';
+                    lightboxImage.src = this.src;
+                    lightboxImage.alt = this.alt;
+                });
+            });
+            
+            closeLightbox.addEventListener('click', function() {
+                lightbox.style.display = 'none';
+            });
+            
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+            
+            // Close lightbox with ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+                    lightbox.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
