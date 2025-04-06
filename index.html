@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sekolah Kita - Homepage</title>
+    <!-- Add docx-preview library -->
+    <script src="https://unpkg.com/docx-preview@latest/dist/docx-preview.min.js"></script>
     <style>
         /* Reset and Base Styles */
         * {
@@ -14,27 +16,63 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-body {
-    background: linear-gradient(135deg, #8B8000, #172a45, #000000, #0a192f);
-    background-size: 400% 400%;
-    animation: gradientBG 5s ease infinite;
-    color: black; /* Changed text color to light for better contrast */
-    line-height: 1.6;
-    margin: 0;
-    min-height: 100vh;
-}
+        body {
+            background: linear-gradient(135deg, #8B8000, #172a45, #000000, #0a192f);
+            background-size: 400% 400%;
+            animation: gradientBG 5s ease infinite;
+            color: black;
+            line-height: 1.6;
+            margin: 0;
+            min-height: 100vh;
+        }
 
-@keyframes gradientBG {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* DOCX Preview Modal */
+        .docx-preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow: auto;
+        }
+
+        .docx-preview-content {
+            background: white;
+            margin: 5% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .docx-container {
+            width: 100%;
+            height: 70vh;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 15px;
+        }
+
+        .close-docx {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #333;
+        }
         
         /* Header Styles */
         header {
@@ -1167,25 +1205,40 @@ border-radius: 5px;
             </div>
         </div>
         
-<!-- Hal Ehwal Murid Tab -->
-<div class="tab-content" id="hal-ehwal" role="tabpanel">
-    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid #3498db;">
-        <img src="hem.png" alt="Logo" style="height: 80px; margin-right: 15px;">
-        <h2 style="color: white; margin: 0; font-size: 1.5rem;">MAKLUMAT PENGURUSAN HAL EHWAL MURID</h2>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; padding: 15px;">
-        <button onclick="preview.Docx('hem/3k.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">3K</button>
-        <button onclick="preview.Docx('hem/disiplin.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Disiplin</button>
-        <button onclick="preview.Docx('hem/induk.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Induk</button>
-        <button onclick="preview.Docx('hem/jpbs.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">JPBS</button>
-        <button onclick="preview.Docx('hem/kesihatan.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Kesihatan</button>
-        <button onclick="preview.Docx('hem/pengawas.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Pengawas</button>
-        <button onclick="preview.Docx('hem/pibg.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">PIBG</button>
-        <button onclick="preview.Docx('hem/ppda.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">PPDA</button>
-        <button onclick="preview.Docx('hem/rmt.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">RMT</button>
-        <button onclick="preview.Docx('hem/spbt.docx')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">SPBT</button>
-    </div>
+    <!-- Hal Ehwal Murid Tab -->
+    <div class="tab-content" id="hal-ehwal" role="tabpanel">
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid #3498db;">
+            <img src="hem.png" alt="Logo" style="height: 80px; margin-right: 15px;">
+            <h2 style="color: white; margin: 0; font-size: 1.5rem;">MAKLUMAT PENGURUSAN HAL EHWAL MURID</h2>
+        </div>
+        
+        <!-- DOCX Preview Modal -->
+        <div id="docxPreviewModal" class="docx-preview-modal">
+            <div class="docx-preview-content">
+                <span class="close-docx" id="closeDocx">&times;</span>
+                <h3 id="docxTitle" style="margin-bottom: 15px; color: #2c3e50;"></h3>
+                <div id="docxContainer" class="docx-container"></div>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button id="downloadDocx" style="padding: 8px 15px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Muat Turun Dokumen
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCX Buttons -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; padding: 15px;">
+            <button onclick="previewDocx('3k.docx', 'Dokumen 3K')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">3K</button>
+            <button onclick="previewDocx('disiplin.docx', 'Dokumen Disiplin')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Disiplin</button>
+            <button onclick="previewDocx('induk.docx', 'Dokumen Induk')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Induk</button>
+            <button onclick="previewDocx('jpbs.docx', 'Dokumen JPBS')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">JPBS</button>
+            <button onclick="previewDocx('kesihatan.docx', 'Dokumen Kesihatan')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Kesihatan</button>
+            <button onclick="previewDocx('pengawas.docx', 'Dokumen Pengawas')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">Pengawas</button>
+            <button onclick="previewDocx('pibg.docx', 'Dokumen PIBG')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">PIBG</button>
+            <button onclick="previewDocx('ppda.docx', 'Dokumen PPDA')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">PPDA</button>
+            <button onclick="previewDocx('rmt.docx', 'Dokumen RMT')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">RMT</button>
+            <button onclick="previewDocx('spbt.docx', 'Dokumen SPBT')" style="background-color: #FFD700; color: black; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">SPBT</button>
+        </div>
 
     <!-- Two-Column Layout -->
     <div style="display: flex; gap: 20px; margin: 20px; flex-wrap: wrap;">
@@ -1678,6 +1731,69 @@ border-radius: 5px;
                     lightbox.style.display = 'none';
                 }
             });
+        });
+    </script>
+ <script>
+        // DOCX Preview Functionality
+        let currentDocxUrl = '';
+        
+        function previewDocx(url, title) {
+            const modal = document.getElementById('docxPreviewModal');
+            const container = document.getElementById('docxContainer');
+            const titleElement = document.getElementById('docxTitle');
+            const downloadBtn = document.getElementById('downloadDocx');
+            
+            // Show loading state
+            container.innerHTML = '<p style="text-align: center;">Memuatkan dokumen...</p>';
+            titleElement.textContent = title;
+            currentDocxUrl = 'hem/' + url; // Assuming files are in a hem subfolder
+            
+            // Show modal
+            modal.style.display = 'block';
+            
+            // Fetch and render DOCX
+            fetch(currentDocxUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    docx.renderAsync(blob, container)
+                        .then(() => {
+                            // Set up download button
+                            downloadBtn.onclick = function() {
+                                const a = document.createElement('a');
+                                a.href = currentDocxUrl;
+                                a.download = url;
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                            };
+                        })
+                        .catch(error => {
+                            container.innerHTML = '<p style="color: red; text-align: center;">Ralat: Gagal memuatkan dokumen. Sila muat turun untuk melihat.</p>';
+                            console.error('DOCX rendering error:', error);
+                        });
+                })
+                .catch(error => {
+                    container.innerHTML = '<p style="color: red; text-align: center;">Ralat: Dokumen tidak ditemui. Sila muat turun untuk melihat.</p>';
+                    console.error('DOCX fetch error:', error);
+                });
+        }
+        
+        // Close modal
+        document.getElementById('closeDocx').onclick = function() {
+            document.getElementById('docxPreviewModal').style.display = 'none';
+        };
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('docxPreviewModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Your existing JavaScript remains the same
+        document.addEventListener('DOMContentLoaded', function() {
+            // ... (keep all your existing JavaScript) ...
         });
     </script>
 </body>
