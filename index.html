@@ -1734,67 +1734,86 @@ border-radius: 5px;
         });
     </script>
  <script>
-        // DOCX Preview Functionality
-        let currentDocxUrl = '';
+<script>
+    // DOCX Preview Functionality
+    let currentDocxUrl = '';
+    
+    function previewDocx(url, title) {
+        const modal = document.getElementById('docxPreviewModal');
+        const container = document.getElementById('docxContainer');
+        const titleElement = document.getElementById('docxTitle');
+        const downloadBtn = document.getElementById('downloadDocx');
         
-        function previewDocx(url, title) {
-            const modal = document.getElementById('docxPreviewModal');
-            const container = document.getElementById('docxContainer');
-            const titleElement = document.getElementById('docxTitle');
-            const downloadBtn = document.getElementById('downloadDocx');
-            
-            // Show loading state
-            container.innerHTML = '<p style="text-align: center;">Memuatkan dokumen...</p>';
-            titleElement.textContent = title;
-            currentDocxUrl = 'hem/' + url; // Assuming files are in a hem subfolder
-            
-            // Show modal
-            modal.style.display = 'block';
-            
-            // Fetch and render DOCX
-            fetch(currentDocxUrl)
-                .then(response => response.blob())
-                .then(blob => {
-                    docx.renderAsync(blob, container)
-                        .then(() => {
-                            // Set up download button
-                            downloadBtn.onclick = function() {
-                                const a = document.createElement('a');
-                                a.href = currentDocxUrl;
-                                a.download = url;
-                                document.body.appendChild(a);
-                                a.click();
-                                document.body.removeChild(a);
-                            };
-                        })
-                        .catch(error => {
-                            container.innerHTML = '<p style="color: red; text-align: center;">Ralat: Gagal memuatkan dokumen. Sila muat turun untuk melihat.</p>';
-                            console.error('DOCX rendering error:', error);
-                        });
-                })
-                .catch(error => {
-                    container.innerHTML = '<p style="color: red; text-align: center;">Ralat: Dokumen tidak ditemui. Sila muat turun untuk melihat.</p>';
-                    console.error('DOCX fetch error:', error);
-                });
+        // Show loading state
+        container.innerHTML = '<p style="text-align: center;">Memuatkan dokumen...</p>';
+        titleElement.textContent = title;
+        
+        // Use full GitHub Pages URL
+        currentDocxUrl = 'https://skabanggesa.github.io/skabanggesa/hem/' + url;
+        
+        // Show modal
+        modal.style.display = 'block';
+        
+        // Check if docx-preview is loaded
+        if (typeof docx === 'undefined') {
+            container.innerHTML = '<p style="color: red;">Error: DOCX preview library not loaded</p>';
+            return;
         }
         
-        // Close modal
-        document.getElementById('closeDocx').onclick = function() {
-            document.getElementById('docxPreviewModal').style.display = 'none';
-        };
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('docxPreviewModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        };
-
-        // Your existing JavaScript remains the same
-        document.addEventListener('DOMContentLoaded', function() {
-            // ... (keep all your existing JavaScript) ...
-        });
-    </script>
+        // Fetch with error handling
+        fetch(currentDocxUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                docx.renderAsync(blob, container)
+                    .then(() => {
+                        // Set up download button
+                        downloadBtn.onclick = function() {
+                            const a = document.createElement('a');
+                            a.href = currentDocxUrl;
+                            a.download = url;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                        };
+                    })
+                    .catch(renderError => {
+                        console.error('Render error:', renderError);
+                        container.innerHTML = `
+                            <p style="color: red; text-align: center;">
+                                Ralat: Gagal memaparkan dokumen.<br>
+                                <a href="${currentDocxUrl}" style="color: blue;">Sila muat turun untuk melihat</a>
+                            </p>
+                        `;
+                    });
+            })
+            .catch(fetchError => {
+                console.error('Fetch error:', fetchError);
+                container.innerHTML = `
+                    <p style="color: red; text-align: center;">
+                        Ralat: Gagal memuatkan dokumen (${fetchError.message}).<br>
+                        <a href="${currentDocxUrl}" style="color: blue;">Sila muat turun untuk melihat</a>
+                    </p>
+                `;
+            });
+    }
+    
+    // Close modal
+    document.getElementById('closeDocx').onclick = function() {
+        document.getElementById('docxPreviewModal').style.display = 'none';
+    };
+    
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('docxPreviewModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+</script>
 </body>
 </html>
