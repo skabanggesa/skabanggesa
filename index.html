@@ -1173,23 +1173,42 @@ border-radius: 5px;
         <img src="hem.png" alt="Logo" style="height: 80px; margin-right: 15px;">
         <h2 style="color: white; margin: 0; font-size: 1.5rem;">MAKLUMAT PENGURUSAN HAL EHWAL MURID</h2>
     </div>
-
-<!-- PDF Viewers Section - Side by Side -->
-<div style="display: flex; gap: 20px; width: 100%; margin-top: 20px;">
-    <!-- First PDF Viewer -->
-    <div style="flex: 1; height: 600px; border: 1px solid #ddd; border-radius: 5px;">
-        <h3 style="text-align: center; padding: 10px; background: #3498db; color: white; margin: 0;">JAWATANKUASA</h3>
-        <iframe src="homepage/hem/jawatankuasa.pdf" width="100%" height="100%" style="border: none;">
-            Your browser does not support PDFs. <a href="homepage/hem/jawatankuasa.pdf">Download the PDF</a> instead.
-        </iframe>
-    </div>
     
-    <!-- Second PDF Viewer -->
-    <div style="flex: 1; height: 600px; border: 1px solid #ddd; border-radius: 5px;">
-        <h3 style="text-align: center; padding: 10px; background: #3498db; color: white; margin: 0;">JADUAL BERTUGAS</h3>
-        <iframe src="homepage/hem/bertugas.pdf" width="100%" height="100%" style="border: none;">
-            Your browser does not support PDFs. <a href="homepage/hem/bertugas.pdf">Download the PDF</a> instead.
-        </iframe>
+    <!-- PDF Viewers Section - Side by Side -->
+    <div style="display: flex; gap: 20px; width: 100%; margin-top: 20px;">
+        <!-- First PDF Viewer -->
+        <div style="flex: 1; height: 600px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5;">
+            <h3 style="text-align: center; padding: 10px; background: #3498db; color: white; margin: 0;">Jawatankuasa</h3>
+            <div style="height: calc(100% - 42px); display: flex; align-items: center; justify-content: center;">
+                <object data="jawatankuasa.pdf" type="application/pdf" width="100%" height="100%">
+                    <div style="padding: 20px; text-align: center;">
+                        <p>PDF tidak dapat dimuatkan. Sila semak:</p>
+                        <ol style="text-align: left; display: inline-block;">
+                            <li>Fail 'jawatankuasa.pdf' wujud dalam folder yang sama</li>
+                            <li>Nama fail adalah tepat (huruf besar/kecil sensitif)</li>
+                        </ol>
+                        <p><a href="jawatankuasa.pdf" style="color: #3498db;">Cuba muat turun PDF</a></p>
+                    </div>
+                </object>
+            </div>
+        </div>
+        
+        <!-- Second PDF Viewer -->
+        <div style="flex: 1; height: 600px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5;">
+            <h3 style="text-align: center; padding: 10px; background: #3498db; color: white; margin: 0;">Bertugas</h3>
+            <div style="height: calc(100% - 42px); display: flex; align-items: center; justify-content: center;">
+                <object data="bertugas.pdf" type="application/pdf" width="100%" height="100%">
+                    <div style="padding: 20px; text-align: center;">
+                        <p>PDF tidak dapat dimuatkan. Sila semak:</p>
+                        <ol style="text-align: left; display: inline-block;">
+                            <li>Fail 'bertugas.pdf' wujud dalam folder yang sama</li>
+                            <li>Nama fail adalah tepat (huruf besar/kecil sensitif)</li>
+                        </ol>
+                        <p><a href="bertugas.pdf" style="color: #3498db;">Cuba muat turun PDF</a></p>
+                    </div>
+                </object>
+            </div>
+        </div>
     </div>
 </div>
 
