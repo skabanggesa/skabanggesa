@@ -1357,11 +1357,14 @@ border-radius: 5px;
     </div>
 
 	    <!-- PDF Viewers Section - Side by Side -->
-    <div style="display: flex; gap: 20px; width: 100%; margin-top: 20px;">
+   <div style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px;">
+
+    <!-- PDF Viewers Section -->
+    <div style="display: flex; gap: 20px; width: 100%; margin-bottom: 40px;">
         <!-- First PDF Viewer -->
-        <div style="flex: 1; height: 600px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5;">
+        <div style="flex: 1; height: 600px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5; overflow: hidden;">
             <h3 style="text-align: center; padding: 10px; background: #ff0000; color: white; margin: 0;">JAWATANKUASA KOKURIKULUM</h3>
-            <div style="height: calc(100% - 42px); display: flex; align-items: center; justify-content: center;">
+            <div style="height: calc(100% - 42px);">
                 <object data="kk/carta.pdf" type="application/pdf" width="100%" height="100%">
                     <div style="padding: 20px; text-align: center;">
                         <p>PDF tidak dapat dimuatkan. Sila semak:</p>
@@ -1373,13 +1376,12 @@ border-radius: 5px;
                     </div>
                 </object>
             </div>
-	    <hr style="border: none; border-top: 1px solid #ccc; margin: 10px 0;">
         </div>
         
         <!-- Second PDF Viewer -->
-        <div style="flex: 1; height: 600px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5;">
+        <div style="flex: 1; height: 600px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5; overflow: hidden;">
             <h3 style="text-align: center; padding: 10px; background: #3498db; color: white; margin: 0;">TAKWIM KOKURIKULUM</h3>
-            <div style="height: calc(100% - 42px); display: flex; align-items: center; justify-content: center;">
+            <div style="height: calc(100% - 42px);">
                 <object data="kk/takwim.pdf" type="application/pdf" width="100%" height="100%">
                     <div style="padding: 20px; text-align: center;">
                         <p>PDF tidak dapat dimuatkan. Sila semak:</p>
@@ -1391,55 +1393,54 @@ border-radius: 5px;
                     </div>
                 </object>
             </div>
-	    <hr style="border: none; border-top: 1px solid #ccc; margin: 10px 0;">
         </div>
     </div>
 
-            
-            <div class="card-container">
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kelab Sukan" loading="lazy">
-                    <div class="card-content">
-                        <h3>Kelab Sukan</h3>
-                        <ul>
-                            <li>Bola Sepak</li>
-                            <li>Badminton</li>
-                            <li>Bola Jaring</li>
-                            <li>Olahraga</li>
-                            <li>Renang</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kelab & Persatuan" loading="lazy">
-                    <div class="card-content">
-                        <h3>Kelab & Persatuan</h3>
-                        <ul>
-                            <li>Kelab Bahasa</li>
-                            <li>Persatuan Sains</li>
-                            <li>Kelab Komputer</li>
-                            <li>Persatuan Sejarah</li>
-                            <li>Kelab Kesenian</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Unit Beruniform" loading="lazy">
-                    <div class="card-content">
-                        <h3>Unit Beruniform</h3>
-                        <ul>
-                            <li>Pengakap</li>
-                            <li>Puteri Islam</li>
-                            <li>Kadet Remaja Sekolah</li>
-                            <li>Bulan Sabit Merah</li>
-                            <li>Taekwondo</li>
-                        </ul>
-                    </div>
-                </div>
+    <!-- Cards Section -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kelab Sukan" loading="lazy" style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px 5px 0 0;">
+            <div class="card-content" style="padding: 15px; background: white; border-radius: 0 0 5px 5px;">
+                <h3 style="margin-top: 0;">Kelab Sukan</h3>
+                <ul style="padding-left: 20px;">
+                    <li>Bola Sepak</li>
+                    <li>Badminton</li>
+                    <li>Bola Jaring</li>
+                    <li>Olahraga</li>
+                    <li>Renang</li>
+                </ul>
             </div>
         </div>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kelab & Persatuan" loading="lazy" style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px 5px 0 0;">
+            <div class="card-content" style="padding: 15px; background: white; border-radius: 0 0 5px 5px;">
+                <h3 style="margin-top: 0;">Kelab & Persatuan</h3>
+                <ul style="padding-left: 20px;">
+                    <li>Kelab Bahasa</li>
+                    <li>Persatuan Sains</li>
+                    <li>Kelab Komputer</li>
+                    <li>Persatuan Sejarah</li>
+                    <li>Kelab Kesenian</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Unit Beruniform" loading="lazy" style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px 5px 0 0;">
+            <div class="card-content" style="padding: 15px; background: white; border-radius: 0 0 5px 5px;">
+                <h3 style="margin-top: 0;">Unit Beruniform</h3>
+                <ul style="padding-left: 20px;">
+                    <li>Pengakap</li>
+                    <li>Puteri Islam</li>
+                    <li>Kadet Remaja Sekolah</li>
+                    <li>Bulan Sabit Merah</li>
+                    <li>Taekwondo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
         
 <!-- Galeri Tab -->
 <div class="tab-content" id="galeri" role="tabpanel">
