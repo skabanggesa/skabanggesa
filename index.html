@@ -368,9 +368,16 @@ border-radius: 5px;
     padding: 20px;
 }
 
+.gallery-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
 }
 
@@ -380,6 +387,7 @@ border-radius: 5px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
+    background: white;
 }
 
 .gallery-item:hover {
@@ -404,12 +412,6 @@ border-radius: 5px;
 }
 
 /* Responsive adjustments */
-@media (max-width: 1200px) {
-    .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
 @media (max-width: 768px) {
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1444,7 +1446,7 @@ border-radius: 5px;
 
 <!-- Galeri Tab -->
 <div class="tab-content" id="galeri" role="tabpanel">
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid #3498db;">
+    <div class="gallery-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid #3498db;">
         <div style="display: flex; align-items: center;">
             <img src="galeri.png" alt="Logo" style="height: 80px; margin-right: 15px;">
             <h2 style="color: white; margin: 0; font-size: 1.5rem;">GALERI GESA</h2>
@@ -1456,9 +1458,10 @@ border-radius: 5px;
             
 <div class="gallery-container">
     <div class="gallery-grid">
-        <!-- First Image -->
+        <!-- Example image with fallback if image doesn't load -->
         <div class="gallery-item">
             <img src="galeri/Kejohanan Bolasepak Piala Perak Yayasan Sarawak 2021/bola1.jpg" 
+                 onerror="this.src='placeholder.jpg';this.alt='Image not available'" 
                  alt="Bola Sepak Piala Yayasan Sarawak" 
                  loading="lazy">
             <div class="gallery-caption">Kejohanan Bolasepak Piala Perak Yayasan Sarawak</div>
