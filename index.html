@@ -395,12 +395,19 @@ border-radius: 5px;
 }
 
 .gallery-caption {
-    padding: 12px;
+    padding: 12px; /* Adjust padding as needed */
     background: #fff;
     text-align: center;
-    font-size: 12px;
+    font-size: 11px; /* Adjust font size as needed */
     color: #333;
     font-weight: 500;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically center the text */
+    justify-content: center; /* Horizontally center the text */
+    height: 60px; /* Set a fixed height for consistency */
+    overflow: hidden; /* Prevent text from overflowing */
+    text-overflow: ellipsis; /* Add ellipsis for long text */
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 /* Responsive adjustments */
