@@ -613,8 +613,7 @@ border-radius: 5px;
             <div class="tab" data-tab="galeri" role="tab" aria-selected="false">Galeri</div>
         </div>
     </div>
-    
-    <main class="main-content">
+    <div id="birthday-marquee" style="background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee); padding: 8px 0; overflow: hidden; white-space: nowrap;"></div>
         <!-- Home Tab -->
         <div class="tab-content active" id="home" role="tabpanel">
             <div class="hero">
@@ -1783,6 +1782,74 @@ border-radius: 5px;
     </footer>
     
     <script>
+// List of names and birthdays
+const birthdayList = [
+    { name: "Encik Edi Harianto Bin Suyadi", dob: "01/04/1974" },
+    { name: "Puan Suzie Binti Abdullah", dob: "28/03/1978" },
+    { name: "Puan Hamsiah Binti Rapaee", dob: "06/10/1983" },
+    { name: "Puan Nurhasimah Nabila Binti Abdullah", dob: "16/08/1975" },
+    { name: "Encik Daud Bin Ahmad", dob: "21/09/1977" },
+    { name: "EncikMohamad Norizan Bin Mohammad", dob: "15/07/1983" },
+    { name: "Puan Siti Aishah Binti Muhaladdin", dob: "20/05/1982" },
+    { name: "Ustazah Nor Hidayati Binti Wahab", dob: "21/07/1989" },
+    { name: "Ustazah Laila Syafinaz Binti Hassan", dob: "03/09/1996" },
+    { name: "Ustazah Siti Zulaikha Binti Hj Temrin", dob: "15/07/1997" },
+    { name: "Encik Khairul Nizam Bin Rajali", dob: "25/07/1999" },
+    { name: "Cik Khairul Nisa Binti Mohammad Baseri", dob: "07/05/1992" },
+    { name: "Puan Mimut Khairiyah Binti Kongli", dob: "28/08/1967" },
+	// Add more names and birthdays as needed
+];
+
+function checkBirthdays() {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // Months are 0-indexed
+    const currentDate = today.getDate();
+    
+    // Format today's date as DD/MM (ignoring year)
+    const todayFormatted = `${currentDate.toString().padStart(2, '0')}/${currentMonth.toString().padStart(2, '0')}`;
+    
+    // Find all birthdays that match today's date
+    const todaysBirthdays = birthdayList.filter(person => {
+        const dobParts = person.dob.split('/');
+        const dobFormatted = `${dobParts[0]}/${dobParts[1]}`; // DD/MM
+        return dobFormatted === todayFormatted;
+    });
+    
+    const marquee = document.getElementById('birthday-marquee');
+    
+    if (todaysBirthdays.length > 0) {
+        // Create birthday messages with bold names
+        const messages = todaysBirthdays.map(person => 
+            `Selamat Hari Ulang Tahun <strong style="font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">${person.name}</strong>! 🎉. Semoga dipanjangkan umur, dimurahkan rezeki dan dipermudahkan segala urusan.`
+        );
+        
+        // Join multiple birthdays with separator
+        const marqueeText = messages.join('  ✨  ');
+        
+        // Create single-line scrolling text
+        marquee.innerHTML = `
+            <div style="display: inline-block; padding-left: 100%; animation: scroll 25s linear infinite; font-size: 1.1em; color: #333;">
+                ${marqueeText}
+            </div>
+            <style>
+                @keyframes scroll {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-100%); }
+                }
+            </style>
+        `;
+        marquee.style.display = 'block';
+    } else {
+        marquee.style.display = 'none';
+    }
+}
+
+// Check birthdays when page loads
+checkBirthdays();
+
+// Optional: Check daily in case page stays open
+setInterval(checkBirthdays, 86400000); // Check once per day
+
         document.addEventListener('DOMContentLoaded', function() {
             // Tab functionality
             const tabs = document.querySelectorAll('.tab');
