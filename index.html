@@ -678,6 +678,89 @@ border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
 }
+
+        .video-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .video-main {
+            width: 60%;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+        
+        .video-item {
+            cursor: pointer;
+            transition: transform 0.3s;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .video-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .video-item img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+        
+        .video-caption {
+            padding: 10px;
+            background: #f5f5f5;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            width: 80%;
+            height: 80%;
+            max-width: 1200px;
+        }
+        
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .video-main {
+                width: 90%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -707,6 +790,59 @@ border-radius: 5px;
         </div>
     </div>
     <div id="birthday-marquee" style="background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee); padding: 8px 0; overflow: hidden; white-space: nowrap;"></div>
+
+    <!-- Video-Tab -->
+    <div class="tab-content" id="video">
+        <div class="video-gallery">
+            <!-- Main centered video -->
+            <div class="video-main">
+                <div class="video-item" onclick="openVideo('https://youtu.be/NxX519SHe90')">
+                    <img src="https://img.youtube.com/vi/NxX519SHe90/maxresdefault.jpg" alt="SK Abang Gesa" loading="lazy">
+                    <div class="video-caption">SK Abang Gesa</div>
+                </div>
+            </div>
+            
+            <!-- Other videos in 3 columns -->
+            <div class="video-grid">
+                <div class="video-item" onclick="openVideo('https://youtu.be/Ot89BfWvvUY')">
+                    <img src="https://img.youtube.com/vi/Ot89BfWvvUY/mqdefault.jpg" alt="Modified Interaction Display (MiDi)" loading="lazy">
+                    <div class="video-caption">Modified Interaction Display (MiDi)</div>
+                </div>
+                <div class="video-item" onclick="openVideo('https://youtu.be/z4ncFSOuu-Y')">
+                    <img src="https://img.youtube.com/vi/z4ncFSOuu-Y/mqdefault.jpg" alt="Eco Camp Anjuran NREB dan PPD Daro 2023" loading="lazy">
+                    <div class="video-caption">Eco Camp Anjuran NREB dan PPD Daro 2023</div>
+                </div>
+                <div class="video-item" onclick="openVideo('https://youtu.be/TnNrUbFNuas')">
+                    <img src="https://img.youtube.com/vi/TnNrUbFNuas/mqdefault.jpg" alt="Sambutan Hari Guru 2024" loading="lazy">
+                    <div class="video-caption">Sambutan Hari Guru 2024</div>
+                </div>
+                <div class="video-item" onclick="openVideo('https://youtu.be/cm52_1sfhlU')">
+                    <img src="https://img.youtube.com/vi/cm52_1sfhlU/mqdefault.jpg" alt="Sambutan Maulidur Rasul 2023" loading="lazy">
+                    <div class="video-caption">Sambutan Maulidur Rasul 2023</div>
+                </div>
+                <div class="video-item" onclick="openVideo('https://youtu.be/Th11ZH11tkg')">
+                    <img src="https://img.youtube.com/vi/Th11ZH11tkg/mqdefault.jpg" alt="Sambutan Hari Kemerdekaan 2023" loading="lazy">
+                    <div class="video-caption">Sambutan Hari Kemerdekaan 2023</div>
+                </div>
+                <div class="video-item" onclick="openVideo('https://youtu.be/g2pElv9Hfdo')">
+                    <img src="https://img.youtube.com/vi/g2pElv9Hfdo/mqdefault.jpg" alt="Majlis Hari Persaraan Cikgu Rosnah 2023" loading="lazy">
+                    <div class="video-caption">Majlis Hari Persaraan Cikgu Rosnah 2023</div>
+                </div>
+                <div class="video-item" onclick="openVideo('https://youtu.be/VXc7XCbzJeQ')">
+                    <img src="https://img.youtube.com/vi/VXc7XCbzJeQ/mqdefault.jpg" alt="Gesa Information Center (GiC)" loading="lazy">
+                    <div class="video-caption">Gesa Information Center (GiC)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video Modal -->
+        <div id="videoModal" class="modal" onclick="closeVideo()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <iframe id="videoFrame" width="100%" height="100%" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+            </div>
+        </div>
+    </div>
+
         <!-- Home Tab -->
         <div class="tab-content active" id="home" role="tabpanel">
             <div class="hero">
@@ -2106,7 +2242,8 @@ border-radius: 5px;
             </div>
         </div>
     </div>
-                  
+
+               
             <!-- Lightbox -->
             <div class="lightbox" id="lightbox">
                 <span class="close-lightbox" id="closeLightbox">&times;</span>
@@ -2409,6 +2546,21 @@ setInterval(checkBirthdays, 86400000); // Check once per day
         }
     });
 });
+
+        function openVideo(url) {
+            const videoId = url.split('/').pop();
+            const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            
+            document.getElementById('videoFrame').src = embedUrl;
+            document.getElementById('videoModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeVideo() {
+            document.getElementById('videoFrame').src = '';
+            document.getElementById('videoModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>
