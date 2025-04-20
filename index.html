@@ -6,43 +6,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sekolah Kita - Homepage</title>
     <style>
-.welcome-text {
-    font-size: clamp(2.5rem, 8vw, 4rem); /* Responsive font size */
-    margin: 0;
-    padding: 20px 0;
+.welcome-container {
     width: 100%;
-    letter-spacing: 2px;
+    text-align: center;
+    overflow: hidden; /* Ensures text doesn't overflow */
+}
+
+.welcome-text {
+    font-family: 'Sakana', sans-serif;
+    font-size: clamp(2rem, 6vw, 3.5rem); /* Slightly smaller to fit spaced letters */
+    margin: 0;
+    padding: 15px 0;
+    width: 100%;
     font-weight: bold;
     text-transform: uppercase;
-    /* Smoother Metallic Gold Gradient */
+    /* Force letter spacing to stretch text */
+    letter-spacing: 1.5em; /* Adjust this value to control stretching */
+    text-indent: 1.5em; /* Compensate for extra space in first letter */
+    /* Metallic Silver Gradient */
     background: linear-gradient(
         to right,
-        #CFB53B 0%,
-        #F6E7A1 25%,
-        #CFB53B 50%,
-        #F6E7A1 75%,
-        #CFB53B 100%
+        #C0C0C0 0%,
+        #E0E0E0 25%,
+        #FFFFFF 50%,
+        #E0E0E0 75%,
+        #C0C0C0 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    /* 3D Effect: Layered shadows (dark at bottom, light at top) */
+    /* 3D Effect */
     text-shadow: 
-        1px 1px 2px rgba(0, 0, 0, 0.3), /* Bottom shadow for depth */
-        0 0 10px rgba(207, 181, 59, 0.5), /* Gold glow */
-        -1px -1px 1px rgba(255, 255, 255, 0.2); /* Top highlight */
-    /* Smoother shine animation */
+        2px 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(255, 255, 255, 0.6),
+        -1px -1px 2px rgba(255, 255, 255, 0.8);
+    /* Animation */
     animation: shine 4s infinite linear;
-    background-size: 200% auto; /* Double width for smoother transition */
+    background-size: 200% auto;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 @keyframes shine {
-    0% {
-        background-position: 0% center; /* Start from left */
-    }
-    100% {
-        background-position: 200% center; /* Move to right */
-    }
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
 }
 .month-filter {
     margin: 20px 0;
@@ -885,7 +891,7 @@ border-radius: 5px;
 <div class="tab-content active" id="home" role="tabpanel">
     <div class="hero">
         <div class="welcome-container">
-            <h2 class="welcome-text">Selamat Datang</h2>
+            <h2 class="welcome-text">SELAMAT DATANG</h2>
             <p>Ke Laman Web Sekolah Kebangsaan Abang Gesa</p>
         </div>
     </div>
