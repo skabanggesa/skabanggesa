@@ -7,35 +7,41 @@
     <title>Sekolah Kita - Homepage</title>
     <style>
 .welcome-text {
-    font-size: 4rem; /* Large text size */
+    font-size: clamp(2.5rem, 8vw, 4rem); /* Responsive font size */
     margin: 0;
     padding: 20px 0;
     width: 100%;
-    letter-spacing: 2px; /* Adds spacing between letters */
-    font-weight: bold; /* Makes text thicker */
-    text-transform: uppercase; /* Forces uppercase letters */
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+    /* Smoother Metallic Gold Gradient */
     background: linear-gradient(
         to right,
         #CFB53B 0%,
-        #F6E7A1 20%,
-        #CFB53B 40%,
-        #CFB53B 60%,
-        #F6E7A1 80%,
+        #F6E7A1 25%,
+        #CFB53B 50%,
+        #F6E7A1 75%,
         #CFB53B 100%
     );
-    -webkit-background-clip: text; /* For Safari/Chrome */
-    background-clip: text; /* Clips background to text shape */
-    color: transparent; /* Makes text color transparent (shows gradient) */
-    text-shadow: 0 0 10px rgba(207, 181, 59, 0.3); /* Soft gold glow */
-    animation: shine 3s infinite linear; /* Shining animation */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* 3D Effect: Layered shadows (dark at bottom, light at top) */
+    text-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.3), /* Bottom shadow for depth */
+        0 0 10px rgba(207, 181, 59, 0.5), /* Gold glow */
+        -1px -1px 1px rgba(255, 255, 255, 0.2); /* Top highlight */
+    /* Smoother shine animation */
+    animation: shine 4s infinite linear;
+    background-size: 200% auto; /* Double width for smoother transition */
 }
 
 @keyframes shine {
     0% {
-        background-position: -200px; /* Starts gradient off-screen */
+        background-position: 0% center; /* Start from left */
     }
     100% {
-        background-position: 200px; /* Moves gradient across text */
+        background-position: 200% center; /* Move to right */
     }
 }
 .month-filter {
