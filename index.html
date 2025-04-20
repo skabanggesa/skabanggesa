@@ -13,43 +13,43 @@
 }
 
 .welcome-text {
-    font-family: 'Sakana', sans-serif;
-    font-size: clamp(3rem, 9vw, 5rem); /* Larger font size for visibility */
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 10vw, 6rem);
     margin: 0;
-    padding: 20px 0;
+    padding: 15px 0;
     width: 100%;
-    font-weight: bold;
-    text-transform: uppercase;
-    /* Wider letter spacing */
-    letter-spacing: 0.8em; /* Slightly reduced for better shine visibility */
-    text-indent: 0.8em; /* Matches letter-spacing */
-    /* Metallic Silver Gradient (Higher contrast) */
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    
+    /* Base Metallic Silver Color */
+    color: #c0c0c0;
+    
+    /* Shine Effect (Lighter Silver Overlay) */
     background: linear-gradient(
         to right,
-        #a0a0a0 0%,
-        #ffffff 30%,
-        #a0a0a0 60%,
-        #ffffff 90%,
-        #a0a0a0 100%
+        transparent 0%,
+        rgba(255, 255, 255, 0.7) 30%,
+        transparent 60%
     );
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
-    /* Stronger 3D shadows */
+    
+    /* 3D Depth */
     text-shadow: 
-        3px 3px 6px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(255, 255, 255, 0.7),
-        -2px -2px 3px rgba(255, 255, 255, 0.9);
-    /* Faster + Wider Animation */
+        2px 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 8px rgba(255, 255, 255, 0.3);
+    
+    /* Smooth Shine Animation */
     animation: shine 4s infinite linear;
-    background-size: 300% auto; /* Wider gradient for smoother shine */
+    background-size: 200% auto;
     white-space: nowrap;
-    display: inline-block; /* Ensures gradient covers stretched text */
+    display: inline-block;
 }
 
 @keyframes shine {
-    0% { background-position: 0% center; }
-    100% { background-position: 300% center; } /* Matches background-size */
+    0% { background-position: 150% center; }
+    100% { background-position: -50% center; }
 }
 .month-filter {
     margin: 20px 0;
