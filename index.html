@@ -6,6 +6,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sekolah Kita - Homepage</title>
     <style>
+.welcome-text {
+    font-size: 4rem; /* Large text size */
+    margin: 0;
+    padding: 20px 0;
+    width: 100%;
+    letter-spacing: 2px; /* Adds spacing between letters */
+    font-weight: bold; /* Makes text thicker */
+    text-transform: uppercase; /* Forces uppercase letters */
+    background: linear-gradient(
+        to right,
+        #CFB53B 0%,
+        #F6E7A1 20%,
+        #CFB53B 40%,
+        #CFB53B 60%,
+        #F6E7A1 80%,
+        #CFB53B 100%
+    );
+    -webkit-background-clip: text; /* For Safari/Chrome */
+    background-clip: text; /* Clips background to text shape */
+    color: transparent; /* Makes text color transparent (shows gradient) */
+    text-shadow: 0 0 10px rgba(207, 181, 59, 0.3); /* Soft gold glow */
+    animation: shine 3s infinite linear; /* Shining animation */
+}
+
+@keyframes shine {
+    0% {
+        background-position: -200px; /* Starts gradient off-screen */
+    }
+    100% {
+        background-position: 200px; /* Moves gradient across text */
+    }
+}
 .month-filter {
     margin: 20px 0;
     color: white;
@@ -843,14 +875,15 @@ border-radius: 5px;
         </div>
     </div>
 
-        <!-- Home Tab -->
-        <div class="tab-content active" id="home" role="tabpanel">
-            <div class="hero">
-                <div>
-                    <h2>Selamat Datang</h2>
-                    <p>Ke Laman Web Sekolah Kebangsaan Abang Gesa</p>
-                </div>
-            </div>
+<!-- Home Tab -->
+<div class="tab-content active" id="home" role="tabpanel">
+    <div class="hero">
+        <div class="welcome-container">
+            <h2 class="welcome-text">Selamat Datang</h2>
+            <p>Ke Laman Web Sekolah Kebangsaan Abang Gesa</p>
+        </div>
+    </div>
+</div>
             
 		<h2 style="color: white;">Berita & Pengumuman Terkini</h2>
             <div class="card-container">
