@@ -1769,33 +1769,36 @@ border-radius: 5px;
         </div>
     </div>
    
-<!-- Google Sheet Graph -->
-<div style="margin-top: 30px;">
-    <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
-        <!-- First Report (600px height) -->
-        <div style="flex: 1 1 48%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
+<!-- Best Performer Dashboard -->
+<div style="margin-top: 30px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+    
+    <!-- First Row: e-RPH Delivery -->
+    <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-bottom: 30px;">
+        <!-- e-RPH Delivery Report -->
+        <div style="flex: 1 1 100%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
             <div style="padding: 15px 20px; background: #3498db; color: white;">
-                <h3 style="margin: 0; font-size: 1.1rem;text-align: center;">GRAF REKOD PENGHANTARAN e-RPH 2.1</h3>
-            </div>
-            <div style="position: relative; height: 600px; overflow: hidden;"> <!-- Changed to fixed height -->
-               <iframe 
-    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTFU6Yc106OFhx54o-UuF0BcsU_D9bHkaXJuv3-l7rcxxbqkD-5UrKa1MmhUS2MWE8KSumbH64W6Wb7/pubhtml?gid=1958504706&amp;single=true&amp;widget=true&amp;headers=false&amp;chrome=false&amp;range=A1:F20" 
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
-    allowfullscreen
-    loading="lazy">
-</iframe>
-            </div>
-        </div>
-	    
-<div style="margin-top: 30px;">
-    <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
-        <!-- First Report (Weekly) -->
-        <div style="flex: 1 1 48%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
-            <div style="padding: 15px 20px; background: #3498db; color: white;">
-                <h3 style="margin: 0; font-size: 1.1rem;text-align: center;">Jumlah Penghantaran Mengikut Minggu</h3>
+                <h3 style="margin: 0; font-size: 1.1rem; text-align: center;">GRAF REKOD PENGHANTARAN e-RPH 2.1</h3>
             </div>
             <div style="position: relative; height: 600px; overflow: hidden;">
-               <iframe 
+                <iframe 
+                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTFU6Yc106OFhx54o-UuF0BcsU_D9bHkaXJuv3-l7rcxxbqkD-5UrKa1MmhUS2MWE8KSumbH64W6Wb7/pubhtml?gid=1958504706&amp;single=true&amp;widget=true&amp;headers=false&amp;chrome=false&amp;range=A1:F20" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Row: Weekly and Monthly Delivery -->
+    <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-bottom: 30px;">
+        <!-- Weekly Delivery -->
+        <div style="flex: 1 1 48%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="padding: 15px 20px; background: #3498db; color: white;">
+                <h3 style="margin: 0; font-size: 1.1rem; text-align: center;">Jumlah Penghantaran Mengikut Minggu</h3>
+            </div>
+            <div style="position: relative; height: 600px; overflow: hidden;">
+                <iframe 
                     src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTFU6Yc106OFhx54o-UuF0BcsU_D9bHkaXJuv3-l7rcxxbqkD-5UrKa1MmhUS2MWE8KSumbH64W6Wb7/pubhtml?gid=1958504706&amp;single=true&amp;widget=true&amp;headers=false&amp;chrome=false&amp;range=A21:F39" 
                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
                     allowfullscreen
@@ -1804,13 +1807,13 @@ border-radius: 5px;
             </div>
         </div>
 
-        <!-- Second Report (Monthly) -->
+        <!-- Monthly Delivery -->
         <div style="flex: 1 1 48%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
             <div style="padding: 15px 20px; background: #3498db; color: white;">
-                <h3 style="margin: 0; font-size: 1.1rem;text-align: center;">Jumlah Penghantaran Mengikut Bulan</h3>
+                <h3 style="margin: 0; font-size: 1.1rem; text-align: center;">Jumlah Penghantaran Mengikut Bulan</h3>
             </div>
             <div style="position: relative; height: 600px; overflow: hidden;">
-               <iframe 
+                <iframe 
                     src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTFU6Yc106OFhx54o-UuF0BcsU_D9bHkaXJuv3-l7rcxxbqkD-5UrKa1MmhUS2MWE8KSumbH64W6Wb7/pubhtml?gid=1958504706&amp;single=true&amp;widget=true&amp;headers=false&amp;chrome=false&amp;range=A41:F59" 
                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
                     allowfullscreen
@@ -1818,13 +1821,14 @@ border-radius: 5px;
                 </iframe>
             </div>
         </div>
-  
-<div style="margin-top: 30px;">
+    </div>
+
+    <!-- Third Row: Staff Attendance -->
     <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
-        <!-- Third Report (Staff Attendance) -->
-        <div style="flex: 1 1 48%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
+        <!-- Staff Attendance -->
+        <div style="flex: 1 1 100%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
             <div style="padding: 15px 20px; background: #3498db; color: white;">
-                <h3 style="margin: 0; font-size: 1.1rem;text-align: center;">ANALISIS KEHADIRAN STAF</h3>
+                <h3 style="margin: 0; font-size: 1.1rem; text-align: center;">ANALISIS KEHADIRAN STAF</h3>
             </div>
             <div style="position: relative; height: 650px; overflow: hidden;">
                 <iframe 
@@ -1837,24 +1841,7 @@ border-radius: 5px;
         </div>
     </div>
 </div>
-
-        <!-- Second Report (650px height) -->
-        <div style="flex: 1 1 48%; min-width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
-            <div style="padding: 15px 20px; background: #3498db; color: white;">
-                <h3 style="margin: 0; font-size: 1.1rem;text-align: center;">ANALISIS KEHADIRAN STAF</h3>
-            </div>
-            <div style="position: relative; height: 650px; overflow: hidden;"> <!-- Changed to fixed height -->
-                <iframe 
-                    src="https://lookerstudio.google.com/embed/reporting/3541bfca-cb2f-43b7-ae63-74b44baa8366/page/p_ole8x9wttc" 
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
-                    allowfullscreen
-                    loading="lazy">
-                </iframe>
-            </div>
-        </div>
-    </div>
-</div>
-
+	
     <!-- Rest of the Kurikulum content remains the same -->
     <div class="card-container">
         <div class="card">
