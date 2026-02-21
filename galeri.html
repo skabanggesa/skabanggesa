@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK Abang Gesa - Galeri</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+<header>
+    <div class="welcome-text" id="teksSapaan">Sistem Maklumat Sekolah</div>
+    <div class="admin-controls" style="display:flex; align-items:center;">
+        <button id="btnLogMasuk" class="admin-login-btn" onclick="bukaModal('modalLogin')">🔒 Log Masuk</button>
+        <button id="btnLogKeluar" class="admin-logout-btn" onclick="logKeluar()" style="display:none;">🔓 Log Keluar</button>
+    </div>
+</header>
+
+<nav>
+<div class="brand">
+        <img src="logo.png" alt="Logo SK Abang Gesa" class="sekolah-logo">
+    <div class="brand">SK ABANG GESA</div>
+    <a href="index.html">🏠 <span>Utama</span></a>
+    <a href="organisasi.html">👥 <span>Organisasi</span></a>
+    <a href="kurikulum.html">📚 <span>Kurikulum</span></a>
+    <a href="hem.html">🏫 <span>HEM</span></a>
+    <a href="kokurikulum.html">🏆 <span>Kokurikulum</span></a>
+    <a href="galeri.html" class="active">📸 <span>Galeri</span></a>
+    <a href="video.html">🎥 <span>Video</span></a>
+</nav>
+
+<div class="content-container">
+    <h2 style="color: var(--text-dark); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;">📸 Galeri Sekolah</h2>
+    
+    <button class="btn-drive" onclick="window.open('https://drive.google.com/drive/folders/1N5VXKFEzA5SlLaX_OqvJOZkYPw_72KSH', '_blank')">
+        📁 Buka Folder Google Drive
+    </button>
+    
+    <button class="btn-add" id="btnTambahGambar" onclick="bukaModal('modalTambahGambar')" style="display:none; margin-bottom: 20px;">
+        + Muat Naik Gambar
+    </button>
+
+    <div class="grid-video" id="senarai-album">
+        <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: #7f8c8d;">Sistem sedang menarik galeri dari Google Drive...</div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalLogin">
+    <div class="modal-form-box" style="text-align: center; max-width: 400px;">
+        <h3 style="margin-top:0;">🔒 Log Masuk Sistem</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:-10px;">Sila masukkan 6 digit kod akses (No. E-mel MOE anda).</p>
+        <input type="password" id="katalaluanAdmin" placeholder="------" style="text-align: center; letter-spacing: 5px; font-size: 1.2rem;" maxlength="8">
+        <div style="display:flex; gap:10px;">
+            <button id="btnSahkanLogin" onclick="sahkanLogMasuk()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Log Masuk</button>
+            <button onclick="tutupModal('modalLogin')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalTambahGambar">
+    <div class="modal-form-box">
+        <h3 style="margin-top:0;">Muat Naik ke Galeri</h3>
+        <p style="font-size:0.85rem; color:#7f8c8d; margin-top:-10px;">Jika nama album belum ada, sistem akan mencipta folder baharu. Jika sudah ada, gambar akan ditambah ke album tersebut.</p>
+        
+        <label>Nama Album / Program:</label>
+        <input type="text" id="album_nama" placeholder="Cth: Hari Sukan Negara 2026">
+        
+        <label>Pilih Gambar (Boleh pilih banyak serentak):</label>
+        <input type="file" id="album_gambar" accept="image/*" multiple>
+        
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button onclick="simpanGambar()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Muat Naik</button>
+            <button onclick="tutupModal('modalTambahGambar')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+        </div>
+        <div id="status-muatnaik" class="status-text" style="margin-top:10px; color:var(--primary-color); font-weight:600; text-align:center;"></div>
+    </div>
+</div>
+
+<script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw92WpecZqsG0ODJwg_5D4Sue7njtzFTHSeibxnq7aSEFWy0V3Itx8eXoBfrpR8chu9/exec";
+    
+    let isAdmin = localStorage.getItem('isAdminSekolah') === 'true';
+    let namaAdmin = localStorage.getItem('namaAdminSekolah') || '';
+
+    // --- FUNGSI KAWALAN PAPARAN (UI) ---
+    function kemaskiniUI() {
+        document.getElementById('btnLogMasuk').style.display = isAdmin ? 'none' : 'inline-block';
+        document.getElementById('btnLogKeluar').style.display = isAdmin ? 'inline-block' : 'none';
+        
+        document.getElementById('btnTambahGambar').style.display = isAdmin ? 'inline-block' : 'none';
+        
+        let teksSapaan = document.getElementById('teksSapaan');
+        if (teksSapaan) {
+            teksSapaan.innerText = isAdmin && namaAdmin ? "Selamat Datang, " + namaAdmin : "Sistem Maklumat Sekolah";
+            teksSapaan.style.color = isAdmin ? "var(--primary-color)" : "var(--text-muted)";
+        }
+        
+        let butangPadam = document.querySelectorAll('.btn-delete');
+        butangPadam.forEach(el => el.style.display = isAdmin ? 'block' : 'none');
+    }
+
+    function bukaModal(idModal) { 
+        document.getElementById(idModal).style.display = 'flex'; 
+        if(idModal === 'modalTambahGambar') document.getElementById('status-muatnaik').innerText = "";
+    }
+    function tutupModal(idModal) { document.getElementById(idModal).style.display = 'none'; }
+
+    // --- FUNGSI LOG MASUK ---
+    async function sahkanLogMasuk() {
+        const passcode = document.getElementById('katalaluanAdmin').value.trim();
+        if (!passcode) return alert("Sila masukkan kod laluan.");
+
+        const btnLogin = document.getElementById('btnSahkanLogin');
+        const teksAsal = btnLogin.innerText;
+        btnLogin.innerText = "Mengesahkan..."; btnLogin.disabled = true;
+
+        try {
+            const response = await fetch(`${WEB_APP_URL}?action=verifyLogin&passcode=${passcode}`);
+            const result = await response.json();
+            
+            if (result.status === "success") {
+                localStorage.setItem('isAdminSekolah', 'true');
+                localStorage.setItem('namaAdminSekolah', result.data.namaGuru);
+                isAdmin = true; namaAdmin = result.data.namaGuru;
+                
+                tutupModal('modalLogin'); document.getElementById('katalaluanAdmin').value = '';
+                kemaskiniUI(); muatTurunGaleri();
+            } else { alert("Kod akses tidak sah. Sila guna no. e-mel MOE yang betul."); }
+        } catch (error) { alert("Ralat sistem sambungan."); } 
+        finally { btnLogin.innerText = teksAsal; btnLogin.disabled = false; }
+    }
+    document.getElementById('katalaluanAdmin').addEventListener('keypress', function (e) { if (e.key === 'Enter') sahkanLogMasuk(); });
+
+    function logKeluar() { 
+        localStorage.setItem('isAdminSekolah', 'false'); localStorage.removeItem('namaAdminSekolah');
+        isAdmin = false; namaAdmin = ''; 
+        kemaskiniUI(); muatTurunGaleri(); 
+    }
+
+    // --- BACA TERUS DARI GOOGLE DRIVE ---
+    async function muatTurunGaleri() {
+        const bekasAlbum = document.getElementById('senarai-album');
+        bekasAlbum.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #7f8c8d;">Memeriksa Google Drive... (Mungkin ambil sedikit masa)</div>`;
+        
+        try {
+            const response = await fetch(`${WEB_APP_URL}?action=getAutoGallery`);
+            const result = await response.json();
+            bekasAlbum.innerHTML = ""; 
+            
+            if (result.status === "success" && result.data.length > 0) {
+                result.data.forEach(album => {
+                    let idFolder = album.id;
+                    let tajuk = album.tajuk;
+                    let tarikh = album.tarikh;
+                    
+                    let paparanImej = album.urlGambar ? `https://drive.google.com/thumbnail?id=${album.urlGambar}&sz=w800` : 'https://via.placeholder.com/300x200?text=Tiada+Gambar+Dalam+Folder';
+                    
+                    bekasAlbum.innerHTML += `
+                        <div class="card" style="overflow:hidden;">
+                            <img src="${paparanImej}" style="width:100%; height:200px; object-fit:cover;" alt="${tajuk}" onerror="this.src='https://via.placeholder.com/300x200?text=Imej+Dihalang+Akses'">
+                            <div style="padding:15px;">
+                                <div style="font-weight:bold; font-size:1.1rem; margin-bottom:5px; color:var(--text-dark);">${tajuk}</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;">📅 Dicipta: ${tarikh}</div>
+                                <button class="btn-delete" style="width:100%; display:${isAdmin ? 'block' : 'none'};" onclick="padamAlbum('${idFolder}', '${tajuk}')">🗑️ Padam Folder</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                bekasAlbum.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #7f8c8d;">Tiada album/folder dijumpai di dalam Drive.</div>`;
+            }
+            kemaskiniUI();
+        } catch (error) { 
+            bekasAlbum.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: red;">Gagal menyambung ke Drive.</div>`; 
+        }
+    }
+
+    // --- MUAT NAIK BERBILANG GAMBAR ---
+    async function simpanGambar() {
+        const namaAlbum = document.getElementById("album_nama").value.trim();
+        const inputGambar = document.getElementById("album_gambar");
+        const statusTeks = document.getElementById('status-muatnaik');
+        
+        if (!namaAlbum) return alert("Sila masukkan nama album.");
+        if (inputGambar.files.length === 0) return alert("Sila pilih sekurang-kurangnya 1 gambar.");
+        
+        const senaraiFail = inputGambar.files;
+        
+        for (let i = 0; i < senaraiFail.length; i++) {
+            statusTeks.innerText = `⏳ Memuat naik gambar ${i + 1} daripada ${senaraiFail.length}...`;
+            
+            let fail = senaraiFail[i];
+            let base64Data = await tukarKeBase64(fail);
+            
+            let formData = new URLSearchParams();
+            formData.append("action", "addGalleryItem"); 
+            formData.append("albumName", namaAlbum);
+            formData.append("fileName", fail.name);
+            formData.append("fileType", fail.type);
+            formData.append("fileData", base64Data);
+            
+            try {
+                await fetch(WEB_APP_URL, { method: 'POST', body: formData });
+            } catch (error) {
+                console.error("Gagal muat naik: " + fail.name);
+            }
+        }
+        
+        alert(`Berjaya! ${senaraiFail.length} gambar dimuat naik ke album: ${namaAlbum}`);
+        tutupModal('modalTambahGambar');
+        document.getElementById("album_nama").value = "";
+        inputGambar.value = "";
+        statusTeks.innerText = "";
+        muatTurunGaleri(); 
+    }
+
+    function tukarKeBase64(fail) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(fail);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    // --- PADAM FOLDER ALBUM DARI DRIVE ---
+    async function padamAlbum(idFolder, namaAlbum) {
+        if (!confirm(`AMARAN! Anda akan memadam KESELURUHAN FOLDER "${namaAlbum}" beserta semua gambar di dalamnya dari Google Drive. Teruskan?`)) return;
+        
+        const formData = new URLSearchParams({ action: "deleteFolder", id: idFolder });
+        
+        try {
+            document.getElementById('senarai-album').innerHTML = `<div style="grid-column: 1 / -1; text-align: center;">Memadam folder dari Drive...</div>`;
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData });
+            muatTurunGaleri();
+        } catch (error) { alert("Ralat semasa memadam."); }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        kemaskiniUI();
+        muatTurunGaleri();
+    });
+</script>
+</body>
+</html>

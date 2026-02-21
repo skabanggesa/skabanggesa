@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK Abang Gesa - Organisasi</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+<header>
+    <div class="welcome-text" id="teksSapaan">Sistem Maklumat Sekolah</div>
+    <div class="admin-controls" style="display:flex; align-items:center;">
+        <button id="btnLogMasuk" class="admin-login-btn" onclick="bukaModal('modalLogin')">🔒 Log Masuk</button>
+        <button id="btnLogKeluar" class="admin-logout-btn" onclick="logKeluar()" style="display:none;">🔓 Log Keluar</button>
+    </div>
+</header>
+
+<nav>
+<div class="brand">
+        <img src="logo.png" alt="Logo SK Abang Gesa" class="sekolah-logo">
+    <div class="brand">SK ABANG GESA</div>
+    <a href="index.html">🏠 <span>Utama</span></a>
+    <a href="organisasi.html" class="active">👥 <span>Organisasi</span></a>
+    <a href="kurikulum.html">📚 <span>Kurikulum</span></a>
+    <a href="hem.html">🏫 <span>HEM</span></a>
+    <a href="kokurikulum.html">🏆 <span>Kokurikulum</span></a>
+    <a href="galeri.html">📸 <span>Galeri</span></a>
+    <a href="video.html">🎥 <span>Video</span></a>
+</nav>
+
+<div class="content-container">
+    <h2 style="color: var(--text-dark); text-align: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;">Carta Organisasi & Warga Sekolah</h2>
+    <p style="text-align: center; color: var(--text-muted);">Klik pada profil staf untuk melihat biodata penuh.</p>
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+        <button class="btn-add" id="btnTambahOrg" onclick="bukaBorangTambah()" style="display:none;">➕ Tambah Profil Staf</button>
+    </div>
+    
+    <div id="ruangan-organisasi" class="org-grid">
+        <div style="width: 100%; text-align: center; color: #7f8c8d;">Sistem sedang menarik maklumat organisasi...</div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalLogin">
+    <div class="modal-form-box" style="text-align: center; max-width: 400px;">
+        <h3 style="margin-top:0;">🔒 Log Masuk Sistem</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:-10px;">Sila masukkan 6 digit kod akses (No. E-mel MOE anda).</p>
+        <input type="password" id="katalaluanAdmin" placeholder="------" style="text-align: center; letter-spacing: 5px; font-size: 1.2rem;" maxlength="8">
+        <div style="display:flex; gap:10px;">
+            <button id="btnSahkanLogin" onclick="sahkanLogMasuk()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Log Masuk</button>
+            <button onclick="tutupModal('modalLogin')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalTambahOrg">
+    <div class="modal-form-box" style="max-width: 800px;">
+        <h3 id="tajukBorang" style="margin-top:0; color:var(--text-dark); border-bottom: 2px solid var(--primary-color); padding-bottom:10px;">Borang Biodata Staf</h3>
+        
+        <div class="form-grid">
+            <div><label>Nama Penuh:</label><input type="text" id="b_nama" placeholder="Cth: ALLAWEE BIN HJ SIDEK"></div>
+            <div><label>Jawatan Utama / Hakiki:</label><input type="text" id="b_jawatan" placeholder="Cth: GURU BESAR"></div>
+            <div><label>Susunan Carta (1 = Paling Atas):</label><input type="number" id="b_susunan" value="1"></div>
+            <div>
+                <label>Muat Naik Gambar Wajah:</label>
+                <input type="file" id="b_gambar" accept="image/*">
+                <small id="notisGambarEdit" style="color:#e67e22; display:none; font-weight:bold;">*Biarkan kosong jika tidak mahu tukar gambar asal.</small>
+            </div>
+        </div>
+
+        <h4 style="margin-bottom: 5px; color:var(--primary-color);">Maklumat Peribadi</h4>
+        <div class="form-grid">
+            <div><label>Email Rasmi:</label><input type="email" id="b_email" placeholder="Cth: g-1234@moe-dl.edu.my"></div>
+            <div><label>Tempat Lahir:</label><input type="text" id="b_tempatLahir" placeholder="Cth: SARAWAK"></div>
+            <div><label>Tarikh Lahir:</label><input type="date" id="b_tarikhLahir" onchange="kiraUmur()"></div>
+            <div><label>Umur (Auto-Kira):</label><input type="text" id="b_umur" readonly style="background:#f1f5f9; font-weight:bold;"></div>
+        </div>
+
+        <h4 style="margin-bottom: 5px; color:var(--primary-color);">Maklumat Perkhidmatan</h4>
+        <div class="form-grid">
+            <div><label>Gred Jawatan:</label><input type="text" id="b_gred" placeholder="Cth: DG41"></div>
+            <div><label>Kelulusan Akademik:</label><input type="text" id="b_akademik" placeholder="Cth: SIJIL PELAJARAN MALAYSIA"></div>
+            <div><label>Kelayakan Ikhtisas:</label><input type="text" id="b_ikhtisas" placeholder="Cth: IJAZAH SARJANA MUDA"></div>
+            <div><label>Institusi Pengajian:</label><input type="text" id="b_institusi" placeholder="Cth: OPEN UNIVERSITI MALAYSIA"></div>
+            <div><label>Opsyen 1:</label><input type="text" id="b_opsyen1" placeholder="Cth: PENDIDIKAN ISLAM"></div>
+            <div><label>Opsyen 2:</label><input type="text" id="b_opsyen2" placeholder="Cth: ULUM AL-QURAN"></div>
+            <div><label>Tarikh Lantikan:</label><input type="date" id="b_lantikan"></div>
+            <div><label>Tarikh Berpencen:</label><input type="date" id="b_pencen"></div>
+        </div>
+
+        <h4 style="margin-bottom: 5px; color:var(--primary-color);">Sejarah Perkhidmatan</h4>
+        <table class="sejarah-table" id="jadualSejarah">
+            <thead>
+                <tr><th>Jawatan</th><th>Gred</th><th>Sekolah/Institusi</th><th>Tempoh</th><th>Padam</th></tr>
+            </thead>
+            <tbody id="badanSejarah"></tbody>
+        </table>
+        <button class="btn-tambah-baris" onclick="tambahBarisSejarah('', '', '', '')">+ Tambah Baris</button>
+
+        <div style="display:flex; gap:10px; margin-top:25px;">
+            <button id="btnSimpanBorang" onclick="simpanOrganisasi()" style="flex:1; padding:12px; background:#10b981; color:white; border:none; cursor:pointer; font-weight:bold; font-size:1rem; border-radius:6px;">💾 Simpan Profil</button>
+            <button onclick="tutupModal('modalTambahOrg')" style="flex:1; padding:12px; background:#95a5a6; color:white; border:none; cursor:pointer; font-weight:bold; font-size:1rem; border-radius:6px;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalPaparBiodata" onclick="tutupModalLuar(event, 'modalPaparBiodata')">
+    <div class="modal-form-box" style="max-width: 800px; padding: 20px; position:relative;">
+        <button onclick="tutupModal('modalPaparBiodata')" style="position:absolute; right:15px; top:15px; background:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-weight:bold;">X Tutup</button>
+        <div id="ruanganPaparBiodata" style="margin-top: 20px;"></div>
+    </div>
+</div>
+
+<script>
+    // MASUKKAN URL WEB APP ANDA DI SINI
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw92WpecZqsG0ODJwg_5D4Sue7njtzFTHSeibxnq7aSEFWy0V3Itx8eXoBfrpR8chu9/exec";
+
+    let isAdmin = localStorage.getItem('isAdminSekolah') === 'true';
+    let namaAdmin = localStorage.getItem('namaAdminSekolah') || '';
+    
+    // Pembolehubah Global (Wajib untuk fungsi Edit)
+    let senaraiOrganisasi = []; 
+    let modKemaskini = false;
+    let idSedangDikemaskini = null;
+
+    // --- FUNGSI KAWALAN UI & LOG MASUK ---
+    function kemaskiniUI() {
+        document.getElementById('btnLogMasuk').style.display = isAdmin ? 'none' : 'inline-block';
+        document.getElementById('btnLogKeluar').style.display = isAdmin ? 'inline-block' : 'none';
+        
+        let teksSapaan = document.getElementById('teksSapaan');
+        if (teksSapaan) {
+            teksSapaan.innerText = isAdmin && namaAdmin ? "Selamat Datang, " + namaAdmin : "Sistem Maklumat Sekolah";
+            teksSapaan.style.color = isAdmin ? "var(--primary-color)" : "var(--text-muted)";
+        }
+        
+        let btnTambah = document.getElementById('btnTambahOrg');
+        if(btnTambah) btnTambah.style.display = isAdmin ? 'inline-block' : 'none';
+    }
+
+    function bukaModal(idModal) { document.getElementById(idModal).style.display = 'flex'; }
+    function tutupModal(idModal) { document.getElementById(idModal).style.display = 'none'; }
+    function tutupModalLuar(event, idModal) { if(event.target.id === idModal) tutupModal(idModal); }
+
+    async function sahkanLogMasuk() {
+        const passcode = document.getElementById('katalaluanAdmin').value.trim();
+        if (!passcode) return alert("Sila masukkan kod laluan.");
+
+        const btnLogin = document.getElementById('btnSahkanLogin');
+        const teksAsal = btnLogin.innerText;
+        btnLogin.innerText = "Mengesahkan..."; btnLogin.disabled = true;
+
+        try {
+            const response = await fetch(`${WEB_APP_URL}?action=verifyLogin&passcode=${passcode}`);
+            const result = await response.json();
+            
+            if (result.status === "success") {
+                localStorage.setItem('isAdminSekolah', 'true');
+                localStorage.setItem('namaAdminSekolah', result.data.namaGuru);
+                isAdmin = true; namaAdmin = result.data.namaGuru;
+                
+                tutupModal('modalLogin'); document.getElementById('katalaluanAdmin').value = '';
+                kemaskiniUI(); muatTurunOrganisasi();
+            } else { alert("Kod akses tidak sah. Sila guna no. e-mel MOE yang betul."); }
+        } catch (error) { alert("Ralat sistem sambungan."); } 
+        finally { btnLogin.innerText = teksAsal; btnLogin.disabled = false; }
+    }
+    document.getElementById('katalaluanAdmin').addEventListener('keypress', function (e) { if (e.key === 'Enter') sahkanLogMasuk(); });
+
+    function logKeluar() { 
+        localStorage.setItem('isAdminSekolah', 'false'); localStorage.removeItem('namaAdminSekolah');
+        isAdmin = false; namaAdmin = ''; 
+        kemaskiniUI(); muatTurunOrganisasi();
+    }
+
+    // --- FUNGSI ALATAN BORANG ---
+    function kiraUmur() {
+        let tarikhLahir = document.getElementById("b_tarikhLahir").value;
+        if (tarikhLahir) {
+            let diff = Date.now() - new Date(tarikhLahir).getTime();
+            let umurDate = new Date(diff); 
+            document.getElementById("b_umur").value = Math.abs(umurDate.getUTCFullYear() - 1970) + " TAHUN";
+        }
+    }
+
+    function kosongkanJadualSejarah() { document.getElementById('badanSejarah').innerHTML = ''; }
+
+    function tambahBarisSejarah(j = '', g = '', s = '', t = '') {
+        let tbody = document.getElementById('badanSejarah');
+        let tr = document.createElement('tr');
+        tr.className = "sejarah-row";
+        tr.innerHTML = `
+            <td><input type="text" value="${j}" placeholder="Jawatan"></td>
+            <td><input type="text" value="${g}" placeholder="Gred"></td>
+            <td><input type="text" value="${s}" placeholder="Sekolah"></td>
+            <td><input type="text" value="${t}" placeholder="Tempoh"></td>
+            <td style="text-align:center;"><button onclick="buangBaris(this)" class="btn-delete" style="padding:4px 8px; font-weight:bold;">X</button></td>
+        `;
+        tbody.appendChild(tr);
+    }
+    function buangBaris(btn) { btn.closest('tr').remove(); }
+
+    function formatTarikh(tarikhString) {
+        if (!tarikhString) return "-";
+        let d = new Date(tarikhString);
+        if (isNaN(d)) return tarikhString;
+        return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+    }
+
+    // --- BACA & PAPAR KAD ORGANISASI ---
+    async function muatTurunOrganisasi() {
+        kemaskiniUI();
+        const container = document.getElementById('ruangan-organisasi');
+        container.innerHTML = "<div style='text-align:center; width:100%; color:#7f8c8d;'>Memuat turun carta organisasi...</div>";
+
+        try {
+            const response = await fetch(`${WEB_APP_URL}?sheetName=Organisasi`);
+            const result = await response.json();
+            
+            if (result.status === "success" && result.data.length > 0) {
+                senaraiOrganisasi = result.data; 
+                
+                let htmlGB = ""; let htmlPK = ""; let htmlGuru = ""; let htmlStaf = "";
+
+                senaraiOrganisasi.sort((a,b) => parseInt(a['Susunan']||99) - parseInt(b['Susunan']||99)).forEach(org => {
+                    let idRekod = org['ID'];
+                    
+                    let adminHTML = isAdmin ? `
+                        <div class="card-admin-controls" style="display:flex; gap:10px; margin-top:15px; border-top:1px solid #eee; padding-top:10px;">
+                            <button class="btn-edit" onclick="bukaBorangEdit('${idRekod}', event)" style="flex:1;">✏️ Edit</button>
+                            <button class="btn-delete" onclick="padamOrganisasi('${idRekod}', event)" style="flex:1;">🗑️ Padam</button>
+                        </div>` : '';
+                    
+                    let defaultImg = "https://via.placeholder.com/130x130?text=Tiada+Gambar";
+                    let gambar = defaultImg;
+                    if (org['URL Gambar']) {
+                        let matchId = org['URL Gambar'].match(/[-\w]{25,}/);
+                        gambar = matchId ? `https://drive.google.com/thumbnail?id=${matchId[0]}&sz=w500` : org['URL Gambar'];
+                    }
+
+                    let dataJSON = (org['Butiran Biodata']) ? encodeURIComponent(org['Butiran Biodata']) : "";
+                    let namaSelamat = org['Nama Penuh'] ? org['Nama Penuh'].replace(/'/g, "\\'") : "Tiada Nama";
+
+                    let cardHTML = `
+                        <div class="org-card" onclick="bukaPaparBiodata('${gambar}', '${dataJSON}', '${namaSelamat}')">
+                            <img src="${gambar}" class="org-img" onerror="this.src='${defaultImg}'">
+                            <div class="org-name">${org['Nama Penuh']}</div>
+                            <div class="org-position">${org['Jawatan']}</div>
+                            <div class="org-pdf-hint">📄 Klik untuk Biodata</div>
+                            ${adminHTML}
+                        </div>
+                    `;
+
+                    let jawatan = (org['Jawatan'] || "").toUpperCase();
+                    if (jawatan.includes("GURU BESAR")) htmlGB += cardHTML;
+                    else if (jawatan.includes("PENOLONG KANAN") || jawatan.includes("PK ") || jawatan === "PK") htmlPK += cardHTML;
+                    else if (jawatan.includes("PEMBANTU") || jawatan.includes("KERANI") || jawatan.includes("AKP") || jawatan.includes("OPERASI")) htmlStaf += cardHTML;
+                    else htmlGuru += cardHTML;
+                });
+
+                container.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:30px; width:100%; margin-bottom:40px;">${htmlGB}</div>
+                    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:30px; width:100%; margin-bottom:40px;">${htmlPK}</div>
+                    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:30px; width:100%; margin-bottom:40px;">${htmlGuru}</div>
+                    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:30px; width:100%;">${htmlStaf}</div>
+                `;
+            } else container.innerHTML = "<div style='text-align:center; width:100%; color:#7f8c8d;'>Tiada profil warga sekolah direkodkan.</div>";
+        } catch (error) { container.innerHTML = "<div style='color:red; text-align:center; width:100%;'>Gagal memuatkan maklumat organisasi.</div>"; }
+    }
+
+    // --- BUKA MODAL BIODATA PENUH ---
+    function bukaPaparBiodata(urlGambar, encodedJSON, namaAsal) {
+        let bio;
+        try { bio = JSON.parse(decodeURIComponent(encodedJSON)); } catch { bio = { nama: namaAsal, sejarah: [] }; }
+        
+        let htmlSejarah = "";
+        if (bio.sejarah && bio.sejarah.length > 0) {
+            bio.sejarah.forEach((item, index) => {
+                htmlSejarah += `<tr><td>${index + 1}</td><td>${item.jawatan || '-'}</td><td>${item.gred || '-'}</td><td>${item.sekolah || '-'}</td><td>${item.tempoh || '-'}</td></tr>`;
+            });
+        } else { htmlSejarah = `<tr><td colspan="5" style="text-align:center;">Tiada rekod perkhidmatan.</td></tr>`; }
+
+        document.getElementById('ruanganPaparBiodata').innerHTML = `
+            <div class="bio-container">
+                <div class="bio-header"><h2>BIODATA STAF</h2><p>SK ABANG GESA</p></div>
+                <div class="bio-top-section">
+                    <img src="${urlGambar}" class="bio-photo" onerror="this.src='https://via.placeholder.com/150x180?text=Tiada+Gambar'">
+                    <div class="bio-basic-info">
+                        <p><strong>NAMA GURU:</strong> <span style="color:var(--primary-color); font-weight:bold;">${bio.nama || namaAsal}</span></p>
+                        <p><strong>EMAIL RASMI:</strong> ${(bio.email || '-').toLowerCase()}</p>
+                        <p><strong>TARIKH LAHIR:</strong> ${formatTarikh(bio.tarikhLahir)}</p>
+                        <p><strong>UMUR:</strong> ${bio.umur || '-'}</p>
+                        <p><strong>TEMPAT LAHIR:</strong> ${bio.tempatLahir || '-'}</p>
+                    </div>
+                </div>
+                <div class="bio-details">
+                    <p><strong>GRED JAWATAN:</strong> ${bio.gred || '-'}</p>
+                    <p><strong>KELULUSAN AKADEMIK:</strong> ${bio.akademik || '-'}</p>
+                    <p><strong>KELAYAKAN IKHTISAS:</strong> ${bio.ikhtisas || '-'}</p>
+                    <p><strong>OPSYEN 1:</strong> ${bio.opsyen1 || '-'}</p>
+                    <p><strong>OPSYEN 2:</strong> ${bio.opsyen2 || '-'}</p>
+                    <p><strong>INSTITUSI PENGAJIAN:</strong> ${bio.institusi || '-'}</p>
+                    <p><strong>TARIKH LANTIKAN:</strong> ${formatTarikh(bio.lantikan)}</p>
+                    <p><strong>TARIKH BERPENCEN:</strong> ${formatTarikh(bio.pencen)}</p>
+                </div>
+                <h3 class="bio-history-title">SEJARAH PERKHIDMATAN</h3>
+                <div style="overflow-x:auto;">
+                    <table class="bio-history-table">
+                        <thead><tr><th>Bil</th><th>Jawatan</th><th>Gred</th><th>Sekolah/Institusi</th><th>Tempoh</th></tr></thead>
+                        <tbody>${htmlSejarah}</tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+        bukaModal('modalPaparBiodata');
+    }
+
+    // --- KAWALAN BORANG TAMBAH & EDIT ---
+    function kosongkanBorang() {
+        document.querySelectorAll('#modalTambahOrg input').forEach(input => input.value = '');
+        document.getElementById("b_susunan").value = "99";
+        kosongkanJadualSejarah();
+        tambahBarisSejarah();
+        document.getElementById("notisGambarEdit").style.display = "none";
+    }
+
+    function bukaBorangTambah() {
+        modKemaskini = false; idSedangDikemaskini = null;
+        document.getElementById("tajukBorang").innerText = "➕ Tambah Biodata Staf Baharu";
+        document.getElementById("btnSimpanBorang").innerText = "💾 Simpan Profil Baharu";
+        kosongkanBorang();
+        bukaModal('modalTambahOrg');
+    }
+
+    function bukaBorangEdit(id, event) {
+        event.stopPropagation(); 
+        modKemaskini = true; idSedangDikemaskini = id;
+        
+        let staf = senaraiOrganisasi.find(o => o.ID === id);
+        if (!staf) return alert("Ralat: Data tidak dijumpai.");
+
+        document.getElementById("tajukBorang").innerText = "✏️ Kemaskini Biodata: " + staf['Nama Penuh'];
+        document.getElementById("btnSimpanBorang").innerText = "💾 Kemaskini Profil";
+        kosongkanBorang(); 
+
+        document.getElementById("b_nama").value = staf['Nama Penuh'];
+        document.getElementById("b_jawatan").value = staf['Jawatan'];
+        document.getElementById("b_susunan").value = staf['Susunan'] || "99";
+        document.getElementById("notisGambarEdit").style.display = "block";
+
+        if (staf['Butiran Biodata']) {
+            try {
+                let bio = JSON.parse(staf['Butiran Biodata']);
+                document.getElementById("b_email").value = bio.email || '';
+                document.getElementById("b_tempatLahir").value = bio.tempatLahir || '';
+                document.getElementById("b_tarikhLahir").value = bio.tarikhLahir || '';
+                document.getElementById("b_umur").value = bio.umur || '';
+                document.getElementById("b_gred").value = bio.gred || '';
+                document.getElementById("b_akademik").value = bio.akademik || '';
+                document.getElementById("b_ikhtisas").value = bio.ikhtisas || '';
+                document.getElementById("b_institusi").value = bio.institusi || '';
+                document.getElementById("b_opsyen1").value = bio.opsyen1 || '';
+                document.getElementById("b_opsyen2").value = bio.opsyen2 || '';
+                document.getElementById("b_lantikan").value = bio.lantikan || '';
+                document.getElementById("b_pencen").value = bio.pencen || '';
+
+                kosongkanJadualSejarah();
+                if (bio.sejarah && bio.sejarah.length > 0) {
+                    bio.sejarah.forEach(item => tambahBarisSejarah(item.jawatan, item.gred, item.sekolah, item.tempoh));
+                } else { tambahBarisSejarah(); }
+            } catch (e) { tambahBarisSejarah(); }
+        } else { tambahBarisSejarah(); }
+
+        bukaModal('modalTambahOrg');
+    }
+
+    async function tukarKeBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader(); reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    // --- SIMPAN DATA KE GOOGLE SHEETS ---
+    async function simpanOrganisasi() {
+        const nama = document.getElementById("b_nama").value.toUpperCase().trim();
+        const jawatan = document.getElementById("b_jawatan").value.toUpperCase().trim();
+        const susunan = document.getElementById("b_susunan").value;
+        const failGambar = document.getElementById("b_gambar").files[0];
+
+        if (!nama || !jawatan) return alert("Sila isikan Nama Penuh dan Jawatan Utama.");
+
+        let sejarah = [];
+        document.querySelectorAll('#jadualSejarah .sejarah-row').forEach(row => {
+            let inputs = row.querySelectorAll('input');
+            if (inputs[0].value.trim()) { 
+                sejarah.push({
+                    jawatan: inputs[0].value.toUpperCase(), gred: inputs[1].value.toUpperCase(),
+                    sekolah: inputs[2].value.toUpperCase(), tempoh: inputs[3].value.toUpperCase()
+                });
+            }
+        });
+
+        let dataBiodata = {
+            nama: nama, email: document.getElementById("b_email").value, tempatLahir: document.getElementById("b_tempatLahir").value.toUpperCase(),
+            tarikhLahir: document.getElementById("b_tarikhLahir").value, umur: document.getElementById("b_umur").value,
+            gred: document.getElementById("b_gred").value.toUpperCase(), akademik: document.getElementById("b_akademik").value.toUpperCase(),
+            ikhtisas: document.getElementById("b_ikhtisas").value.toUpperCase(), institusi: document.getElementById("b_institusi").value.toUpperCase(),
+            opsyen1: document.getElementById("b_opsyen1").value.toUpperCase(), opsyen2: document.getElementById("b_opsyen2").value.toUpperCase(),
+            lantikan: document.getElementById("b_lantikan").value, pencen: document.getElementById("b_pencen").value, sejarah: sejarah
+        };
+
+        tutupModal('modalTambahOrg');
+        document.getElementById('ruangan-organisasi').innerHTML = `<div style="text-align:center; color:var(--primary-color); font-weight:bold; font-size:1.1rem; padding:40px;">⏳ Sedang Menyimpan Data... Sila Tunggu.</div>`;
+
+        try {
+            const formData = new URLSearchParams();
+            formData.append("sheetName", "Organisasi");
+            formData.append("rowData", JSON.stringify([nama, jawatan, susunan, JSON.stringify(dataBiodata)]));
+            
+            if (modKemaskini) {
+                formData.append("action", "edit");
+                formData.append("id", idSedangDikemaskini);
+            } else {
+                formData.append("action", "add");
+            }
+
+            if (failGambar) {
+                const base64Gambar = await tukarKeBase64(failGambar);
+                formData.append("fileData", base64Gambar);
+                formData.append("fileName", failGambar.name);
+                formData.append("fileType", failGambar.type);
+            }
+
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData });
+            muatTurunOrganisasi(); 
+        } catch (error) {
+            alert("Ralat sambungan. Sila cuba lagi.");
+            muatTurunOrganisasi();
+        }
+    }
+
+    // --- PADAM DATA ---
+    async function padamOrganisasi(id, event) {
+        event.stopPropagation();
+        if (!confirm("Pasti mahu memadam profil ini secara kekal?")) return;
+        
+        const formData = new URLSearchParams({ sheetName: "Organisasi", action: "delete", id: id });
+        document.getElementById('ruangan-organisasi').innerHTML = "<div style='text-align:center;'>Memadam profil...</div>";
+        try { 
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData }); 
+            muatTurunOrganisasi(); 
+        } 
+        catch { alert("Ralat memadam data."); muatTurunOrganisasi(); }
+    }
+
+    // --- MULAKAN ---
+    document.addEventListener("DOMContentLoaded", muatTurunOrganisasi);
+</script>
+</body>
+</html>

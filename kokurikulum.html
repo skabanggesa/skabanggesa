@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK Abang Gesa - Kokurikulum</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+<header>
+    <div class="welcome-text" id="teksSapaan">Sistem Maklumat Sekolah</div>
+    <div class="admin-controls" style="display:flex; align-items:center;">
+        <button id="btnLogMasuk" class="admin-login-btn" onclick="bukaModal('modalLogin')">🔒 Log Masuk</button>
+        <button id="btnLogKeluar" class="admin-logout-btn" onclick="logKeluar()" style="display:none;">🔓 Log Keluar</button>
+    </div>
+</header>
+
+<nav>
+<div class="brand">
+        <img src="logo.png" alt="Logo SK Abang Gesa" class="sekolah-logo">
+    <div class="brand">SK ABANG GESA</div>
+    <a href="index.html">🏠 <span>Utama</span></a>
+    <a href="organisasi.html">👥 <span>Organisasi</span></a>
+    <a href="kurikulum.html">📚 <span>Kurikulum</span></a>
+    <a href="hem.html">🏫 <span>HEM</span></a>
+    <a href="kokurikulum.html" class="active">🏆 <span>Kokurikulum</span></a>
+    <a href="galeri.html">📸 <span>Galeri</span></a>
+    <a href="video.html">🎥 <span>Video</span></a>
+</nav>
+
+<div class="content-container">
+    
+    <h2 style="color: var(--text-dark); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;">Pusat Dokumen Kokurikulum</h2>
+    <p style="color: var(--text-muted);">Muat turun takwim, kertas kerja dan fail pengurusan unit beruniform, kelab dan sukan.</p>
+    
+    <button class="btn-add" id="btnTambahDokumen" onclick="bukaModal('modalTambahDokumen')" style="display:none; margin-bottom:15px;">➕ Muat Naik Dokumen PDF</button>
+    
+    <div id="ruangan-dokumen" class="doc-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-bottom: 40px;">
+        <div style="grid-column: 1 / -1; text-align: center; color: #7f8c8d;">Sistem sedang menarik senarai dokumen...</div>
+    </div>
+
+    <h2 style="color: var(--text-dark); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-top: 50px;">🌟 Papan Kejayaan & Pencapaian</h2>
+    
+    <button class="btn-add" id="btnTambahPencapaian" onclick="bukaModal('modalTambahPencapaian')" style="display:none; margin-bottom:15px;">➕ Tambah Rekod Pencapaian</button>
+
+    <div class="takwim-table-wrapper" style="margin-bottom: 40px;">
+        <table class="takwim-table" id="jadual-pencapaian">
+            <thead>
+                <tr>
+                    <th width="15%">Tarikh</th>
+                    <th width="25%">Acara / Kejohanan</th>
+                    <th width="15%">Peringkat</th>
+                    <th width="15%">Pencapaian</th>
+                    <th width="20%">Nama Murid / Pasukan</th>
+                    <th width="10%" class="lajur-tindakan" style="display:none; text-align:center;">Tindakan</th>
+                </tr>
+            </thead>
+            <tbody id="badan-pencapaian">
+                <tr><td colspan="6" style="text-align:center; color: #7f8c8d;">Memuatkan rekod pencapaian...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="takwim-header" style="margin-top: 50px;">
+        <h2 style="color: var(--text-dark); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin:0;">Senarai Guru Penasihat & AJK</h2>
+        
+        <select id="filterKategori" class="takwim-filter" onchange="muatTurunAJK()">
+            <option value="Semua">Tapis: Semua Kategori</option>
+            <option value="Unit Beruniform">Unit Beruniform</option>
+            <option value="Kelab & Persatuan">Kelab & Persatuan</option>
+            <option value="Sukan & Permainan">Sukan & Permainan</option>
+            <option value="Rumah Sukan">Rumah Sukan</option>
+            <option value="Lain-lain">Lain-lain</option>
+        </select>
+    </div>
+    
+    <button class="btn-add" id="btnTambahAJK" onclick="bukaModal('modalTambahAJK')" style="display:none; margin-bottom:15px;">➕ Tambah Guru Penasihat</button>
+
+    <div class="takwim-table-wrapper">
+        <table class="takwim-table" id="jadual-ajk">
+            <thead>
+                <tr>
+                    <th width="5%">Bil</th>
+                    <th width="35%">Nama Unit / Sukan</th>
+                    <th width="60%">Senarai Guru & Jawatan</th>
+                </tr>
+            </thead>
+            <tbody id="badan-ajk">
+                <tr><td colspan="3" style="text-align:center; color: #7f8c8d;">Sistem sedang menarik senarai...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div class="modal-form" id="modalLogin">
+    <div class="modal-form-box" style="text-align: center; max-width: 400px;">
+        <h3 style="margin-top:0;">🔒 Log Masuk Sistem</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:-10px;">Sila masukkan 6 digit kod akses (No. E-mel MOE anda).</p>
+        <input type="password" id="katalaluanAdmin" placeholder="------" style="text-align: center; letter-spacing: 5px; font-size: 1.2rem;" maxlength="8">
+        <div style="display:flex; gap:10px;">
+            <button id="btnSahkanLogin" onclick="sahkanLogMasuk()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Log Masuk</button>
+            <button onclick="tutupModal('modalLogin')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalTambahDokumen">
+    <div class="modal-form-box">
+        <h3 style="margin-top:0;">📄 Muat Naik Dokumen Koko</h3>
+        <label>Kategori Dokumen:</label>
+        <select id="dok_kategori">
+            <option value="Takwim Kokurikulum">Takwim Kokurikulum</option>
+            <option value="Jadual Perjumpaan">Jadual Perjumpaan</option>
+            <option value="Minit Mesyuarat">Minit Mesyuarat Induk</option>
+            <option value="Kertas Kerja">Kertas Kerja Program</option>
+            <option value="Lain-lain">Lain-lain</option>
+        </select>
+        
+        <label>Tajuk Dokumen:</label>
+        <input type="text" id="dok_tajuk" placeholder="Cth: Takwim Sukan Tahunan 2026">
+        
+        <label>Tarikh Kemaskini:</label>
+        <input type="date" id="dok_tarikh">
+        
+        <label>Muat Naik Fail (.pdf sahaja):</label>
+        <input type="file" id="dok_fail" accept=".pdf">
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button onclick="simpanDokumen()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Muat Naik</button>
+            <button onclick="tutupModal('modalTambahDokumen')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalTambahPencapaian">
+    <div class="modal-form-box">
+        <h3 style="margin-top:0;">🏆 Tambah Rekod Pencapaian</h3>
+        
+        <label>Tarikh Acara (Cth: 12 Nov 2026):</label>
+        <input type="text" id="capai_tarikh" placeholder="Cth: 12 Nov 2026">
+        
+        <label>Acara / Kejohanan:</label>
+        <input type="text" id="capai_acara" placeholder="Cth: Kejohanan Bola Sepak MSSD">
+        
+        <label>Peringkat:</label>
+        <select id="capai_peringkat">
+            <option value="Daerah">Daerah (Zon/MSSD)</option>
+            <option value="Bahagian">Bahagian</option>
+            <option value="Negeri">Negeri</option>
+            <option value="Kebangsaan">Kebangsaan</option>
+            <option value="Antarabangsa">Antarabangsa</option>
+        </select>
+
+        <label>Pencapaian (Kedudukan / Pingat):</label>
+        <input type="text" id="capai_keputusan" placeholder="Cth: Johan / Pingat Emas">
+
+        <label>Nama Murid / Pasukan:</label>
+        <input type="text" id="capai_nama" placeholder="Cth: Pasukan Bawah 12 Tahun">
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button onclick="simpanPencapaian()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Simpan</button>
+            <button onclick="tutupModal('modalTambahPencapaian')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalTambahAJK">
+    <div class="modal-form-box">
+        <h3 style="margin-top:0;">👥 Tambah Guru Penasihat</h3>
+        
+        <label>Kategori Unit:</label>
+        <select id="ajk_kategori">
+            <option value="Unit Beruniform">Unit Beruniform</option>
+            <option value="Kelab & Persatuan">Kelab & Persatuan</option>
+            <option value="Sukan & Permainan">Sukan & Permainan</option>
+            <option value="Rumah Sukan">Rumah Sukan</option>
+            <option value="Lain-lain">Lain-lain</option>
+        </select>
+
+        <label>Nama Unit / Sukan (Cth: Pengakap / Bola Jaring):</label>
+        <input type="text" id="ajk_nama_unit" placeholder="Cth: Pengakap Kanak-Kanak">
+        
+        <label>Nama Guru:</label>
+        <select id="ajk_nama_guru">
+            <option value="">-- Sedang Memuatkan Senarai Nama... --</option>
+        </select>
+        
+        <label>Jawatan dalam Unit:</label>
+        <input type="text" id="ajk_jawatan" placeholder="Cth: Ketua Guru Penasihat">
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button onclick="simpanAJK()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Simpan</button>
+            <button onclick="tutupModal('modalTambahAJK')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw92WpecZqsG0ODJwg_5D4Sue7njtzFTHSeibxnq7aSEFWy0V3Itx8eXoBfrpR8chu9/exec";
+
+    let isAdmin = localStorage.getItem('isAdminSekolah') === 'true';
+    let namaAdmin = localStorage.getItem('namaAdminSekolah') || '';
+
+    // --- FUNGSI KAWALAN PAPARAN (UI) ---
+    function kemaskiniUI() {
+        document.getElementById('btnLogMasuk').style.display = isAdmin ? 'none' : 'inline-block';
+        document.getElementById('btnLogKeluar').style.display = isAdmin ? 'inline-block' : 'none';
+        
+        document.getElementById('btnTambahDokumen').style.display = isAdmin ? 'inline-block' : 'none';
+        document.getElementById('btnTambahPencapaian').style.display = isAdmin ? 'inline-block' : 'none';
+        document.getElementById('btnTambahAJK').style.display = isAdmin ? 'inline-block' : 'none';
+        
+        let teksSapaan = document.getElementById('teksSapaan');
+        if (teksSapaan) {
+            teksSapaan.innerText = isAdmin && namaAdmin ? "Selamat Datang, " + namaAdmin : "Sistem Maklumat Sekolah";
+            teksSapaan.style.color = isAdmin ? "var(--primary-color)" : "var(--text-muted)";
+        }
+        
+        let lajurTindakan = document.querySelectorAll('.lajur-tindakan');
+        lajurTindakan.forEach(lajur => { lajur.style.display = isAdmin ? 'table-cell' : 'none'; });
+        
+        let butangPadam = document.querySelectorAll('.btn-delete');
+        butangPadam.forEach(el => el.style.display = isAdmin ? 'inline-block' : 'none');
+    }
+
+    function bukaModal(idModal) { document.getElementById(idModal).style.display = 'flex'; }
+    function tutupModal(idModal) { document.getElementById(idModal).style.display = 'none'; }
+
+    // --- FUNGSI LOG MASUK ---
+    async function sahkanLogMasuk() {
+        const passcode = document.getElementById('katalaluanAdmin').value.trim();
+        if (!passcode) return alert("Sila masukkan kod laluan.");
+
+        const btnLogin = document.getElementById('btnSahkanLogin');
+        const teksAsal = btnLogin.innerText;
+        btnLogin.innerText = "Mengesahkan..."; btnLogin.disabled = true;
+
+        try {
+            const response = await fetch(`${WEB_APP_URL}?action=verifyLogin&passcode=${passcode}`);
+            const result = await response.json();
+            
+            if (result.status === "success") {
+                localStorage.setItem('isAdminSekolah', 'true');
+                localStorage.setItem('namaAdminSekolah', result.data.namaGuru);
+                isAdmin = true; namaAdmin = result.data.namaGuru;
+                
+                tutupModal('modalLogin'); document.getElementById('katalaluanAdmin').value = '';
+                kemaskiniUI(); 
+                muatTurunDokumen();
+                muatTurunPencapaian();
+                muatTurunAJK();
+            } else { alert("Kod akses tidak sah. Sila guna no. e-mel MOE yang betul."); }
+        } catch (error) { alert("Ralat sistem sambungan."); } 
+        finally { btnLogin.innerText = teksAsal; btnLogin.disabled = false; }
+    }
+    document.getElementById('katalaluanAdmin').addEventListener('keypress', function (e) { if (e.key === 'Enter') sahkanLogMasuk(); });
+
+    function logKeluar() { 
+        localStorage.setItem('isAdminSekolah', 'false'); localStorage.removeItem('namaAdminSekolah');
+        isAdmin = false; namaAdmin = ''; 
+        kemaskiniUI(); 
+        muatTurunDokumen(); muatTurunPencapaian(); muatTurunAJK();
+    }
+
+    // --- FUNGSI ALATAN ---
+    function formatTarikh(tarikh) {
+        if (!tarikh) return "-";
+        let d = new Date(tarikh);
+        if(isNaN(d)) return tarikh;
+        return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+    }
+
+    async function tukarKeBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader(); reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    // --- SISTEM TARIK SENARAI NAMA DARI ORGANISASI ---
+    async function muatTurunSenaraiNamaGuru() {
+        const dropdownNama = document.getElementById('ajk_nama_guru');
+        try {
+            const response = await fetch(`${WEB_APP_URL}?sheetName=Organisasi`);
+            const result = await response.json();
+            dropdownNama.innerHTML = '<option value="">-- Sila Pilih Nama Guru --</option>';
+
+            if (result.status === "success" && result.data.length > 0) {
+                let senaraiNama = result.data.map(org => org['Nama Penuh']).sort();
+                senaraiNama.forEach(nama => { dropdownNama.innerHTML += `<option value="${nama}">${nama}</option>`; });
+            } else { dropdownNama.innerHTML = '<option value="">Tiada profil ditemui.</option>'; }
+        } catch (error) { dropdownNama.innerHTML = '<option value="">Gagal menyambung.</option>'; }
+    }
+
+    // --- BACA & PAPAR DOKUMEN KOKO ---
+    async function muatTurunDokumen() {
+        const container = document.getElementById('ruangan-dokumen');
+        try {
+            const response = await fetch(`${WEB_APP_URL}?sheetName=Koko_Dokumen`);
+            const result = await response.json();
+            container.innerHTML = ""; 
+            
+            if (result.status === "success" && result.data.length > 0) {
+                [...result.data].reverse().forEach(dok => {
+                    let idRekod = dok['ID'];
+                    let kategori = dok['Kategori Dokumen'] || dok['Kategori'] || "-";
+                    let tajuk = dok['Tajuk Dokumen'] || dok['Tajuk'] || "Tiada Tajuk";
+                    let tarikh = dok['Tarikh Kemaskini'] || dok['Tarikh'] || "";
+                    let urlFail = dok['URL Fail PDF'] || dok['URL Fail'] || dok['URL'] || "#";
+
+                    let butangPadam = isAdmin ? `<button class="btn-delete" style="width:100%; margin-top:10px; display:block;" onclick="padamData('Koko_Dokumen', '${idRekod}')">🗑️ Padam Dokumen</button>` : '';
+                    
+                    container.innerHTML += `
+                        <div class="card" style="padding: 20px; border-top: 4px solid var(--primary-color);">
+                            <div style="font-size:0.8rem; color:var(--primary-color); font-weight:bold; text-transform:uppercase; margin-bottom:5px;">${kategori}</div>
+                            <div style="font-size:1.1rem; color:var(--text-dark); font-weight:bold; margin-bottom:10px; line-height:1.4;">${tajuk}</div>
+                            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Kemaskini: ${formatTarikh(tarikh)}</div>
+                            <a href="${urlFail}" target="_blank" style="display:block; text-align:center; background:#f1f5f9; padding:8px; border-radius:6px; text-decoration:none; color:var(--primary-color); font-weight:bold;">⬇️ Buka / Muat Turun</a>
+                            ${butangPadam}
+                        </div>
+                    `;
+                });
+            } else container.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: #7f8c8d;'>Tiada dokumen Koko dimuat naik lagi.</p>";
+        } catch (error) { container.innerHTML = "<p style='color:red;'>Gagal memuatkan dokumen.</p>"; }
+    }
+
+    // --- BACA & PAPAR PENCAPAIAN ---
+    async function muatTurunPencapaian() {
+        const badanCapai = document.getElementById('badan-pencapaian');
+        try {
+            const response = await fetch(`${WEB_APP_URL}?sheetName=Koko_Pencapaian`);
+            const result = await response.json();
+            badanCapai.innerHTML = ""; 
+            
+            if (result.status === "success" && result.data.length > 0) {
+                [...result.data].reverse().forEach(capai => {
+                    let idRekod = capai['ID'];
+                    let tarikh = capai['Tarikh Acara'] || capai['Tarikh'] || "";
+                    let acara = capai['Acara / Kejohanan'] || capai['Acara'] || "";
+                    let peringkat = capai['Peringkat'] || "";
+                    let keputusan = capai['Pencapaian'] || capai['Keputusan'] || "";
+                    let nama = capai['Nama Murid / Pasukan'] || capai['Nama Murid'] || "";
+
+                    let butangPadam = isAdmin ? `<td class="lajur-tindakan" style="text-align:center;"><button class="btn-delete" style="padding:4px 8px;" onclick="padamData('Koko_Pencapaian', '${idRekod}')">Padam</button></td>` : `<td class="lajur-tindakan" style="display:none;"></td>`;
+                    
+                    badanCapai.innerHTML += `
+                        <tr>
+                            <td>${tarikh}</td>
+                            <td style="font-weight:600; color:var(--text-dark);">${acara}</td>
+                            <td><span style="background:#e0f2fe; color:#0284c7; padding:3px 8px; border-radius:12px; font-size:0.85rem;">${peringkat}</span></td>
+                            <td style="font-weight:bold; color:#16a34a;">${keputusan}</td>
+                            <td>${nama}</td>
+                            ${butangPadam}
+                        </tr>
+                    `;
+                });
+            } else badanCapai.innerHTML = `<tr><td colspan="6" style="text-align:center;">Tiada rekod pencapaian direkodkan.</td></tr>`;
+            kemaskiniUI();
+        } catch (error) { badanCapai.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Gagal memuatkan rekod.</td></tr>`; }
+    }
+
+    // --- BACA & PAPAR AJK KOKO (DENGAN GROUPING) ---
+    async function muatTurunAJK() {
+        const badanAJK = document.getElementById('badan-ajk');
+        const pilihanKategori = document.getElementById('filterKategori').value;
+        
+        try {
+            const response = await fetch(`${WEB_APP_URL}?sheetName=Koko_AJK`);
+            const result = await response.json();
+            badanAJK.innerHTML = ""; 
+            
+            if (result.status === "success" && result.data.length > 0) {
+                
+                // 1. Tapis data
+                let dataDitapis = result.data.filter(ajk => {
+                    let kategoriUnit = ajk['Kategori Unit'] || ajk['Kategori'] || "";
+                    return pilihanKategori === "Semua" || kategoriUnit === pilihanKategori;
+                });
+                
+                if (dataDitapis.length === 0) {
+                    badanAJK.innerHTML = `<tr><td colspan="3" style="text-align:center;">Tiada rekod bagi kategori ini.</td></tr>`;
+                    kemaskiniUI(); return;
+                }
+
+                // 2. Grouping Ikut Nama Unit/Sukan
+                let dataDikumpul = {};
+                dataDitapis.forEach(ajk => {
+                    let namaUnit = ajk['Nama Unit / Sukan'] || ajk['Nama Unit'] || "Tiada Unit";
+                    if (!dataDikumpul[namaUnit]) dataDikumpul[namaUnit] = [];
+                    dataDikumpul[namaUnit].push(ajk);
+                });
+
+                // 3. Papar
+                let bil = 1;
+                for (let unit in dataDikumpul) {
+                    let senaraiGuru = dataDikumpul[unit];
+                    let guruHTML = "";
+
+                    senaraiGuru.forEach((guru, index) => {
+                        let idRekod = guru['ID'];
+                        let namaGuru = guru['Nama Guru'] || "";
+                        let jawatan = guru['Jawatan'] || "Guru Penasihat";
+
+                        let borderBottom = (index === senaraiGuru.length - 1) ? "" : "border-bottom: 1px dashed #cbd5e1;";
+                        let padding = (index === 0) ? "padding-bottom: 8px;" : (index === senaraiGuru.length - 1) ? "padding-top: 8px;" : "padding: 8px 0;";
+                        if (senaraiGuru.length === 1) padding = "";
+
+                        let butangPadam = isAdmin ? `<button class="btn-delete" style="margin:0; padding:4px 8px; font-size:0.8rem; width:auto; display:inline-block;" onclick="padamData('Koko_AJK', '${idRekod}')">Padam</button>` : '';
+
+                        guruHTML += `
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; ${padding} ${borderBottom}">
+                                <div><strong>${namaGuru}</strong><br><span style="color:var(--text-muted); font-size:0.85rem;">${jawatan}</span></div>
+                                <div>${butangPadam}</div>
+                            </div>
+                        `;
+                    });
+
+                    badanAJK.innerHTML += `
+                        <tr>
+                            <td style="vertical-align:top; padding-top:15px; text-align:center;">${bil++}</td>
+                            <td style="vertical-align:top; padding-top:15px; font-weight:bold; color:var(--text-dark);">${unit}</td>
+                            <td style="vertical-align:top;">${guruHTML}</td>
+                        </tr>
+                    `;
+                }
+            } else { badanAJK.innerHTML = `<tr><td colspan="3" style="text-align:center;">Jadual AJK Koko masih kosong.</td></tr>`; }
+            kemaskiniUI();
+        } catch (error) { badanAJK.innerHTML = `<tr><td colspan="3" style="text-align:center; color:red;">Gagal memuatkan jadual.</td></tr>`; }
+    }
+
+    // --- SIMPAN DATA BARU (CREATE) ---
+    async function simpanDokumen() {
+        const kategori = document.getElementById("dok_kategori").value;
+        const tajuk = document.getElementById("dok_tajuk").value;
+        const tarikh = document.getElementById("dok_tarikh").value;
+        const failPdf = document.getElementById("dok_fail").files[0];
+
+        if (!tajuk || !tarikh || !failPdf) return alert("Sila isikan semua maklumat dokumen!");
+
+        tutupModal('modalTambahDokumen');
+        document.getElementById('ruangan-dokumen').innerHTML = `<p style="grid-column: 1 / -1; text-align: center; font-weight:bold; color:var(--primary-color);">⏳ Sedang memuat naik fail ke Google Drive...</p>`;
+
+        try {
+            const base64Pdf = await tukarKeBase64(failPdf);
+            const formData = new URLSearchParams({ action: "add", sheetName: "Koko_Dokumen", rowData: JSON.stringify([kategori, tajuk, tarikh]), fileData: base64Pdf, fileName: failPdf.name, fileType: failPdf.type });
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData });
+            
+            document.getElementById("dok_tajuk").value = "";
+            muatTurunDokumen(); 
+        } catch (error) { alert("Ralat memuat naik dokumen."); muatTurunDokumen(); }
+    }
+
+    async function simpanPencapaian() {
+        const trkh = document.getElementById("capai_tarikh").value;
+        const acara = document.getElementById("capai_acara").value;
+        const prgkt = document.getElementById("capai_peringkat").value;
+        const kpts = document.getElementById("capai_keputusan").value;
+        const nama = document.getElementById("capai_nama").value;
+
+        if (!acara || !kpts) return alert("Sila isikan ruangan Acara dan Pencapaian.");
+
+        tutupModal('modalTambahPencapaian');
+        document.getElementById('badan-pencapaian').innerHTML = `<tr><td colspan="6" style="text-align:center;">Menyimpan rekod...</td></tr>`;
+
+        try {
+            const formData = new URLSearchParams({ action: "add", sheetName: "Koko_Pencapaian", rowData: JSON.stringify([trkh, acara, prgkt, kpts, nama]) });
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData });
+            
+            document.getElementById("capai_acara").value = ""; document.getElementById("capai_keputusan").value = "";
+            muatTurunPencapaian(); 
+        } catch (error) { alert("Ralat menyimpan pencapaian."); muatTurunPencapaian(); }
+    }
+
+    async function simpanAJK() {
+        const kategori = document.getElementById("ajk_kategori").value;
+        const namaUnit = document.getElementById("ajk_nama_unit").value.toUpperCase(); 
+        const namaGuru = document.getElementById("ajk_nama_guru").value;
+        const jawatan = document.getElementById("ajk_jawatan").value.toUpperCase();
+
+        if (!namaUnit || !namaGuru) return alert("Sila isikan Nama Unit dan Pilih Nama Guru.");
+
+        tutupModal('modalTambahAJK');
+        document.getElementById('badan-ajk').innerHTML = `<tr><td colspan="3" style="text-align:center;">Menyimpan rekod baharu...</td></tr>`;
+
+        try {
+            const formData = new URLSearchParams({ action: "add", sheetName: "Koko_AJK", rowData: JSON.stringify([kategori, namaUnit, namaGuru, jawatan]) });
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData });
+            
+            document.getElementById('filterKategori').value = kategori; 
+            muatTurunAJK(); 
+        } catch (error) { alert("Ralat menyimpan AJK."); muatTurunAJK(); }
+    }
+
+    // --- PADAM DATA UMUM (DELETE) ---
+    async function padamData(sheetName, id) {
+        if (confirm("Pasti mahu memadam rekod ini secara kekal?")) {
+            const formData = new URLSearchParams({ sheetName: sheetName, action: "delete", id: id });
+            
+            if(sheetName === 'Koko_Dokumen') document.getElementById('ruangan-dokumen').innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>Memadam dokumen...</p>";
+            if(sheetName === 'Koko_Pencapaian') document.getElementById('badan-pencapaian').innerHTML = `<tr><td colspan="6" style="text-align:center;">Memadam rekod...</td></tr>`;
+            if(sheetName === 'Koko_AJK') document.getElementById('badan-ajk').innerHTML = `<tr><td colspan="3" style="text-align:center;">Memadam rekod...</td></tr>`;
+
+            try { 
+                await fetch(WEB_APP_URL, { method: 'POST', body: formData }); 
+                if(sheetName === 'Koko_Dokumen') muatTurunDokumen();
+                if(sheetName === 'Koko_Pencapaian') muatTurunPencapaian();
+                if(sheetName === 'Koko_AJK') muatTurunAJK();
+            } 
+            catch { alert("Ralat memadam."); }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        kemaskiniUI();
+        muatTurunSenaraiNamaGuru(); 
+        muatTurunDokumen();
+        muatTurunPencapaian();
+        muatTurunAJK();
+    });
+</script>
+</body>
+</html>

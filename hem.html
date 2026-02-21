@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK Abang Gesa - Hal Ehwal Murid</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+<header>
+    <div class="welcome-text" id="teksSapaan">Sistem Maklumat Sekolah</div>
+    <div class="admin-controls" style="display:flex; align-items:center;">
+        <button id="btnLogMasuk" class="admin-login-btn" onclick="bukaModal('modalLogin')">🔒 Log Masuk</button>
+        <button id="btnLogKeluar" class="admin-logout-btn" onclick="logKeluar()" style="display:none;">🔓 Log Keluar</button>
+    </div>
+</header>
+
+<nav>
+<div class="brand">
+        <img src="logo.png" alt="Logo SK Abang Gesa" class="sekolah-logo">
+    <div class="brand">SK ABANG GESA</div>
+    <a href="index.html">🏠 <span>Utama</span></a>
+    <a href="organisasi.html">👥 <span>Organisasi</span></a>
+    <a href="kurikulum.html">📚 <span>Kurikulum</span></a>
+    <a href="hem.html" class="active">🏫 <span>HEM</span></a>
+    <a href="kokurikulum.html">🏆 <span>Kokurikulum</span></a>
+    <a href="galeri.html">📸 <span>Galeri</span></a>
+    <a href="video.html">🎥 <span>Video</span></a>
+</nav>
+
+<div class="content-container">
+    
+    <h2 style="color: var(--text-dark); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;">Pusat Dokumen HEM</h2>
+    <p style="color: var(--text-muted);">Muat turun buku peraturan, borang bantuan, jadual guru bertugas dan dokumen berkaitan Hal Ehwal Murid.</p>
+    
+    <button class="btn-add" id="btnTambahDokumen" onclick="bukaModal('modalTambahDokumen')" style="display:none; margin-bottom:15px;">➕ Muat Naik Dokumen PDF</button>
+    
+    <div id="ruangan-dokumen" class="doc-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-bottom: 40px;">
+        <div style="grid-column: 1 / -1; text-align: center; color: #7f8c8d;">Sistem sedang menarik senarai dokumen...</div>
+    </div>
+
+    <h2 style="color: var(--text-dark); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-top: 50px;">📊 Data Enrolmen Murid & Bantuan</h2>
+    
+    <button class="btn-add" id="btnTambahEnrolmen" onclick="bukaModal('modalTambahEnrolmen')" style="display:none; margin-bottom:15px;">➕ Tambah / Kemaskini Kelas</button>
+
+    <div class="takwim-table-wrapper" style="margin-bottom: 40px; overflow-x: auto;">
+        <table class="takwim-table" id="jadual-enrolmen">
+            <thead>
+                <tr>
+                    <th rowspan="2" style="text-align:center; vertical-align:middle;">Nama Kelas</th>
+                    <th colspan="3" style="text-align:center; background:#e0f2fe; color:#0284c7;">ENROLMEN KELAS</th>
+                    <th colspan="3" style="text-align:center; background:#fef08a; color:#ca8a04;">PENERIMA RMT</th>
+                    <th rowspan="2" class="lajur-tindakan" style="display:none; text-align:center; vertical-align:middle;">Tindakan</th>
+                </tr>
+                <tr>
+                    <th style="text-align:center;">Lelaki</th>
+                    <th style="text-align:center;">Perempuan</th>
+                    <th style="text-align:center; font-weight:bold;">Jumlah</th>
+                    <th style="text-align:center;">Lelaki</th>
+                    <th style="text-align:center;">Perempuan</th>
+                    <th style="text-align:center; font-weight:bold;">Jumlah</th>
+                </tr>
+            </thead>
+            <tbody id="badan-enrolmen">
+                <tr><td colspan="8" style="text-align:center; color: #7f8c8d;">Sistem sedang menarik data enrolmen...</td></tr>
+            </tbody>
+            <tfoot id="kaki-enrolmen" style="background:#f8fafc; font-weight:bold; border-top:2px solid var(--primary-color);">
+                </tfoot>
+        </table>
+    </div>
+
+</div>
+
+<div class="modal-form" id="modalLogin">
+    <div class="modal-form-box" style="text-align: center; max-width: 400px;">
+        <h3 style="margin-top:0;">🔒 Log Masuk Sistem</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:-10px;">Sila masukkan 6 digit kod akses (No. E-mel MOE anda).</p>
+        <input type="password" id="katalaluanAdmin" placeholder="------" style="text-align: center; letter-spacing: 5px; font-size: 1.2rem;" maxlength="8">
+        <div style="display:flex; gap:10px;">
+            <button id="btnSahkanLogin" onclick="sahkanLogMasuk()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Log Masuk</button>
+            <button onclick="tutupModal('modalLogin')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalTambahDokumen">
+    <div class="modal-form-box">
+        <h3 style="margin-top:0;">📄 Muat Naik Dokumen HEM</h3>
+        <label>Kategori Dokumen:</label>
+        <select id="dok_kategori">
+            <option value="Buku Peraturan & Disiplin">Buku Peraturan & Disiplin</option>
+            <option value="Jadual Guru Bertugas">Jadual Guru Bertugas</option>
+            <option value="Borang Bantuan (RMT/KWAPM)">Borang Bantuan (RMT/KWAPM)</option>
+            <option value="Minit Mesyuarat HEM">Minit Mesyuarat Induk HEM</option>
+            <option value="Lain-lain">Lain-lain</option>
+        </select>
+        
+        <label>Tajuk Dokumen:</label>
+        <input type="text" id="dok_tajuk" placeholder="Cth: Buku Peraturan Sekolah 2026">
+        
+        <label>Tarikh Kemaskini:</label>
+        <input type="date" id="dok_tarikh">
+        
+        <label>Muat Naik Fail (.pdf sahaja):</label>
+        <input type="file" id="dok_fail" accept=".pdf">
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button onclick="simpanDokumen()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Muat Naik</button>
+            <button onclick="tutupModal('modalTambahDokumen')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalTambahEnrolmen">
+    <div class="modal-form-box">
+        <h3 style="margin-top:0;">📊 Kemaskini Data Kelas</h3>
+        <p style="font-size:0.85rem; color:#e67e22; margin-top:-10px;">Sistem akan mengira jumlah secara automatik.</p>
+        
+        <label>Nama Kelas:</label>
+        <input type="text" id="enrol_kelas" placeholder="Cth: 1 Arif / Pra Sekolah">
+        
+        <div style="display:flex; gap:10px;">
+            <div style="flex:1;">
+                <label>Enrolmen Lelaki (L):</label>
+                <input type="number" id="enrol_L" value="0" min="0">
+            </div>
+            <div style="flex:1;">
+                <label>Enrolmen Perempuan (P):</label>
+                <input type="number" id="enrol_P" value="0" min="0">
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px; background:#fef08a; padding:10px; border-radius:6px; margin-top:10px;">
+            <div style="flex:1;">
+                <label style="color:#ca8a04;">RMT Lelaki (L):</label>
+                <input type="number" id="rmt_L" value="0" min="0">
+            </div>
+            <div style="flex:1;">
+                <label style="color:#ca8a04;">RMT Perempuan (P):</label>
+                <input type="number" id="rmt_P" value="0" min="0">
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <button onclick="simpanEnrolmen()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Simpan Data</button>
+            <button onclick="tutupModal('modalTambahEnrolmen')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw92WpecZqsG0ODJwg_5D4Sue7njtzFTHSeibxnq7aSEFWy0V3Itx8eXoBfrpR8chu9/exec";
+
+    let isAdmin = localStorage.getItem('isAdminSekolah') === 'true';
+    let namaAdmin = localStorage.getItem('namaAdminSekolah') || '';
+
+    // --- FUNGSI KAWALAN PAPARAN (UI) ---
+    function kemaskiniUI() {
+        document.getElementById('btnLogMasuk').style.display = isAdmin ? 'none' : 'inline-block';
+        document.getElementById('btnLogKeluar').style.display = isAdmin ? 'inline-block' : 'none';
+        
+        document.getElementById('btnTambahDokumen').style.display = isAdmin ? 'inline-block' : 'none';
+        document.getElementById('btnTambahEnrolmen').style.display = isAdmin ? 'inline-block' : 'none';
+        
+        let teksSapaan = document.getElementById('teksSapaan');
+        if (teksSapaan) {
+            teksSapaan.innerText = isAdmin && namaAdmin ? "Selamat Datang, " + namaAdmin : "Sistem Maklumat Sekolah";
+            teksSapaan.style.color = isAdmin ? "var(--primary-color)" : "var(--text-muted)";
+        }
+        
+        let lajurTindakan = document.querySelectorAll('.lajur-tindakan');
+        lajurTindakan.forEach(lajur => { lajur.style.display = isAdmin ? 'table-cell' : 'none'; });
+    }
+
+    function bukaModal(idModal) { document.getElementById(idModal).style.display = 'flex'; }
+    function tutupModal(idModal) { document.getElementById(idModal).style.display = 'none'; }
+
+    // --- FUNGSI LOG MASUK ---
+    async function sahkanLogMasuk() {
+        const passcode = document.getElementById('katalaluanAdmin').value.trim();
+        if (!passcode) return alert("Sila masukkan kod laluan.");
+
+        const btnLogin = document.getElementById('btnSahkanLogin');
+        const teksAsal = btnLogin.innerText;
+        btnLogin.innerText = "Mengesahkan..."; btnLogin.disabled = true;
+
+        try {
+            const response = await fetch(`${WEB_APP_URL}?action=verifyLogin&passcode=${passcode}`);
+            const result = await response.json();
+            
+            if (result.status === "success") {
+                localStorage.setItem('isAdminSekolah', 'true');
+                localStorage.setItem('namaAdminSekolah', result.data.namaGuru);
+                isAdmin = true; namaAdmin = result.data.namaGuru;
+                
+                tutupModal('modalLogin'); document.getElementById('katalaluanAdmin').value = '';
+                kemaskiniUI(); 
+                muatTurunDokumen();
+                muatTurunEnrolmen();
+            } else { alert("Kod akses tidak sah. Sila guna no. e-mel MOE yang betul."); }
+        } catch (error) { alert("Ralat sistem sambungan."); } 
+        finally { btnLogin.innerText = teksAsal; btnLogin.disabled = false; }
+    }
+    document.getElementById('katalaluanAdmin').addEventListener('keypress', function (e) { if (e.key === 'Enter') sahkanLogMasuk(); });
+
+    function logKeluar() { 
+        localStorage.setItem('isAdminSekolah', 'false'); localStorage.removeItem('namaAdminSekolah');
+        isAdmin = false; namaAdmin = ''; 
+        kemaskiniUI(); muatTurunDokumen(); muatTurunEnrolmen();
+    }
+
+    // --- FUNGSI ALATAN ---
+    function formatTarikh(tarikh) {
+        if (!tarikh) return "-";
+        let d = new Date(tarikh);
+        if(isNaN(d)) return tarikh;
+        return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+    }
+
+    async function tukarKeBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader(); reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    // --- BACA & PAPAR DOKUMEN HEM ---
+    async function muatTurunDokumen() {
+        const container = document.getElementById('ruangan-dokumen');
+        try {
+            const response = await fetch(`${WEB_APP_URL}?sheetName=HEM_Dokumen`);
+            const result = await response.json();
+            container.innerHTML = ""; 
+            
+            if (result.status === "success" && result.data.length > 0) {
+                [...result.data].reverse().forEach(dok => {
+                    let idRekod = dok['ID'];
+                    let kategori = dok['Kategori Dokumen'] || dok['Kategori'] || "-";
+                    let tajuk = dok['Tajuk Dokumen'] || dok['Tajuk'] || "Tiada Tajuk";
+                    let tarikh = dok['Tarikh Kemaskini'] || dok['Tarikh'] || "";
+                    let urlFail = dok['URL Fail PDF'] || dok['URL Fail'] || dok['URL'] || "#";
+
+                    let butangPadam = isAdmin ? `<button class="btn-delete" style="width:100%; margin-top:10px; display:block;" onclick="padamData('HEM_Dokumen', '${idRekod}')">🗑️ Padam Dokumen</button>` : '';
+                    
+                    container.innerHTML += `
+                        <div class="card" style="padding: 20px; border-top: 4px solid var(--primary-color);">
+                            <div style="font-size:0.8rem; color:var(--primary-color); font-weight:bold; text-transform:uppercase; margin-bottom:5px;">${kategori}</div>
+                            <div style="font-size:1.1rem; color:var(--text-dark); font-weight:bold; margin-bottom:10px; line-height:1.4;">${tajuk}</div>
+                            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Kemaskini: ${formatTarikh(tarikh)}</div>
+                            <a href="${urlFail}" target="_blank" style="display:block; text-align:center; background:#f1f5f9; padding:8px; border-radius:6px; text-decoration:none; color:var(--primary-color); font-weight:bold;">⬇️ Buka / Muat Turun</a>
+                            ${butangPadam}
+                        </div>
+                    `;
+                });
+            } else container.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: #7f8c8d;'>Tiada dokumen HEM dimuat naik lagi.</p>";
+        } catch (error) { container.innerHTML = "<p style='color:red;'>Gagal memuatkan dokumen.</p>"; }
+    }
+
+    // --- BACA & PAPAR ENROLMEN MURID ---
+    async function muatTurunEnrolmen() {
+        const badanEnrol = document.getElementById('badan-enrolmen');
+        const kakiEnrol = document.getElementById('kaki-enrolmen');
+        
+        try {
+            const response = await fetch(`${WEB_APP_URL}?sheetName=HEM_Enrolmen`);
+            const result = await response.json();
+            badanEnrol.innerHTML = ""; 
+            kakiEnrol.innerHTML = "";
+            
+            if (result.status === "success" && result.data.length > 0) {
+                let totalL = 0, totalP = 0, totalJ = 0;
+                let totalRmtL = 0, totalRmtP = 0, totalRmtJ = 0;
+
+                // Sort mengikut nama kelas (supaya Tahun 1 berada di atas)
+                result.data.sort((a,b) => (a['Nama Kelas'] || "").localeCompare(b['Nama Kelas'] || "")).forEach(kelas => {
+                    let idRekod = kelas['ID'];
+                    let nama = kelas['Nama Kelas'] || kelas['Kelas'] || "Tiada Nama";
+                    
+                    let l = parseInt(kelas['Lelaki'] || kelas['L'] || 0);
+                    let p = parseInt(kelas['Perempuan'] || kelas['P'] || 0);
+                    let j = l + p;
+
+                    let rmt_l = parseInt(kelas['RMT Lelaki'] || kelas['RMT L'] || 0);
+                    let rmt_p = parseInt(kelas['RMT Perempuan'] || kelas['RMT P'] || 0);
+                    let rmt_j = rmt_l + rmt_p;
+
+                    // Pengiraan Jumlah Keseluruhan
+                    totalL += l; totalP += p; totalJ += j;
+                    totalRmtL += rmt_l; totalRmtP += rmt_p; totalRmtJ += rmt_j;
+
+                    let butangPadam = isAdmin ? `<td class="lajur-tindakan" style="text-align:center;"><button class="btn-delete" style="padding:4px 8px; margin:0;" onclick="padamData('HEM_Enrolmen', '${idRekod}')">Padam</button></td>` : `<td class="lajur-tindakan" style="display:none;"></td>`;
+                    
+                    badanEnrol.innerHTML += `
+                        <tr>
+                            <td style="font-weight:bold; color:var(--text-dark);">${nama}</td>
+                            <td style="text-align:center;">${l}</td>
+                            <td style="text-align:center;">${p}</td>
+                            <td style="text-align:center; font-weight:bold; color:var(--primary-color);">${j}</td>
+                            <td style="text-align:center;">${rmt_l}</td>
+                            <td style="text-align:center;">${rmt_p}</td>
+                            <td style="text-align:center; font-weight:bold; color:#ca8a04;">${rmt_j}</td>
+                            ${butangPadam}
+                        </tr>
+                    `;
+                });
+
+                // Masukkan Baris Jumlah Keseluruhan
+                let lajurPadamFooter = isAdmin ? `<td class="lajur-tindakan"></td>` : `<td class="lajur-tindakan" style="display:none;"></td>`;
+                kakiEnrol.innerHTML = `
+                    <tr>
+                        <td style="text-align:right;">JUMLAH KESELURUHAN:</td>
+                        <td style="text-align:center; font-size:1.1rem; color:var(--primary-color);">${totalL}</td>
+                        <td style="text-align:center; font-size:1.1rem; color:var(--primary-color);">${totalP}</td>
+                        <td style="text-align:center; font-size:1.2rem; color:var(--primary-color);">${totalJ}</td>
+                        <td style="text-align:center; font-size:1.1rem; color:#ca8a04;">${totalRmtL}</td>
+                        <td style="text-align:center; font-size:1.1rem; color:#ca8a04;">${totalRmtP}</td>
+                        <td style="text-align:center; font-size:1.2rem; color:#ca8a04;">${totalRmtJ}</td>
+                        ${lajurPadamFooter}
+                    </tr>
+                `;
+            } else badanEnrol.innerHTML = `<tr><td colspan="8" style="text-align:center;">Tiada data enrolmen direkodkan.</td></tr>`;
+            kemaskiniUI();
+        } catch (error) { badanEnrol.innerHTML = `<tr><td colspan="8" style="text-align:center; color:red;">Gagal memuatkan rekod.</td></tr>`; }
+    }
+
+    // --- SIMPAN DATA (CREATE) ---
+    async function simpanDokumen() {
+        const kategori = document.getElementById("dok_kategori").value;
+        const tajuk = document.getElementById("dok_tajuk").value;
+        const tarikh = document.getElementById("dok_tarikh").value;
+        const failPdf = document.getElementById("dok_fail").files[0];
+
+        if (!tajuk || !tarikh || !failPdf) return alert("Sila isikan semua maklumat dokumen!");
+
+        tutupModal('modalTambahDokumen');
+        document.getElementById('ruangan-dokumen').innerHTML = `<p style="grid-column: 1 / -1; text-align: center; font-weight:bold; color:var(--primary-color);">⏳ Sedang memuat naik fail ke Google Drive...</p>`;
+
+        try {
+            const base64Pdf = await tukarKeBase64(failPdf);
+            const formData = new URLSearchParams({ action: "add", sheetName: "HEM_Dokumen", rowData: JSON.stringify([kategori, tajuk, tarikh]), fileData: base64Pdf, fileName: failPdf.name, fileType: failPdf.type });
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData });
+            
+            document.getElementById("dok_tajuk").value = "";
+            muatTurunDokumen(); 
+        } catch (error) { alert("Ralat memuat naik dokumen."); muatTurunDokumen(); }
+    }
+
+    async function simpanEnrolmen() {
+        const kelas = document.getElementById("enrol_kelas").value.toUpperCase();
+        const L = document.getElementById("enrol_L").value || "0";
+        const P = document.getElementById("enrol_P").value || "0";
+        const J = parseInt(L) + parseInt(P); // Kita hantar jumlah juga sebagai backup
+        
+        const rmt_L = document.getElementById("rmt_L").value || "0";
+        const rmt_P = document.getElementById("rmt_P").value || "0";
+
+        if (!kelas) return alert("Sila masukkan nama kelas.");
+
+        tutupModal('modalTambahEnrolmen');
+        document.getElementById('badan-enrolmen').innerHTML = `<tr><td colspan="8" style="text-align:center;">Menyimpan data enrolmen...</td></tr>`;
+
+        try {
+            // Susunan Kolum: Nama Kelas, Lelaki, Perempuan, Jumlah, RMT Lelaki, RMT Perempuan
+            const formData = new URLSearchParams({ action: "add", sheetName: "HEM_Enrolmen", rowData: JSON.stringify([kelas, L, P, J, rmt_L, rmt_P]) });
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData });
+            
+            document.getElementById("enrol_kelas").value = "";
+            document.getElementById("enrol_L").value = "0"; document.getElementById("enrol_P").value = "0";
+            document.getElementById("rmt_L").value = "0"; document.getElementById("rmt_P").value = "0";
+            
+            muatTurunEnrolmen(); 
+        } catch (error) { alert("Ralat menyimpan enrolmen."); muatTurunEnrolmen(); }
+    }
+
+    // --- PADAM DATA UMUM (DELETE) ---
+    async function padamData(sheetName, id) {
+        if (confirm("Pasti mahu memadam rekod ini secara kekal?")) {
+            const formData = newSearchParams({ sheetName: sheetName, action: "delete", id: id });
+            
+            if(sheetName === 'HEM_Dokumen') document.getElementById('ruangan-dokumen').innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>Memadam dokumen...</p>";
+            if(sheetName === 'HEM_Enrolmen') document.getElementById('badan-enrolmen').innerHTML = `<tr><td colspan="8" style="text-align:center;">Memadam rekod...</td></tr>`;
+
+            try { 
+                await fetch(WEB_APP_URL, { method: 'POST', body: formData }); 
+                if(sheetName === 'HEM_Dokumen') muatTurunDokumen();
+                if(sheetName === 'HEM_Enrolmen') muatTurunEnrolmen();
+            } 
+            catch { alert("Ralat memadam."); }
+        }
+    }
+
+    // Fix ralat typo dalam fungsi padamData (URLSearchParams)
+    async function padamData(sheetName, id) {
+        if (confirm("Pasti mahu memadam rekod ini secara kekal?")) {
+            const formData = new URLSearchParams({ sheetName: sheetName, action: "delete", id: id });
+            if(sheetName === 'HEM_Dokumen') document.getElementById('ruangan-dokumen').innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>Memadam dokumen...</p>";
+            if(sheetName === 'HEM_Enrolmen') document.getElementById('badan-enrolmen').innerHTML = `<tr><td colspan="8" style="text-align:center;">Memadam rekod...</td></tr>`;
+            try { 
+                await fetch(WEB_APP_URL, { method: 'POST', body: formData }); 
+                if(sheetName === 'HEM_Dokumen') muatTurunDokumen();
+                if(sheetName === 'HEM_Enrolmen') muatTurunEnrolmen();
+            } catch { alert("Ralat memadam."); }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        kemaskiniUI();
+        muatTurunDokumen();
+        muatTurunEnrolmen();
+    });
+</script>
+</body>
+</html>

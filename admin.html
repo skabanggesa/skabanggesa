@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Laman Web Sekolah</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .admin-container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h2 { color: #333; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="date"], textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <h2>Panel Admin: Tambah Pengumuman</h2>
+    
+    <form id="formTambahBerita">
+        <div class="form-group">
+            <label>Tarikh Pengumuman</label>
+            <input type="date" id="tarikh" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Tajuk Pengumuman</label>
+            <input type="text" id="tajuk" placeholder="Contoh: Cuti Peristiwa" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Kandungan / Butiran</label>
+            <textarea id="kandungan" rows="4" placeholder="Masukkan butiran berita di sini..." required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Status Paparan</label>
+            <select id="status">
+                <option value="Aktif">Aktif (Papar di web)</option>
+                <option value="Tidak Aktif">Tidak Aktif (Sembunyikan)</option>
+            </select>
+        </div>
+        
+        <button type="submit" id="btnSubmit">Simpan Berita</button>
+    </form>
+</div>
+
+<script>
+    // MASUKKAN WEB APP URL ANDA DI BAWAH INI
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw92WpecZqsG0ODJwg_5D4Sue7njtzFTHSeibxnq7aSEFWy0V3Itx8eXoBfrpR8chu9/exec";
+
+    document.getElementById("formTambahBerita").addEventListener("submit", async function(e) {
+        e.preventDefault(); // Elakkan laman web dari 'refresh'
+        
+        const btnSubmit = document.getElementById("btnSubmit");
+        btnSubmit.innerHTML = "Sedang Menyimpan...";
+        btnSubmit.disabled = true;
+
+        // Ambil data dari borang
+        const tarikh = document.getElementById("tarikh").value;
+        const tajuk = document.getElementById("tajuk").value;
+        const kandungan = document.getElementById("kandungan").value;
+        const status = document.getElementById("status").value;
+
+        // Susunan data mesti sama dengan lajur Google Sheet anda (selepas ID)
+        // Lajur B, C, D, E
+        const rowData = [tarikh, tajuk, kandungan, status];
+
+        // Format data untuk dihantar ke Google Apps Script
+        const formData = new URLSearchParams();
+        formData.append("sheetName", "Utama_Berita");
+        formData.append("rowData", JSON.stringify(rowData));
+
+        try {
+            // Hantar data (POST request)
+            const response = await fetch(WEB_APP_URL, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === "success") {
+                alert("Berita baharu berjaya disimpan ke pangkalan data!");
+                document.getElementById("formTambahBerita").reset(); // Kosongkan borang
+            } else {
+                alert("Ralat: " + result.message);
+            }
+        } catch (error) {
+            alert("Ralat sambungan. Sila cuba lagi.");
+            console.error(error);
+        }
+        
+        btnSubmit.innerHTML = "Simpan Berita";
+        btnSubmit.disabled = false;
+    });
+</script>
+
+</body>
+</html>

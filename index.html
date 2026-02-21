@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK Abang Gesa - Laman Utama</title>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="welcome-text" id="teksSapaan">Sistem Maklumat Sekolah</div>
+    <div class="admin-controls" style="display:flex; align-items:center;">
+        <button id="btnLogMasuk" class="admin-login-btn" onclick="bukaModal('modalLogin')">🔒 Log Masuk</button>
+        <button id="btnLogKeluar" class="admin-logout-btn" onclick="logKeluar()" style="display:none; background:#ef4444;">🔓 Log Keluar</button>
+    </div>
+</header>
+
+<nav>
+<div class="brand">
+        <img src="logo.png" alt="Logo SK Abang Gesa" class="sekolah-logo">
+    <div class="brand">SK ABANG GESA</div>
+    <a href="index.html" class="active">🏠 <span>Utama</span></a>
+    <a href="organisasi.html">👥 <span>Organisasi</span></a>
+    <a href="kurikulum.html">📚 <span>Kurikulum</span></a>
+    <a href="hem.html">🏫 <span>HEM</span></a>
+    <a href="kokurikulum.html">🏆 <span>Kokurikulum</span></a>
+    <a href="galeri.html">📸 <span>Galeri</span></a>
+    <a href="video.html">🎥 <span>Video</span></a>
+</nav>
+
+<div class="content-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="margin: 0; color: var(--text-dark);">📢 Berita & Pengumuman</h2>
+        <button id="btnTambahBerita" class="btn-add" onclick="bukaModal('modalTambahBerita')" style="display:none;">➕ Tambah Pengumuman</button>
+    </div>
+    
+    <div id="senarai-berita" class="news-grid">
+        <div style="grid-column: 1 / -1; text-align: center; color: #7f8c8d; padding: 20px;">Sistem sedang menarik berita...</div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-top: 40px; margin-bottom: 20px;">
+        <h2 style="margin: 0; color: var(--text-dark);">📅 Takwim Sekolah</h2>
+        <button id="btnTambahTakwim" class="btn-add" onclick="bukaModal('modalTambahTakwim')" style="display:none;">➕ Tambah Aktiviti</button>
+    </div>
+    
+    <div class="takwim-header">
+        <select id="filterBulan" class="takwim-filter" onchange="muatTurunTakwim()">
+            <option value="Semua">Tapis: Semua Bulan</option>
+            <option value="Januari">Januari</option>
+            <option value="Februari">Februari</option>
+            <option value="Mac">Mac</option>
+            <option value="April">April</option>
+            <option value="Mei">Mei</option>
+            <option value="Jun">Jun</option>
+            <option value="Julai">Julai</option>
+            <option value="Ogos">Ogos</option>
+            <option value="September">September</option>
+            <option value="Oktober">Oktober</option>
+            <option value="November">November</option>
+            <option value="Disember">Disember</option>
+        </select>
+    </div>
+    
+    <div class="takwim-table-wrapper">
+        <table class="takwim-table">
+            <thead>
+                <tr>
+                    <th>Tarikh Acara</th>
+                    <th>Masa</th>
+                    <th>Perkara / Aktiviti</th>
+                    <th>Tempat</th>
+                    <th class="lajur-tindakan" style="display:none;">Tindakan</th>
+                </tr>
+            </thead>
+            <tbody id="badan-takwim">
+                <tr><td colspan="5" style="text-align:center; color: #7f8c8d;">Menarik data takwim...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-form" id="modalLogin">
+    <div class="modal-form-box" style="text-align: center; max-width: 400px;">
+        <h3 style="margin-top:0;">🔒 Log Masuk Sistem</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:-10px;">Sila masukkan 6 digit kod akses (No. E-mel MOE anda).</p>
+        <input type="password" id="katalaluanAdmin" placeholder="Cth: 282154" style="text-align: center; letter-spacing: 5px; font-size: 1.2rem;" maxlength="8">
+        <div style="display:flex; gap:10px;">
+            <button id="btnSahkanLogin" onclick="sahkanLogMasuk()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Log Masuk</button>
+            <button onclick="tutupModal('modalLogin')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalTambahBerita">
+    <div class="modal-form-box">
+        <h3 style="margin-top:0;">📝 Tambah Pengumuman Baharu</h3>
+        <label>Tarikh (Cth: 24 Mei 2026):</label>
+        <input type="text" id="beritaTarikh" placeholder="24 Mei 2026">
+        
+        <label>Tajuk Pengumuman:</label>
+        <input type="text" id="beritaTajuk" placeholder="Cth: Cuti Peristiwa Sukan">
+        
+        <label>Kandungan Pengumuman:</label>
+        <textarea id="beritaKandungan" rows="4" placeholder="Sila berikan butiran lengkap di sini..."></textarea>
+        
+        <label>Status:</label>
+        <select id="beritaStatus">
+            <option value="Aktif">Aktif</option>
+            <option value="Tidak Aktif">Sembunyi</option>
+        </select>
+        
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button onclick="simpanBerita()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Simpan</button>
+            <button onclick="tutupModal('modalTambahBerita')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-form" id="modalTambahTakwim">
+    <div class="modal-form-box">
+        <h3 style="margin-top:0;">📅 Tambah Aktiviti Takwim</h3>
+        
+        <label>Bulan:</label>
+        <select id="takwimBulan">
+            <option value="Januari">Januari</option>
+            <option value="Februari">Februari</option>
+            <option value="Mac">Mac</option>
+            <option value="April">April</option>
+            <option value="Mei">Mei</option>
+            <option value="Jun">Jun</option>
+            <option value="Julai">Julai</option>
+            <option value="Ogos">Ogos</option>
+            <option value="September">September</option>
+            <option value="Oktober">Oktober</option>
+            <option value="November">November</option>
+            <option value="Disember">Disember</option>
+        </select>
+
+        <label>Tarikh Acara (Cth: 15-17 Mei):</label>
+        <input type="text" id="takwimTarikh" placeholder="Cth: 15 Mei 2026">
+        
+        <label>Masa (Cth: 8.00 Pagi):</label>
+        <input type="text" id="takwimMasa" placeholder="Cth: 8.00 Pagi - 12.00 Tghari">
+        
+        <label>Nama Program / Perkara:</label>
+        <textarea id="takwimPerkara" rows="2" placeholder="Cth: Kejohanan Sukan Olahraga Tahunan"></textarea>
+
+        <label>Tempat:</label>
+        <input type="text" id="takwimTempat" placeholder="Cth: Padang Sekolah">
+        
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button onclick="simpanTakwim()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Simpan</button>
+            <button onclick="tutupModal('modalTambahTakwim')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw92WpecZqsG0ODJwg_5D4Sue7njtzFTHSeibxnq7aSEFWy0V3Itx8eXoBfrpR8chu9/exec";
+
+    let isAdmin = localStorage.getItem('isAdminSekolah') === 'true';
+    let namaAdmin = localStorage.getItem('namaAdminSekolah') || '';
+
+    // --- FUNGSI KAWALAN PAPARAN (UI) ---
+    function kemaskiniUI() {
+        document.getElementById('btnLogMasuk').style.display = isAdmin ? 'none' : 'inline-block';
+        document.getElementById('btnLogKeluar').style.display = isAdmin ? 'inline-block' : 'none';
+        document.getElementById('btnTambahBerita').style.display = isAdmin ? 'inline-block' : 'none';
+        document.getElementById('btnTambahTakwim').style.display = isAdmin ? 'inline-block' : 'none';
+        
+        let teksSapaan = document.getElementById('teksSapaan');
+        if (teksSapaan) {
+            teksSapaan.innerText = isAdmin && namaAdmin ? "Selamat Datang, " + namaAdmin : "Sistem Maklumat Sekolah";
+            teksSapaan.style.color = isAdmin ? "var(--primary-color)" : "var(--text-muted)";
+        }
+        
+        let lajurTindakan = document.querySelectorAll('.lajur-tindakan');
+        lajurTindakan.forEach(lajur => { lajur.style.display = isAdmin ? 'table-cell' : 'none'; });
+    }
+
+    function bukaModal(idModal) { document.getElementById(idModal).style.display = 'flex'; }
+    function tutupModal(idModal) { document.getElementById(idModal).style.display = 'none'; }
+
+    // --- FUNGSI LOG MASUK ---
+    async function sahkanLogMasuk() {
+        const passcode = document.getElementById('katalaluanAdmin').value.trim();
+        if (!passcode) return alert("Sila masukkan kod laluan.");
+
+        const btnLogin = document.getElementById('btnSahkanLogin');
+        const teksAsal = btnLogin.innerText;
+        btnLogin.innerText = "Mengesahkan..."; btnLogin.disabled = true;
+
+        try {
+            const response = await fetch(`${WEB_APP_URL}?action=verifyLogin&passcode=${passcode}`);
+            const result = await response.json();
+            
+            if (result.status === "success") {
+                localStorage.setItem('isAdminSekolah', 'true');
+                localStorage.setItem('namaAdminSekolah', result.data.namaGuru);
+                isAdmin = true; namaAdmin = result.data.namaGuru;
+                
+                tutupModal('modalLogin'); document.getElementById('katalaluanAdmin').value = '';
+                kemaskiniUI(); muatTurunBerita(); muatTurunTakwim();
+            } else {
+                alert("Kod akses tidak sah. Sila guna no. e-mel MOE yang betul.");
+            }
+        } catch (error) {
+            alert("Ralat sistem sambungan.");
+        } finally {
+            btnLogin.innerText = teksAsal; btnLogin.disabled = false;
+        }
+    }
+    document.getElementById('katalaluanAdmin').addEventListener('keypress', function (e) { if (e.key === 'Enter') sahkanLogMasuk(); });
+
+    function logKeluar() { 
+        localStorage.setItem('isAdminSekolah', 'false'); localStorage.removeItem('namaAdminSekolah');
+        isAdmin = false; namaAdmin = ''; kemaskiniUI(); muatTurunBerita(); muatTurunTakwim();
+    }
+
+    // --- FUNGSI PENGURUSAN DATA ---
+
+    // 1. BERITA UTAMA
+    async function muatTurunBerita() {
+        kemaskiniUI();
+        const bekas = document.getElementById('senarai-berita');
+        try {
+            // URL asal anda untuk baca rekod
+            const response = await fetch(`${WEB_APP_URL}?sheetName=Utama_Berita`);
+            const result = await response.json();
+            bekas.innerHTML = ""; 
+            
+            if (result.status === "success" && result.data.length > 0) {
+                // Terbalikkan array supaya yang terbaru di atas
+                [...result.data].reverse().forEach(berita => {
+                    // Pemetaan selamat (fallback) untuk memastikan tiada ralat undefined
+                    let statusPaparan = berita['Status Paparan'] || berita['Status'] || "Aktif";
+                    let tajuk = berita['Tajuk Pengumuman'] || berita['Tajuk'] || "";
+                    let tarikh = berita['Tarikh'] || "";
+                    let kandungan = berita['Kandungan / Butiran'] || berita['Kandungan'] || "";
+                    let idRekod = berita['ID'];
+
+                    if (statusPaparan === "Aktif" || isAdmin) { 
+                        let butangPadam = isAdmin ? `<button class="btn-delete" style="position:absolute; top:15px; right:15px;" onclick="padamData('Utama_Berita', '${idRekod}')">🗑️ Padam</button>` : '';
+                        let statusBadge = (isAdmin && statusPaparan !== "Aktif") ? `<span style="background:#e74c3c; color:white; padding:4px 8px; font-size:0.7rem; position:absolute; top:-10px; right:15px;">Disembunyikan</span>` : '';
+                        
+                        bekas.innerHTML += `
+                            <div class="news-card-modern">
+                                ${statusBadge}
+                                <div class="news-title">${tajuk}</div>
+                                <div class="news-date">📅 ${tarikh}</div>
+                                <div class="news-content">${kandungan.replace(/\n/g, '<br>')}</div>
+                                ${butangPadam}
+                            </div>`;
+                    }
+                });
+            } else bekas.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: #7f8c8d;'>Tiada pengumuman terkini.</p>";
+        } catch (error) { bekas.innerHTML = "<p style='color:red;'>Gagal menarik data berita. Sila semak sambungan.</p>"; }
+    }
+
+    async function simpanBerita() {
+        const trkh = document.getElementById("beritaTarikh").value;
+        const tjk = document.getElementById("beritaTajuk").value;
+        const knd = document.getElementById("beritaKandungan").value;
+        const sts = document.getElementById("beritaStatus").value;
+
+        if (!trkh || !tjk || !knd) return alert("Sila isikan semua maklumat berita!");
+        
+        // Memadankan dengan struktur lama: [Tarikh, Tajuk, Kandungan, Status]
+        const formData = new URLSearchParams({ sheetName: "Utama_Berita", rowData: JSON.stringify([trkh, tjk, knd, sts]) });
+        
+        tutupModal('modalTambahBerita');
+        document.getElementById('senarai-berita').innerHTML = "<div style='grid-column: 1 / -1; text-align: center;'>Menyimpan pengumuman...</div>";
+        try { 
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData }); 
+            // Bersihkan borang
+            document.getElementById("beritaTarikh").value = "";
+            document.getElementById("beritaTajuk").value = "";
+            document.getElementById("beritaKandungan").value = "";
+            muatTurunBerita(); 
+        } 
+        catch { alert("Ralat menyimpan."); muatTurunBerita(); }
+    }
+
+    // 2. TAKWIM
+    async function muatTurunTakwim() {
+        const badanTakwim = document.getElementById('badan-takwim');
+        const pilihanBulan = document.getElementById('filterBulan').value;
+        
+        try {
+            const response = await fetch(`${WEB_APP_URL}?sheetName=Utama_Takwim`);
+            const result = await response.json();
+            badanTakwim.innerHTML = ""; 
+            
+            if (result.status === "success" && result.data.length > 0) {
+                let adaData = false;
+                
+                result.data.forEach(takwim => {
+                    // Pemetaan selamat untuk kolum takwim
+                    let bulan = takwim['Bulan'] || "";
+                    let tarikh = takwim['Tarikh Acara'] || takwim['Tarikh'] || "";
+                    let masa = takwim['Masa'] || "";
+                    let perkara = takwim['Perkara / Nama Aktiviti'] || takwim['Perkara / Aktiviti'] || takwim['Aktiviti'] || "";
+                    let tempat = takwim['Tempat'] || takwim['Tindakan'] || "";
+                    let idRekod = takwim['ID'];
+
+                    if (pilihanBulan === "Semua" || bulan === pilihanBulan) {
+                        adaData = true;
+                        let butangPadam = isAdmin ? `<td class="lajur-tindakan" style="text-align:center;"><button class="btn-delete" style="padding:4px 8px;" onclick="padamData('Utama_Takwim', '${idRekod}')">Padam</button></td>` : `<td class="lajur-tindakan" style="display:none;"></td>`;
+                        
+                        badanTakwim.innerHTML += `
+                            <tr>
+                                <td><strong>${tarikh}</strong></td>
+                                <td>${masa}</td>
+                                <td>${perkara}</td>
+                                <td>${tempat}</td>
+                                ${butangPadam}
+                            </tr>
+                        `;
+                    }
+                });
+
+                if (!adaData) badanTakwim.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#7f8c8d;">Tiada aktiviti direkodkan pada bulan ${pilihanBulan}.</td></tr>`;
+            } else {
+                badanTakwim.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#7f8c8d;">Jadual takwim masih kosong.</td></tr>`;
+            }
+            kemaskiniUI();
+        } catch (error) { 
+            badanTakwim.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Gagal memuatkan jadual takwim.</td></tr>`; 
+        }
+    }
+
+    async function simpanTakwim() {
+        const bln = document.getElementById("takwimBulan").value;
+        const trkh = document.getElementById("takwimTarikh").value;
+        const ms = document.getElementById("takwimMasa").value;
+        const prkr = document.getElementById("takwimPerkara").value;
+        const tmpt = document.getElementById("takwimTempat").value;
+
+        if (!trkh || !prkr) return alert("Sila isikan sekurang-kurangnya Tarikh dan Perkara!");
+        
+        // Memadankan dengan struktur lama: [Bulan, Tarikh Acara, Masa, Perkara, Tempat]
+        const formData = new URLSearchParams({ sheetName: "Utama_Takwim", rowData: JSON.stringify([bln, trkh, ms, prkr, tmpt]) });
+        
+        tutupModal('modalTambahTakwim');
+        document.getElementById('badan-takwim').innerHTML = `<tr><td colspan="5" style="text-align:center;">Menyimpan aktiviti baharu...</td></tr>`;
+        
+        try { 
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData }); 
+            // Bersihkan borang dan tukar ke bulan terbaru
+            document.getElementById("takwimTarikh").value = "";
+            document.getElementById("takwimPerkara").value = "";
+            document.getElementById('filterBulan').value = bln; 
+            muatTurunTakwim(); 
+        } 
+        catch { alert("Ralat menyimpan takwim."); muatTurunTakwim(); }
+    }
+
+    // 3. FUNGSI PADAM UMUM
+    async function padamData(namaSheet, id) {
+        if (!confirm("Pasti mahu memadam rekod ini secara kekal?")) return;
+        
+        const formData = new URLSearchParams({ sheetName: namaSheet, action: "delete", id: id });
+        try {
+            if(namaSheet === 'Utama_Berita') document.getElementById('senarai-berita').innerHTML = "<div style='text-align:center;'>Memadam data...</div>";
+            if(namaSheet === 'Utama_Takwim') document.getElementById('badan-takwim').innerHTML = "<tr><td colspan='5' style='text-align:center;'>Memadam data...</td></tr>";
+            
+            await fetch(WEB_APP_URL, { method: 'POST', body: formData });
+            
+            if(namaSheet === 'Utama_Berita') muatTurunBerita();
+            if(namaSheet === 'Utama_Takwim') muatTurunTakwim();
+        } catch (err) { alert("Ralat semasa memadam data."); }
+    }
+
+    // --- MULAKAN SISTEM ---
+    document.addEventListener("DOMContentLoaded", () => {
+        kemaskiniUI();
+        muatTurunBerita();
+        muatTurunTakwim();
+    });
+
+</script>
+</body>
+</html>
