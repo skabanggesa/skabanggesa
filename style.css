@@ -373,4 +373,86 @@ header {
     color: var(--text-dark); 
     word-break: break-all; 
     font-size: 1.1rem;
+
+}
+
+/* =========================================================
+   TETAPAN RESPONSIVE UNTUK TELEFON BIMBIT (MOBILE)
+   ========================================================= */
+@media screen and (max-width: 768px) {
+    
+    body {
+        display: block; /* Buang flex supaya ia turun ke bawah */
+    }
+
+    /* 1. Header penuhi ruang atas */
+    header {
+        width: 100%;
+        margin-left: 0;
+        left: 0;
+        padding: 10px 15px;
+        box-sizing: border-box;
+    }
+
+    .welcome-text {
+        font-size: 0.9rem; /* Kecilkan sikit teks sapaan */
+    }
+
+    /* 2. Menu Navigasi (Sidebar) jadi melintang dan boleh dinavigasi */
+    nav {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 70px; /* Mula selepas header */
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto; /* Boleh skrol menu ke kiri/kanan */
+        padding: 10px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        border-right: none;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    nav .brand {
+        display: none; /* Sorok logo di menu bimbit supaya jimat ruang */
+    }
+
+    nav a {
+        flex: 0 0 auto;
+        padding: 8px 15px;
+        margin: 0 5px 0 0;
+        justify-content: center;
+        border-radius: 20px; /* Jadikan bentuk pil (pill) */
+    }
+
+    /* 3. Ruangan Kandungan (Content) penuhi skrin */
+    .content-container {
+        margin-left: 0;
+        margin-top: 70px; 
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 4. Semua Grid 3 Kolum ditukar jadi 1 Kolum (Atas ke Bawah) */
+    .doc-grid, 
+    .grid-video, 
+    .grid-container, 
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 5. Kecilkan kotak Modal (Borang Pop-up) */
+    .modal-form-box {
+        width: 95%;
+        padding: 20px;
+    }
+
+    /* 6. Pastikan jadual tidak pecah (Boleh diskrol ke tepi) */
+    .takwim-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 }
