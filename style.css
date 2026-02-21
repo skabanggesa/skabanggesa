@@ -377,82 +377,83 @@ header {
 }
 
 /* =========================================================
-   TETAPAN RESPONSIVE UNTUK TELEFON BIMBIT (MOBILE)
+   TETAPAN RESPONSIVE & MENU HAMBURGER (MOBILE)
    ========================================================= */
-@media screen and (max-width: 768px) {
-    
-    body {
-        display: block; /* Buang flex supaya ia turun ke bawah */
-    }
 
-    /* 1. Header penuhi ruang atas */
+/* Butang Hamburger (Sembunyi pada Desktop, Muncul pada Mobile) */
+.hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--primary-color);
+    margin-right: 15px;
+    padding: 0;
+}
+
+/* Penutup skrin gelap (Overlay) apabila menu dibuka */
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+}
+
+@media screen and (max-width: 768px) {
+    body { display: block; }
+
+    /* 1. HEADER: Susun sebaris dan tunjuk butang hamburger */
     header {
         width: 100%;
         margin-left: 0;
         left: 0;
         padding: 10px 15px;
         box-sizing: border-box;
-    }
-
-    .welcome-text {
-        font-size: 0.9rem; /* Kecilkan sikit teks sapaan */
-    }
-
-    /* 2. Menu Navigasi (Sidebar) jadi melintang dan boleh dinavigasi */
-    nav {
-        width: 100%;
-        height: auto;
-        position: relative;
-        top: 70px; /* Mula selepas header */
         display: flex;
-        flex-direction: row;
-        overflow-x: auto; /* Boleh skrol menu ke kiri/kanan */
-        padding: 10px;
-        box-sizing: border-box;
-        white-space: nowrap;
-        border-right: none;
-        border-bottom: 2px solid #e2e8f0;
+        align-items: center;
+        z-index: 1000;
     }
 
-    nav .brand {
-        display: none; /* Sorok logo di menu bimbit supaya jimat ruang */
+    .hamburger-btn { display: inline-block; } /* Tunjuk di mobile */
+    .welcome-text { flex-grow: 1; font-size: 0.9rem; } /* Tolak butang log masuk ke kanan */
+
+    /* 2. MENU NAVIGASI: Sorok di luar skrin kiri (Slide Menu) */
+    nav {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Sembunyi di luar skrin */
+        width: 260px;
+        height: 100vh;
+        background: #1e293b; /* Warna gelap asal sidebar */
+        z-index: 9999;
+        transition: left 0.3s ease-in-out;
+        box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+        display: flex;
+        flex-direction: column;
     }
 
-    nav a {
-        flex: 0 0 auto;
-        padding: 8px 15px;
-        margin: 0 5px 0 0;
-        justify-content: center;
-        border-radius: 20px; /* Jadikan bentuk pil (pill) */
-    }
+    /* Kembalikan paparan logo di dalam menu mobile */
+    nav .brand { display: flex; margin-bottom: 20px; }
+    nav a { margin: 5px 15px; }
 
-    /* 3. Ruangan Kandungan (Content) penuhi skrin */
+    /* Kelas aktif apabila butang ditekan (Menu meluncur keluar) */
+    nav.active { left: 0; }
+    .menu-overlay.active { display: block; }
+
+    /* 3. KANDUNGAN: Penuhi skrin */
     .content-container {
         margin-left: 0;
-        margin-top: 70px; 
+        margin-top: 70px;
         padding: 15px;
         width: 100%;
         box-sizing: border-box;
     }
 
-    /* 4. Semua Grid 3 Kolum ditukar jadi 1 Kolum (Atas ke Bawah) */
-    .doc-grid, 
-    .grid-video, 
-    .grid-container, 
-    .dashboard-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    /* 5. Kecilkan kotak Modal (Borang Pop-up) */
-    .modal-form-box {
-        width: 95%;
-        padding: 20px;
-    }
-
-    /* 6. Pastikan jadual tidak pecah (Boleh diskrol ke tepi) */
-    .takwim-table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
+    /* 4. GRID & JADUAL: Tukar 1 Kolum */
+    .doc-grid, .grid-video, .grid-container, .dashboard-grid { grid-template-columns: 1fr !important; }
+    .takwim-table-wrapper { width: 100%; overflow-x: auto; }
+    .modal-form-box { width: 95%; padding: 20px; }
 }
+
