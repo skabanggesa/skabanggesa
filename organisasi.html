@@ -10,7 +10,10 @@
 </head>
 <body>
 
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
 <header>
+    <button class="hamburger-btn" onclick="toggleMenu()">☰</button>
     <div class="welcome-text" id="teksSapaan">Sistem Maklumat Sekolah</div>
     <div class="admin-controls" style="display:flex; align-items:center;">
         <button id="btnLogMasuk" class="admin-login-btn" onclick="bukaModal('modalLogin')">🔒 Log Masuk</button>
@@ -460,6 +463,17 @@
 
     // --- MULAKAN ---
     document.addEventListener("DOMContentLoaded", muatTurunOrganisasi);
+
+    // FUNGSI MENU HAMBURGER MOBILE
+    function toggleMenu() {
+        const navMenu = document.querySelector('nav');
+        const overlay = document.getElementById('menuOverlay');
+        
+        // Tambah atau buang kelas 'active'
+        navMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
 </script>
 </body>
+
 </html>
