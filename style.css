@@ -426,17 +426,39 @@ header {
         left: -100%; /* Sembunyi di luar skrin */
         width: 260px;
         height: 100vh;
-        background: #1e293b; /* Warna gelap asal sidebar */
+        background: #1e293b; /* Warna gelap latar menu */
         z-index: 9999;
         transition: left 0.3s ease-in-out;
         box-shadow: 4px 0 15px rgba(0,0,0,0.5);
         display: flex;
         flex-direction: column;
+        padding-top: 20px; /* Jarak ruang atas */
     }
 
-    /* Kembalikan paparan logo di dalam menu mobile */
-    nav .brand { display: flex; margin-bottom: 20px; }
-    nav a { margin: 5px 15px; }
+    /* --- KEMASKINI WARNA TEKS MENU KE PUTIH --- */
+    nav .brand, 
+    nav .brand span { 
+        display: flex; 
+        margin-bottom: 20px; 
+        color: #ffffff !important; /* Paksa nama sekolah jadi putih */
+    }
+    
+    nav a, 
+    nav a span { 
+        margin: 5px 15px; 
+        color: #ffffff !important; /* Paksa teks pautan menu jadi putih */
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+    }
+
+    /* Warna butang menu bila ditekan / aktif */
+    nav a.active, 
+    nav a:hover {
+        background: var(--primary-color) !important;
+        color: #ffffff !important;
+    }
+    /* ------------------------------------------ */
 
     /* Kelas aktif apabila butang ditekan (Menu meluncur keluar) */
     nav.active { left: 0; }
@@ -456,4 +478,5 @@ header {
     .takwim-table-wrapper { width: 100%; overflow-x: auto; }
     .modal-form-box { width: 95%; padding: 20px; }
 }
+
 
