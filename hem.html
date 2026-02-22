@@ -6,7 +6,6 @@
     <title>SK Abang Gesa - Hal Ehwal Murid</title>
 
     <link rel="stylesheet" href="style.css">
-    
 </head>
 <body>
 
@@ -22,9 +21,10 @@
 </header>
 
 <nav>
-<div class="brand">
-        <img src="logo.png" alt="Logo SK Abang Gesa" class="sekolah-logo">
-    <div class="brand">SK ABANG GESA</div>
+    <div class="brand">
+        <img src="logo.png" alt="Logo SK Abang Gesa" class="sekolah-logo" onerror="this.style.display='none'">
+        <span>SK ABANG GESA</span>
+    </div>
     <a href="index.html">🏠 <span>Utama</span></a>
     <a href="organisasi.html">👥 <span>Organisasi</span></a>
     <a href="kurikulum.html">📚 <span>Kurikulum</span></a>
@@ -47,7 +47,7 @@
 
     <h2 style="color: var(--text-dark); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-top: 50px;">📊 Data Enrolmen Murid & Bantuan</h2>
     
-    <button class="btn-add" id="btnTambahEnrolmen" onclick="bukaModal('modalTambahEnrolmen')" style="display:none; margin-bottom:15px;">➕ Tambah / Kemaskini Kelas</button>
+    <button class="btn-add" id="btnTambahEnrolmen" onclick="bukaBorangTambahEnrolmen()" style="display:none; margin-bottom:15px;">➕ Tambah Kelas</button>
 
     <div class="takwim-table-wrapper" style="margin-bottom: 40px; overflow-x: auto;">
         <table class="takwim-table" id="jadual-enrolmen">
@@ -56,7 +56,7 @@
                     <th rowspan="2" style="text-align:center; vertical-align:middle;">Nama Kelas</th>
                     <th colspan="3" style="text-align:center; background:#e0f2fe; color:#0284c7;">ENROLMEN KELAS</th>
                     <th colspan="3" style="text-align:center; background:#fef08a; color:#ca8a04;">PENERIMA RMT</th>
-                    <th rowspan="2" class="lajur-tindakan" style="display:none; text-align:center; vertical-align:middle;">Tindakan</th>
+                    <th rowspan="2" class="lajur-tindakan" style="display:none; text-align:center; vertical-align:middle; width: 140px;">Tindakan</th>
                 </tr>
                 <tr>
                     <th style="text-align:center;">Lelaki</th>
@@ -75,13 +75,20 @@
         </table>
     </div>
 
+    <div class="site-footer">
+        <a href="https://skabanggesa.github.io/sage" target="_blank" class="footer-link">
+            <img src="gic.png" alt="SAGE Logo" class="footer-logo" onerror="this.style.display='none'">
+            <span>Sistem Digital SK Abang Gesa</span>
+        </a>
+    </div>
+
 </div>
 
 <div class="modal-form" id="modalLogin">
     <div class="modal-form-box" style="text-align: center; max-width: 400px;">
         <h3 style="margin-top:0;">🔒 Log Masuk Sistem</h3>
         <p style="font-size:0.85rem; color:var(--text-muted); margin-top:-10px;">Sila masukkan 6 digit kod akses (No. E-mel MOE anda).</p>
-        <input type="password" id="katalaluanAdmin" placeholder="------" style="text-align: center; letter-spacing: 5px; font-size: 1.2rem;" maxlength="8">
+        <input type="password" id="katalaluanAdmin" placeholder="Cth: 282154" style="text-align: center; letter-spacing: 5px; font-size: 1.2rem;" maxlength="8">
         <div style="display:flex; gap:10px;">
             <button id="btnSahkanLogin" onclick="sahkanLogMasuk()" style="flex:1; padding:10px; background:var(--primary-color); color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Log Masuk</button>
             <button onclick="tutupModal('modalLogin')" style="flex:1; padding:10px; background:#95a5a6; color:white; border:none; cursor:pointer; border-radius:6px; font-weight:bold;">Batal</button>
@@ -119,7 +126,7 @@
 
 <div class="modal-form" id="modalTambahEnrolmen">
     <div class="modal-form-box">
-        <h3 style="margin-top:0;">📊 Kemaskini Data Kelas</h3>
+        <h3 id="tajukBorangEnrolmen" style="margin-top:0;">📊 Kemaskini Data Kelas</h3>
         <p style="font-size:0.85rem; color:#e67e22; margin-top:-10px;">Sistem akan mengira jumlah secara automatik.</p>
         
         <label>Nama Kelas:</label>
@@ -159,6 +166,11 @@
 
     let isAdmin = localStorage.getItem('isAdminSekolah') === 'true';
     let namaAdmin = localStorage.getItem('namaAdminSekolah') || '';
+    
+    // Pembolehubah Global Untuk Fungsi Edit Enrolmen
+    let senaraiEnrolmen = [];
+    let modKemaskiniEnrolmen = false;
+    let idSedangDikemaskini = null;
 
     // --- FUNGSI KAWALAN PAPARAN (UI) ---
     function kemaskiniUI() {
@@ -176,10 +188,21 @@
         
         let lajurTindakan = document.querySelectorAll('.lajur-tindakan');
         lajurTindakan.forEach(lajur => { lajur.style.display = isAdmin ? 'table-cell' : 'none'; });
+        
+        // Pastikan butang padam untuk dokumen muncul
+        let butangPadam = document.querySelectorAll('.btn-delete');
+        butangPadam.forEach(el => el.style.display = isAdmin ? 'inline-block' : 'none');
     }
 
     function bukaModal(idModal) { document.getElementById(idModal).style.display = 'flex'; }
     function tutupModal(idModal) { document.getElementById(idModal).style.display = 'none'; }
+    
+    function toggleMenu() {
+        const navMenu = document.querySelector('nav');
+        const overlay = document.getElementById('menuOverlay');
+        navMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
 
     // --- FUNGSI LOG MASUK ---
     async function sahkanLogMasuk() {
@@ -215,7 +238,6 @@
         kemaskiniUI(); muatTurunDokumen(); muatTurunEnrolmen();
     }
 
-    // --- FUNGSI ALATAN ---
     function formatTarikh(tarikh) {
         if (!tarikh) return "-";
         let d = new Date(tarikh);
@@ -247,7 +269,8 @@
                     let tarikh = dok['Tarikh Kemaskini'] || dok['Tarikh'] || "";
                     let urlFail = dok['URL Fail PDF'] || dok['URL Fail'] || dok['URL'] || "#";
 
-                    let butangPadam = isAdmin ? `<button class="btn-delete" style="width:100%; margin-top:10px; display:block;" onclick="padamData('HEM_Dokumen', '${idRekod}')">🗑️ Padam Dokumen</button>` : '';
+                    // Disini dipaksa display block/inline-block supaya menimpa CSS asal
+                    let butangPadam = isAdmin ? `<button class="btn-delete" style="width:100%; margin-top:10px; display:inline-block;" onclick="padamData('HEM_Dokumen', '${idRekod}')">🗑️ Padam Dokumen</button>` : '';
                     
                     container.innerHTML += `
                         <div class="card" style="padding: 20px; border-top: 4px solid var(--primary-color);">
@@ -275,10 +298,11 @@
             kakiEnrol.innerHTML = "";
             
             if (result.status === "success" && result.data.length > 0) {
+                senaraiEnrolmen = result.data; // Simpan untuk guna fungsi Edit nanti
+                
                 let totalL = 0, totalP = 0, totalJ = 0;
                 let totalRmtL = 0, totalRmtP = 0, totalRmtJ = 0;
 
-                // Sort mengikut nama kelas (supaya Tahun 1 berada di atas)
                 result.data.sort((a,b) => (a['Nama Kelas'] || "").localeCompare(b['Nama Kelas'] || "")).forEach(kelas => {
                     let idRekod = kelas['ID'];
                     let nama = kelas['Nama Kelas'] || kelas['Kelas'] || "Tiada Nama";
@@ -291,11 +315,15 @@
                     let rmt_p = parseInt(kelas['RMT Perempuan'] || kelas['RMT P'] || 0);
                     let rmt_j = rmt_l + rmt_p;
 
-                    // Pengiraan Jumlah Keseluruhan
                     totalL += l; totalP += p; totalJ += j;
                     totalRmtL += rmt_l; totalRmtP += rmt_p; totalRmtJ += rmt_j;
 
-                    let butangPadam = isAdmin ? `<td class="lajur-tindakan" style="text-align:center;"><button class="btn-delete" style="padding:4px 8px; margin:0;" onclick="padamData('HEM_Enrolmen', '${idRekod}')">Padam</button></td>` : `<td class="lajur-tindakan" style="display:none;"></td>`;
+                    // Kedua-dua butang Edit & Padam diletakkan di sini, memintas CSS sedia ada
+                    let butangTindakan = isAdmin ? `
+                        <td class="lajur-tindakan" style="text-align:center;">
+                            <button class="btn-edit" style="padding:4px 8px; margin:2px; font-size:0.8rem; cursor:pointer;" onclick="bukaBorangEditEnrolmen('${idRekod}')">✏️ Edit</button>
+                            <button class="btn-delete" style="padding:4px 8px; margin:2px; font-size:0.8rem; display:inline-block;" onclick="padamData('HEM_Enrolmen', '${idRekod}')">🗑️ Padam</button>
+                        </td>` : `<td class="lajur-tindakan" style="display:none;"></td>`;
                     
                     badanEnrol.innerHTML += `
                         <tr>
@@ -306,12 +334,11 @@
                             <td style="text-align:center;">${rmt_l}</td>
                             <td style="text-align:center;">${rmt_p}</td>
                             <td style="text-align:center; font-weight:bold; color:#ca8a04;">${rmt_j}</td>
-                            ${butangPadam}
+                            ${butangTindakan}
                         </tr>
                     `;
                 });
 
-                // Masukkan Baris Jumlah Keseluruhan
                 let lajurPadamFooter = isAdmin ? `<td class="lajur-tindakan"></td>` : `<td class="lajur-tindakan" style="display:none;"></td>`;
                 kakiEnrol.innerHTML = `
                     <tr>
@@ -330,7 +357,39 @@
         } catch (error) { badanEnrol.innerHTML = `<tr><td colspan="8" style="text-align:center; color:red;">Gagal memuatkan rekod.</td></tr>`; }
     }
 
-    // --- SIMPAN DATA (CREATE) ---
+    // --- KAWALAN BORANG ENROLMEN (TAMBAH & EDIT) ---
+    function bukaBorangTambahEnrolmen() {
+        modKemaskiniEnrolmen = false;
+        idSedangDikemaskini = null;
+        document.getElementById("tajukBorangEnrolmen").innerText = "📊 Tambah Kelas Baharu";
+        
+        document.getElementById("enrol_kelas").value = "";
+        document.getElementById("enrol_L").value = "0";
+        document.getElementById("enrol_P").value = "0";
+        document.getElementById("rmt_L").value = "0";
+        document.getElementById("rmt_P").value = "0";
+        bukaModal('modalTambahEnrolmen');
+    }
+
+    function bukaBorangEditEnrolmen(id) {
+        modKemaskiniEnrolmen = true;
+        idSedangDikemaskini = id;
+        
+        let kelas = senaraiEnrolmen.find(k => k['ID'] === id);
+        if(!kelas) return alert("Ralat membaca data kelas.");
+        
+        document.getElementById("tajukBorangEnrolmen").innerText = "✏️ Kemaskini Kelas: " + (kelas['Nama Kelas'] || "");
+        
+        document.getElementById("enrol_kelas").value = kelas['Nama Kelas'] || kelas['Kelas'] || "";
+        document.getElementById("enrol_L").value = kelas['Lelaki'] || kelas['L'] || "0";
+        document.getElementById("enrol_P").value = kelas['Perempuan'] || kelas['P'] || "0";
+        document.getElementById("rmt_L").value = kelas['RMT Lelaki'] || kelas['RMT L'] || "0";
+        document.getElementById("rmt_P").value = kelas['RMT Perempuan'] || kelas['RMT P'] || "0";
+        
+        bukaModal('modalTambahEnrolmen');
+    }
+
+    // --- SIMPAN DATA (CREATE & UPDATE) ---
     async function simpanDokumen() {
         const kategori = document.getElementById("dok_kategori").value;
         const tajuk = document.getElementById("dok_tajuk").value;
@@ -356,7 +415,7 @@
         const kelas = document.getElementById("enrol_kelas").value.toUpperCase();
         const L = document.getElementById("enrol_L").value || "0";
         const P = document.getElementById("enrol_P").value || "0";
-        const J = parseInt(L) + parseInt(P); // Kita hantar jumlah juga sebagai backup
+        const J = parseInt(L) + parseInt(P);
         
         const rmt_L = document.getElementById("rmt_L").value || "0";
         const rmt_P = document.getElementById("rmt_P").value || "0";
@@ -367,36 +426,24 @@
         document.getElementById('badan-enrolmen').innerHTML = `<tr><td colspan="8" style="text-align:center;">Menyimpan data enrolmen...</td></tr>`;
 
         try {
-            // Susunan Kolum: Nama Kelas, Lelaki, Perempuan, Jumlah, RMT Lelaki, RMT Perempuan
-            const formData = new URLSearchParams({ action: "add", sheetName: "HEM_Enrolmen", rowData: JSON.stringify([kelas, L, P, J, rmt_L, rmt_P]) });
+            let actionStr = modKemaskiniEnrolmen ? "edit" : "add";
+            const formData = new URLSearchParams({ 
+                action: actionStr, 
+                sheetName: "HEM_Enrolmen", 
+                rowData: JSON.stringify([kelas, L, P, J, rmt_L, rmt_P]) 
+            });
+            
+            // Jika dalam mod kemaskini, hantar ID baris tersebut ke Google Sheet
+            if(modKemaskiniEnrolmen) {
+                formData.append("id", idSedangDikemaskini);
+            }
+
             await fetch(WEB_APP_URL, { method: 'POST', body: formData });
-            
-            document.getElementById("enrol_kelas").value = "";
-            document.getElementById("enrol_L").value = "0"; document.getElementById("enrol_P").value = "0";
-            document.getElementById("rmt_L").value = "0"; document.getElementById("rmt_P").value = "0";
-            
             muatTurunEnrolmen(); 
         } catch (error) { alert("Ralat menyimpan enrolmen."); muatTurunEnrolmen(); }
     }
 
     // --- PADAM DATA UMUM (DELETE) ---
-    async function padamData(sheetName, id) {
-        if (confirm("Pasti mahu memadam rekod ini secara kekal?")) {
-            const formData = newSearchParams({ sheetName: sheetName, action: "delete", id: id });
-            
-            if(sheetName === 'HEM_Dokumen') document.getElementById('ruangan-dokumen').innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>Memadam dokumen...</p>";
-            if(sheetName === 'HEM_Enrolmen') document.getElementById('badan-enrolmen').innerHTML = `<tr><td colspan="8" style="text-align:center;">Memadam rekod...</td></tr>`;
-
-            try { 
-                await fetch(WEB_APP_URL, { method: 'POST', body: formData }); 
-                if(sheetName === 'HEM_Dokumen') muatTurunDokumen();
-                if(sheetName === 'HEM_Enrolmen') muatTurunEnrolmen();
-            } 
-            catch { alert("Ralat memadam."); }
-        }
-    }
-
-    // Fix ralat typo dalam fungsi padamData (URLSearchParams)
     async function padamData(sheetName, id) {
         if (confirm("Pasti mahu memadam rekod ini secara kekal?")) {
             const formData = new URLSearchParams({ sheetName: sheetName, action: "delete", id: id });
@@ -415,17 +462,6 @@
         muatTurunDokumen();
         muatTurunEnrolmen();
     });
-
-    // FUNGSI MENU HAMBURGER MOBILE
-    function toggleMenu() {
-        const navMenu = document.querySelector('nav');
-        const overlay = document.getElementById('menuOverlay');
-        
-        // Tambah atau buang kelas 'active'
-        navMenu.classList.toggle('active');
-        overlay.classList.toggle('active');
-    }
 </script>
 </body>
-
 </html>
