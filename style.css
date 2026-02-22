@@ -419,36 +419,40 @@ header {
     .hamburger-btn { display: inline-block; } /* Tunjuk di mobile */
     .welcome-text { flex-grow: 1; font-size: 0.9rem; } /* Tolak butang log masuk ke kanan */
 
-    /* 2. MENU NAVIGASI: Sorok di luar skrin kiri (Slide Menu) */
+/* 2. MENU NAVIGASI: Sorok di luar skrin kiri (Slide Menu) */
     nav {
         position: fixed;
         top: 0;
-        left: -100%; /* Sembunyi di luar skrin */
+        left: -100%; 
         width: 260px;
         height: 100vh;
-        background: #1e293b; /* Warna gelap latar menu */
+        background: #1e293b; 
         z-index: 9999;
         transition: left 0.3s ease-in-out;
         box-shadow: 4px 0 15px rgba(0,0,0,0.5);
         display: flex;
         flex-direction: column;
-        padding-top: 20px; /* Jarak ruang atas */
+        padding-top: 20px;
+        
+        /* FUNGSI SKROL DITAMBAH DI SINI */
+        overflow-y: auto; 
+        padding-bottom: 30px; 
     }
 
-    /* --- KEMASKINI WARNA TEKS MENU KE PUTIH --- */
+    /* --- KEMASKINI WARNA TEKS MENU KE PUTIH & RAPATKAN JARAK --- */
     nav .brand, 
     nav .brand span { 
         display: flex; 
-        margin-bottom: 20px; 
-        color: #ffffff !important; /* Paksa nama sekolah jadi putih */
+        margin-bottom: 15px; 
+        color: #ffffff !important; 
     }
     
     nav a, 
     nav a span { 
-        margin: 5px 15px; 
-        color: #ffffff !important; /* Paksa teks pautan menu jadi putih */
+        margin: 2px 15px; /* Jarak dirapatkan */
+        color: #ffffff !important; 
         text-decoration: none;
-        padding: 10px 15px;
+        padding: 8px 15px; /* Butang dinipiskan */
         border-radius: 8px;
     }
 
@@ -463,7 +467,6 @@ header {
     /* Kelas aktif apabila butang ditekan (Menu meluncur keluar) */
     nav.active { left: 0; }
     .menu-overlay.active { display: block; }
-
     /* 3. KANDUNGAN: Penuhi skrin */
     .content-container {
         margin-left: 0;
@@ -478,5 +481,6 @@ header {
     .takwim-table-wrapper { width: 100%; overflow-x: auto; }
     .modal-form-box { width: 95%; padding: 20px; }
 }
+
 
 
