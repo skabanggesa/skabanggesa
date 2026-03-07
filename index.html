@@ -238,11 +238,11 @@
                 // Terbalikkan array supaya yang terbaru di atas
                 [...result.data].reverse().forEach(berita => {
                     // Pemetaan selamat (fallback) untuk memastikan tiada ralat undefined
-                    let statusPaparan = berita['Status Paparan'] || berita['Status'] || "Aktif";
-                    let tajuk = berita['Tajuk Pengumuman'] || berita['Tajuk'] || "";
-                    let tarikh = berita['Tarikh'] || "";
-                    let kandungan = berita['Kandungan / Butiran'] || berita['Kandungan'] || "";
-                    let idRekod = berita['ID'];
+                    let statusPaparan = berita.status || berita['Status Paparan'] || berita['Status'] || "Aktif";
+                    let tajuk = berita.tajuk || berita['Tajuk Pengumuman'] || berita['Tajuk'] || "Tiada Tajuk";
+                    let tarikh = berita.tarikh || berita['Tarikh'] || "";
+                    let kandungan = berita.kandungan || berita['Kandungan / Butiran'] || berita['Kandungan'] || "";
+                    let idRekod = berita.rowId || berita['ID'];
 
                     if (statusPaparan === "Aktif" || isAdmin) { 
                         let butangPadam = isAdmin ? `<button class="btn-delete" style="position:absolute; top:15px; right:15px;" onclick="padamData('Utama_Berita', '${idRekod}')">🗑️ Padam</button>` : '';
@@ -396,4 +396,5 @@
 </body>
 
 </html>
+
 
