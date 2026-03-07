@@ -6,22 +6,35 @@
     <title>Panel Admin - Laman Web Sekolah</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .admin-container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .admin-container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         h2 { color: #333; text-align: center; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
         input[type="text"], input[type="date"], textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-bottom: 10px;}
         button:hover { background-color: #218838; }
         button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .btn-batal { background-color: #dc3545; display: none; }
+        .btn-batal:hover { background-color: #c82333; }
+        
+        /* CSS untuk Jadual */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid #ddd; }
+        th, td { padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn-edit { background-color: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;}
+        .btn-edit:hover { background-color: #0056b3; }
     </style>
 </head>
 <body>
 
 <div class="admin-container">
-    <h2>Panel Admin: Tambah Pengumuman</h2>
+    <h2 id="tajukBorang">Panel Admin: Tambah Pengumuman</h2>
     
     <form id="formTambahBerita">
+        <input type="hidden" id="rowId" value="">
+        <input type="hidden" id="modBorang" value="tambah">
+
         <div class="form-group">
             <label>Tarikh Pengumuman</label>
             <input type="date" id="tarikh" required>
@@ -46,37 +59,126 @@
         </div>
         
         <button type="submit" id="btnSubmit">Simpan Berita</button>
+        <button type="button" id="btnBatal" class="btn-batal" onclick="batalEdit()">Batal Kemaskini</button>
     </form>
+
+    <hr style="margin: 30px 0;">
+    
+    <h2>Senarai Pengumuman Sedia Ada</h2>
+    <div id="statusPemuatan">Sedang memuat turun senarai...</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Tarikh</th>
+                <th>Tajuk</th>
+                <th>Status</th>
+                <th>Tindakan</th>
+            </tr>
+        </thead>
+        <tbody id="jadualBerita">
+            </tbody>
+    </table>
 </div>
 
 <script>
-    // MASUKKAN WEB APP URL ANDA DI BAWAH INI
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw92WpecZqsG0ODJwg_5D4Sue7njtzFTHSeibxnq7aSEFWy0V3Itx8eXoBfrpR8chu9/exec";
+    // MASUKKAN WEB APP URL ANDA YANG TELAH DI-DEPLOY SEMULA DI BAWAH INI
+    const WEB_APP_URL = "MASUKKAN_URL_BARU_ANDA_DI_SINI";
 
+    // Fungsi memuat turun data apabila laman web dibuka
+    window.onload = memuatTurunData;
+
+    async function memuatTurunData() {
+        try {
+            const response = await fetch(WEB_APP_URL);
+            const result = await response.json();
+            
+            let htmlJadual = "";
+            if (result.status === "success" && result.data.length > 0) {
+                // Terbalikkan array supaya berita terbaru (bawah sheet) berada di atas jadual
+                let dataBerita = result.data.reverse(); 
+                
+                dataBerita.forEach(berita => {
+                    // Tukar format tarikh jika perlu dari YYYY-MM-DD kepada nilai input HTML
+                    htmlJadual += `
+                        <tr>
+                            <td>${berita.tarikh}</td>
+                            <td>${berita.tajuk}</td>
+                            <td>${berita.status}</td>
+                            <td>
+                                <button class="btn-edit" onclick="setEditMode('${berita.rowId}', '${berita.tarikh}', '${berita.tajuk.replace(/'/g, "\\'")}', '${berita.kandungan.replace(/'/g, "\\'")}', '${berita.status}')">Edit</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                htmlJadual = "<tr><td colspan='4' style='text-align:center;'>Tiada pengumuman dijumpai.</td></tr>";
+            }
+            document.getElementById("jadualBerita").innerHTML = htmlJadual;
+            document.getElementById("statusPemuatan").style.display = "none";
+        } catch (error) {
+            document.getElementById("statusPemuatan").innerText = "Gagal memuat turun data.";
+            console.error(error);
+        }
+    }
+
+    // Fungsi untuk menetapkan borang ke Mod Kemaskini (Edit)
+    function setEditMode(rowId, tarikh, tajuk, kandungan, status) {
+        document.getElementById("tajukBorang").innerText = "Panel Admin: Kemaskini Pengumuman";
+        document.getElementById("modBorang").value = "edit";
+        document.getElementById("rowId").value = rowId;
+        
+        // Memasukkan data ke dalam borang
+        // Nota: Jika format tarikh dari sheet bukan YYYY-MM-DD, input jenis 'date' mungkin tidak terisi.
+        document.getElementById("tarikh").value = tarikh; 
+        document.getElementById("tajuk").value = tajuk;
+        document.getElementById("kandungan").value = kandungan;
+        document.getElementById("status").value = status;
+
+        // Tukar butang
+        document.getElementById("btnSubmit").innerText = "Kemaskini Berita";
+        document.getElementById("btnBatal").style.display = "block";
+        window.scrollTo(0, 0); // Scroll ke atas
+    }
+
+    // Fungsi untuk membatalkan mod edit
+    function batalEdit() {
+        document.getElementById("formTambahBerita").reset();
+        document.getElementById("tajukBorang").innerText = "Panel Admin: Tambah Pengumuman";
+        document.getElementById("modBorang").value = "tambah";
+        document.getElementById("rowId").value = "";
+        
+        document.getElementById("btnSubmit").innerText = "Simpan Berita";
+        document.getElementById("btnBatal").style.display = "none";
+    }
+
+    // Menghantar data (Boleh jadi Tambah atau Edit)
     document.getElementById("formTambahBerita").addEventListener("submit", async function(e) {
-        e.preventDefault(); // Elakkan laman web dari 'refresh'
+        e.preventDefault();
         
         const btnSubmit = document.getElementById("btnSubmit");
+        const mod = document.getElementById("modBorang").value;
+        
         btnSubmit.innerHTML = "Sedang Menyimpan...";
         btnSubmit.disabled = true;
 
-        // Ambil data dari borang
         const tarikh = document.getElementById("tarikh").value;
         const tajuk = document.getElementById("tajuk").value;
         const kandungan = document.getElementById("kandungan").value;
         const status = document.getElementById("status").value;
+        const rowId = document.getElementById("rowId").value;
 
-        // Susunan data mesti sama dengan lajur Google Sheet anda (selepas ID)
-        // Lajur B, C, D, E
         const rowData = [tarikh, tajuk, kandungan, status];
 
-        // Format data untuk dihantar ke Google Apps Script
         const formData = new URLSearchParams();
         formData.append("sheetName", "Utama_Berita");
+        formData.append("action", mod); // Hantar arahan 'tambah' atau 'edit'
         formData.append("rowData", JSON.stringify(rowData));
+        
+        if (mod === "edit") {
+            formData.append("rowId", rowId); // Hantar nombor baris jika edit
+        }
 
         try {
-            // Hantar data (POST request)
             const response = await fetch(WEB_APP_URL, {
                 method: 'POST',
                 body: formData
@@ -85,8 +187,9 @@
             const result = await response.json();
             
             if (result.status === "success") {
-                alert("Berita baharu berjaya disimpan ke pangkalan data!");
-                document.getElementById("formTambahBerita").reset(); // Kosongkan borang
+                alert(result.message);
+                batalEdit(); // Reset borang
+                memuatTurunData(); // Muat semula jadual di bawah
             } else {
                 alert("Ralat: " + result.message);
             }
@@ -95,7 +198,6 @@
             console.error(error);
         }
         
-        btnSubmit.innerHTML = "Simpan Berita";
         btnSubmit.disabled = false;
     });
 </script>
