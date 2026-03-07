@@ -21,9 +21,10 @@
 </header>
 
 <nav>
-<div class="brand">
+    <div class="brand">
         <img src="logo.png" alt="Logo SK Abang Gesa" class="sekolah-logo">
-    <div class="brand">SK ABANG GESA</div>
+        <div class="brand">SK ABANG GESA</div>
+    </div>
     <a href="index.html" class="active">🏠 <span>Utama</span></a>
     <a href="organisasi.html">👥 <span>Organisasi</span></a>
     <a href="kurikulum.html">📚 <span>Kurikulum</span></a>
@@ -36,7 +37,7 @@
 <div class="content-container">
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-bottom: 20px;">
         <h2 style="margin: 0; color: var(--text-dark);">📢 Berita & Pengumuman</h2>
-        <button id="btnTambahBerita" class="btn-add" onclick="bukaModal('modalTambahBerita')" style="display:none;">➕ Tambah Pengumuman</button>
+        <button id="btnTambahBerita" class="btn-add" onclick="bukaModalBaru()" style="display:none;">➕ Tambah Pengumuman</button>
     </div>
     
     <div id="senarai-berita" class="news-grid">
@@ -98,7 +99,8 @@
 
 <div class="modal-form" id="modalTambahBerita">
     <div class="modal-form-box">
-        <h3 style="margin-top:0;">📝 Tambah Pengumuman Baharu</h3>
+        <input type="hidden" id="beritaIdRekod" value="">
+        <h3 id="tajukModalBerita" style="margin-top:0;">📝 Tambah Pengumuman Baharu</h3>
         <label>Tarikh (Cth: 24 Mei 2026):</label>
         <input type="text" id="beritaTarikh" placeholder="24 Mei 2026">
         
@@ -186,6 +188,17 @@
     function bukaModal(idModal) { document.getElementById(idModal).style.display = 'flex'; }
     function tutupModal(idModal) { document.getElementById(idModal).style.display = 'none'; }
 
+    // Buka modal untuk tambah berita BARU
+    function bukaModalBaru() {
+        document.getElementById("beritaIdRekod").value = "";
+        document.getElementById("beritaTarikh").value = "";
+        document.getElementById("beritaTajuk").value = "";
+        document.getElementById("beritaKandungan").value = "";
+        document.getElementById("beritaStatus").value = "Aktif";
+        document.getElementById("tajukModalBerita").innerText = "📝 Tambah Pengumuman Baharu";
+        bukaModal('modalTambahBerita');
+    }
+
     // --- FUNGSI LOG MASUK ---
     async function sahkanLogMasuk() {
         const passcode = document.getElementById('katalaluanAdmin').value.trim();
@@ -229,7 +242,6 @@
         kemaskiniUI();
         const bekas = document.getElementById('senarai-berita');
         try {
-            // URL asal anda untuk baca rekod
             const response = await fetch(`${WEB_APP_URL}?sheetName=Utama_Berita`);
             const result = await response.json();
             bekas.innerHTML = ""; 
@@ -237,7 +249,6 @@
             if (result.status === "success" && result.data.length > 0) {
                 // Terbalikkan array supaya yang terbaru di atas
                 [...result.data].reverse().forEach(berita => {
-                    // Pemetaan selamat (fallback) untuk memastikan tiada ralat undefined
                     let statusPaparan = berita.status || berita['Status Paparan'] || berita['Status'] || "Aktif";
                     let tajuk = berita.tajuk || berita['Tajuk Pengumuman'] || berita['Tajuk'] || "Tiada Tajuk";
                     let tarikh = berita.tarikh || berita['Tarikh'] || "";
@@ -245,16 +256,23 @@
                     let idRekod = berita.rowId || berita['ID'];
 
                     if (statusPaparan === "Aktif" || isAdmin) { 
-                        let butangPadam = isAdmin ? `<button class="btn-delete" style="position:absolute; top:15px; right:15px;" onclick="padamData('Utama_Berita', '${idRekod}')">🗑️ Padam</button>` : '';
-                        let statusBadge = (isAdmin && statusPaparan !== "Aktif") ? `<span style="background:#e74c3c; color:white; padding:4px 8px; font-size:0.7rem; position:absolute; top:-10px; right:15px;">Disembunyikan</span>` : '';
+                        let safeTajuk = tajuk.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                        let safeKandungan = kandungan.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, "\\n").replace(/\r/g, "");
+
+                        let butangPadam = isAdmin ? `<button class="btn-delete" style="position:absolute; top:15px; right:15px; background:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" onclick="padamData('Utama_Berita', '${idRekod}')">🗑️ Padam</button>` : '';
+                        
+                        let butangEdit = isAdmin ? `<button class="btn-edit" style="position:absolute; top:15px; right:100px; background:#3498db; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" onclick="bukaModalEdit('${idRekod}', '${tarikh}', '${safeTajuk}', '${safeKandungan}', '${statusPaparan}')">✏️ Edit</button>` : '';
+                        
+                        let statusBadge = (isAdmin && statusPaparan !== "Aktif") ? `<span style="background:#e74c3c; color:white; padding:4px 8px; font-size:0.7rem; position:absolute; top:-10px; right:15px; border-radius:4px;">Disembunyikan</span>` : '';
                         
                         bekas.innerHTML += `
-                            <div class="news-card-modern">
+                            <div class="news-card-modern" style="position:relative;">
                                 ${statusBadge}
-                                <div class="news-title">${tajuk}</div>
+                                <div class="news-title" style="margin-right: 160px;">${tajuk}</div>
                                 <div class="news-date">📅 ${tarikh}</div>
                                 <div class="news-content">${kandungan.replace(/\n/g, '<br>')}</div>
                                 ${butangPadam}
+                                ${butangEdit}
                             </div>`;
                     }
                 });
@@ -262,7 +280,20 @@
         } catch (error) { bekas.innerHTML = "<p style='color:red;'>Gagal menarik data berita. Sila semak sambungan.</p>"; }
     }
 
+    // Fungsi buka borang dalam mod edit
+    function bukaModalEdit(id, tarikh, tajuk, kandungan, status) {
+        document.getElementById("beritaIdRekod").value = id;
+        document.getElementById("beritaTarikh").value = tarikh;
+        document.getElementById("beritaTajuk").value = tajuk;
+        document.getElementById("beritaKandungan").value = kandungan.replace(/\\n/g, "\n");
+        document.getElementById("beritaStatus").value = status;
+        
+        document.getElementById("tajukModalBerita").innerText = "✏️ Kemaskini Pengumuman";
+        bukaModal('modalTambahBerita');
+    }
+
     async function simpanBerita() {
+        const id = document.getElementById("beritaIdRekod").value;
         const trkh = document.getElementById("beritaTarikh").value;
         const tjk = document.getElementById("beritaTajuk").value;
         const knd = document.getElementById("beritaKandungan").value;
@@ -270,17 +301,30 @@
 
         if (!trkh || !tjk || !knd) return alert("Sila isikan semua maklumat berita!");
         
-        // Memadankan dengan struktur lama: [Tarikh, Tajuk, Kandungan, Status]
-        const formData = new URLSearchParams({ sheetName: "Utama_Berita", rowData: JSON.stringify([trkh, tjk, knd, sts]) });
+        // Pilih action samada edit atau tambah
+        let modTindakan = id ? "edit" : "tambah"; 
+        
+        const formData = new URLSearchParams({ 
+            sheetName: "Utama_Berita", 
+            action: modTindakan,
+            rowData: JSON.stringify([trkh, tjk, knd, sts]) 
+        });
+        
+        if (id) formData.append("rowId", id);
         
         tutupModal('modalTambahBerita');
         document.getElementById('senarai-berita').innerHTML = "<div style='grid-column: 1 / -1; text-align: center;'>Menyimpan pengumuman...</div>";
         try { 
             await fetch(WEB_APP_URL, { method: 'POST', body: formData }); 
-            // Bersihkan borang
+            
+            // Bersihkan borang kembali
+            document.getElementById("beritaIdRekod").value = "";
             document.getElementById("beritaTarikh").value = "";
             document.getElementById("beritaTajuk").value = "";
             document.getElementById("beritaKandungan").value = "";
+            document.getElementById("beritaStatus").value = "Aktif";
+            document.getElementById("tajukModalBerita").innerText = "📝 Tambah Pengumuman Baharu";
+            
             muatTurunBerita(); 
         } 
         catch { alert("Ralat menyimpan."); muatTurunBerita(); }
@@ -300,7 +344,6 @@
                 let adaData = false;
                 
                 result.data.forEach(takwim => {
-                    // Pemetaan selamat untuk kolum takwim
                     let bulan = takwim['Bulan'] || "";
                     let tarikh = takwim['Tarikh Acara'] || takwim['Tarikh'] || "";
                     let masa = takwim['Masa'] || "";
@@ -310,7 +353,7 @@
 
                     if (pilihanBulan === "Semua" || bulan === pilihanBulan) {
                         adaData = true;
-                        let butangPadam = isAdmin ? `<td class="lajur-tindakan" style="text-align:center;"><button class="btn-delete" style="padding:4px 8px;" onclick="padamData('Utama_Takwim', '${idRekod}')">Padam</button></td>` : `<td class="lajur-tindakan" style="display:none;"></td>`;
+                        let butangPadam = isAdmin ? `<td class="lajur-tindakan" style="text-align:center;"><button class="btn-delete" style="padding:4px 8px; background:#e74c3c; color:white; border:none; border-radius:4px; cursor:pointer;" onclick="padamData('Utama_Takwim', '${idRekod}')">Padam</button></td>` : `<td class="lajur-tindakan" style="display:none;"></td>`;
                         
                         badanTakwim.innerHTML += `
                             <tr>
@@ -343,7 +386,6 @@
 
         if (!trkh || !prkr) return alert("Sila isikan sekurang-kurangnya Tarikh dan Perkara!");
         
-        // Memadankan dengan struktur lama: [Bulan, Tarikh Acara, Masa, Perkara, Tempat]
         const formData = new URLSearchParams({ sheetName: "Utama_Takwim", rowData: JSON.stringify([bln, trkh, ms, prkr, tmpt]) });
         
         tutupModal('modalTambahTakwim');
@@ -351,7 +393,6 @@
         
         try { 
             await fetch(WEB_APP_URL, { method: 'POST', body: formData }); 
-            // Bersihkan borang dan tukar ke bulan terbaru
             document.getElementById("takwimTarikh").value = "";
             document.getElementById("takwimPerkara").value = "";
             document.getElementById('filterBulan').value = bln; 
@@ -388,13 +429,9 @@
         const navMenu = document.querySelector('nav');
         const overlay = document.getElementById('menuOverlay');
         
-        // Tambah atau buang kelas 'active'
         navMenu.classList.toggle('active');
         overlay.classList.toggle('active');
     }
 </script>
 </body>
-
 </html>
-
-
